@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="description" content="Sameer Ansari - Medical Laboratory Technician Portfolio">
 <title>Sameer Ansari | Medical Laboratory Technician</title>
 
 <style>
@@ -19,38 +19,1494 @@ html{
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#f4f8fb;
-    color:#203040;
-    line-height:1.65;
+    background:#f4f9fb;
+    color:#173042;
+    line-height:1.6;
 }
 
-/* NAVIGATION */
+a{
+    text-decoration:none;
+}
+
+.container{
+    width:92%;
+    max-width:1150px;
+    margin:auto;
+}
+
+/* NAVBAR */
 nav{
     position:sticky;
     top:0;
     z-index:999;
-    background:#082f49;
+    background:#06283d;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+.navbar{
+    min-height:70px;
     display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
-    padding:14px;
-    box-shadow:0 4px 15px #0003;
+    align-items:center;
+    justify-content:space-between;
 }
 
-nav a{
+.logo{
     color:white;
-    text-decoration:none;
-    padding:8px 14px;
-    border-radius:20px;
-    font-size:14px;
+    font-size:23px;
+    font-weight:bold;
 }
 
-nav a:hover{
-    background:#0e7490;
+.logo span{
+    color:#40d9ed;
+}
+
+.nav-links{
+    display:flex;
+    gap:6px;
+}
+
+.nav-links a{
+    color:white;
+    padding:9px 13px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.nav-links a:hover{
+    background:#087ea4;
+}
+
+.menu{
+    display:none;
+    color:white;
+    font-size:28px;
+    cursor:pointer;
 }
 
 /* HERO */
 .hero{
-    min-height:520px;
-    padding:70px 20px;
+    min-height:680px;
+    display:flex;
+    align-items:center;
+    color:white;
+    background:
+    radial-gradient(circle at 85% 20%,rgba(53,218,240,.3),transparent 28%),
+    linear-gradient(135deg,#041d2d,#07536d,#0b91ae);
+}
+
+.hero-content{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    align-items:center;
+    gap:50px;
+    padding:80px 0;
+}
+
+.badge-top{
+    display:inline-block;
+    padding:8px 15px;
+    border:1px solid #8cebf4;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.hero h1{
+    font-size:clamp(42px,6vw,70px);
+    line-height:1.05;
+    margin:20px 0 10px;
+}
+
+.hero h1 span{
+    color:#68e8f5;
+}
+
+.hero h2{
+    font-size:22px;
+    font-weight:normal;
+}
+
+.hero p{
+    max-width:650px;
+    margin:20px 0;
+    color:#d8f2f6;
+    font-size:17px;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:30px;
+    font-weight:bold;
+    font-size:14px;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.primary{
+    background:white;
+    color:#07536d;
+}
+
+.outline{
+    border:1px solid white;
+    color:white;
+}
+
+.profile-card{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:30px;
+    padding:35px;
+    text-align:center;
+    backdrop-filter:blur(10px);
+}
+
+.avatar{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:#ecfcff;
+    color:#07536d;
+    border:5px solid white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto auto 20px;
+    font-size:43px;
+    font-weight:bold;
+}
+
+.profile-card h3{
+    font-size:24px;
+}
+
+.profile-card p{
+    font-size:14px;
+    margin:5px auto;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:20px;
+}
+
+.stat{
+    background:rgba(0,0,0,.15);
+    border-radius:15px;
+    padding:12px 5px;
+}
+
+.stat strong{
+    display:block;
+    color:#70e7f3;
+    font-size:20px;
+}
+
+.stat small{
+    font-size:9px;
+}
+
+/* SECTION */
+section{
+    padding:85px 0;
+}
+
+.section-title{
+    text-align:center;
+    max-width:720px;
+    margin:0 auto 45px;
+}
+
+.section-title span{
+    color:#087ea4;
+    font-weight:bold;
+    letter-spacing:2px;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+.section-title h2{
+    color:#06283d;
+    font-size:36px;
+    margin:8px 0;
+}
+
+.section-title p{
+    color:#607786;
+}
+
+/* CARDS */
+.grid2{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.grid3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border:1px solid #d8edf2;
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 12px 35px rgba(6,40,61,.08);
+}
+
+.card h3{
+    color:#06283d;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#607786;
+}
+
+.icon{
+    width:52px;
+    height:52px;
+    background:#e8f9fc;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    margin-bottom:15px;
+}
+
+/* ABOUT */
+.check-list{
+    list-style:none;
+    margin-top:18px;
+}
+
+.check-list li{
+    color:#607786;
+    margin:8px 0;
+}
+
+.check-list li:before{
+    content:"✓";
+    color:#0795af;
+    font-weight:bold;
+    margin-right:10px;
+}
+
+/* EDUCATION */
+.edu{
+    position:relative;
+    overflow:hidden;
+}
+
+.edu .year{
+    color:#087ea4;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* TRAINING */
+.timeline{
+    max-width:900px;
+    margin:auto;
+    position:relative;
+}
+
+.timeline:before{
+    content:"";
+    position:absolute;
+    left:18px;
+    top:0;
+    bottom:0;
+    width:3px;
+    background:#b9e9f0;
+}
+
+.timeline-item{
+    position:relative;
+    padding-left:58px;
+    margin-bottom:25px;
+}
+
+.dot{
+    position:absolute;
+    left:7px;
+    top:22px;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background:#0b91ae;
+    border:5px solid #dff8fb;
+}
+
+.timeline ul{
+    margin:12px 0 0 20px;
+    color:#607786;
+}
+
+.timeline li{
+    margin:5px 0;
+}
+
+/* BADGES */
+.badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:30px;
+    background:#effaff;
+    color:#086681;
+    border:1px solid #cceff5;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* SKILLS */
+.skill-box{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    border:1px solid #d8edf2;
+}
+
+.progress{
+    height:8px;
+    background:#dceff3;
+    border-radius:20px;
+    margin-top:12px;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,#087ea4,#39cadc);
+}
+
+/* LAB */
+.lab-card{
+    transition:.25s;
+}
+
+.lab-card:hover{
+    transform:translateY(-7px);
+}
+
+/* CTA */
+.cta{
+    background:linear-gradient(135deg,#06354d,#087e9f);
+    color:white;
+    border-radius:30px;
+    padding:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+}
+
+.cta h2{
+    font-size:30px;
+}
+
+.cta p{
+    color:#d7f3f6;
+}
+
+/* CONTACT */
+.contact{
+    text-align:center;
+}
+
+.contact a{
+    color:#08728e;
+    font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+    background:#041e2e;
+    color:white;
+    padding:45px 0 25px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr;
+    gap:35px;
+}
+
+footer p,
+footer a{
+    color:#b7d4dc;
+    font-size:13px;
+}
+
+footer a{
+    display:block;
+    margin:6px 0;
+}
+
+.copyright{
+    border-top:1px solid rgba(255,255,255,.12);
+    margin-top:30px;
+    padding-top:20px;
+    text-align:center;
+    color:#7fa9b5;
+    font-size:12px;
+}
+
+/* MOBILE */
+@media(max-width:850px){
+
+    .menu{
+        display:block;
+    }
+
+    .nav-links{
+        display:none;
+        position:absolute;
+        top:70px;
+        left:0;
+        right:0;
+        background:#06283d;
+        flex-direction:column;
+        padding:12px;
+    }
+
+    .nav-links.show{
+        display:flex;
+    }
+
+    .nav-links a{
+        text-align:center;
+    }
+
+    .hero-content,
+    .grid2{
+        grid-template-columns:1fr;
+    }
+
+    .grid3{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        min-height:auto;
+    }
+}
+
+@media(max-width:550px){
+
+    .grid3{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    section{
+        padding:65px 0;
+    }
+
+    .section-title h2{
+        font-size:29px;
+    }
+
+    .cta{
+        flex-direction:column;
+        text-align:center;
+        padding:35px 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+<div class="container navbar">
+
+<a href="#home" class="logo">Sameer<span>Lab</span></a>
+
+<div class="menu" onclick="toggleMenu()">☰</div>
+
+<div class="nav-links" id="navLinks">
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#education">Education</a>
+<a href="#training">Training</a>
+<a href="#skills">Skills</a>
+<a href="#laboratory">Laboratory</a>
+<a href="#learning">Learning</a>
+<a href="#contact">Contact</a>
+</div>
+
+</div>
+</nav>
+
+
+<!-- HERO -->
+<header class="hero" id="home">
+
+<div class="container hero-content">
+
+<div>
+
+<div class="badge-top">
+🧬 MEDICAL LABORATORY TECHNOLOGY
+</div>
+
+<h1>
+Sameer <span>Ansari</span>
+</h1>
+
+<h2>
+Medical Laboratory Technician (MLT)
+</h2>
+
+<p>
+Welcome to my professional medical laboratory portfolio.
+Explore my education, clinical training, laboratory skills,
+areas of interest and medical-learning journey.
+</p>
+
+<div class="buttons">
+
+<a href="#about" class="btn primary">
+Explore Portfolio
+</a>
+
+<a href="#contact" class="btn outline">
+Contact Me
+</a>
+
+</div>
+
+</div>
+
+
+<div class="profile-card">
+
+<div class="avatar">
+SA
+</div>
+
+<h3>
+Medical Lab Professional
+</h3>
+
+<p>
+Hematology • Biochemistry • Histopathology • Microbiology
+</p>
+
+<div class="stats">
+
+<div class="stat">
+<strong>8+</strong>
+<small>LAB AREAS</small>
+</div>
+
+<div class="stat">
+<strong>6</strong>
+<small>MONTH TRAINING</small>
+</div>
+
+<div class="stat">
+<strong>MLT</strong>
+<small>PROFESSION</small>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</header>
+
+
+<!-- ABOUT -->
+<section id="about">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>ABOUT ME</span>
+
+<h2>
+Behind the Lab Coat
+</h2>
+
+<p>
+A professional introduction based on my education and clinical training.
+</p>
+
+</div>
+
+
+<div class="grid2">
+
+<div class="card">
+
+<div class="icon">
+👨‍🔬
+</div>
+
+<h3>
+Professional Profile
+</h3>
+
+<p>
+I am a dedicated and detail-oriented Medical Laboratory Technician
+with practical training experience in pathology, biochemistry,
+microbiology and related laboratory areas.
+</p>
+
+<ul class="check-list">
+
+<li>Laboratory sample handling</li>
+
+<li>Diagnostic laboratory procedures</li>
+
+<li>Laboratory safety and hygiene</li>
+
+<li>Report documentation</li>
+
+<li>Continuous professional learning</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🎯
+</div>
+
+<h3>
+Career Objective
+</h3>
+
+<p>
+To work in a professional healthcare and diagnostic laboratory
+environment where I can apply my laboratory knowledge, improve
+my technical skills and contribute to accurate and quality
+patient care.
+</p>
+
+<br>
+
+<h3>
+Professional Values
+</h3>
+
+<div class="badges">
+
+<span class="badge">Accuracy</span>
+<span class="badge">Patient Safety</span>
+<span class="badge">Quality</span>
+<span class="badge">Teamwork</span>
+<span class="badge">Learning</span>
+<span class="badge">Discipline</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- EDUCATION -->
+<section id="education">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>ACADEMIC JOURNEY</span>
+
+<h2>
+Education
+</h2>
+
+<p>
+My academic background in science and Medical Laboratory Technology.
+</p>
+
+</div>
+
+
+<div class="grid3">
+
+<div class="card edu">
+
+<div class="icon">🎓</div>
+
+<div class="year">
+B.Sc. MLT
+</div>
+
+<h3>
+Bachelor of Science in Medical Laboratory Technology
+</h3>
+
+<p>
+<strong>Integral University</strong>
+</p>
+
+<p>
+Completed
+</p>
+
+</div>
+
+
+<div class="card edu">
+
+<div class="icon">📚</div>
+
+<div class="year">
+2022 • 67.4%
+</div>
+
+<h3>
+Intermediate — Science Stream
+</h3>
+
+<p>
+<strong>Uttar Pradesh Board</strong>
+</p>
+
+<p>
+Physics • Chemistry • Biology
+</p>
+
+</div>
+
+
+<div class="card edu">
+
+<div class="icon">📖</div>
+
+<div class="year">
+2020 • 62.8%
+</div>
+
+<h3>
+High School
+</h3>
+
+<p>
+<strong>Uttar Pradesh Board</strong>
+</p>
+
+<p>
+Secondary Education
+</p>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- TRAINING -->
+<section id="training">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>CLINICAL EXPOSURE</span>
+
+<h2>
+Training & Internship
+</h2>
+
+<p>
+Practical exposure gained across multiple diagnostic laboratory departments.
+</p>
+
+</div>
+
+
+<div class="timeline">
+
+<div class="timeline-item">
+
+<div class="dot"></div>
+
+<div class="card">
+
+<div class="year">
+AUGUST 2025 — JANUARY 2026 • 6 MONTHS
+</div>
+
+<h3>
+🏥 Dr. Ram Manohar Lohia Hospital, Lucknow
+</h3>
+
+<p>
+<strong>Role:</strong>
+Trainee / Bachelor of Medical Laboratory Technology
+(BMLT) Internship
+</p>
+
+<br>
+
+<h3>
+Departments Covered
+</h3>
+
+<div class="badges">
+
+<span class="badge">Hematology</span>
+<span class="badge">Immunopathology</span>
+<span class="badge">Sample Collection</span>
+<span class="badge">Cytopathology</span>
+<span class="badge">Histopathology</span>
+<span class="badge">Blood Bank</span>
+<span class="badge">Microbiology</span>
+<span class="badge">Biochemistry</span>
+
+</div>
+
+<br>
+
+<h3>
+Internship Experience
+</h3>
+
+<ul>
+
+<li>
+Performed laboratory sample handling and testing procedures.
+</li>
+
+<li>
+Assisted in blood bank and hematology operations.
+</li>
+
+<li>
+Maintained laboratory hygiene and safety standards.
+</li>
+
+<li>
+Worked with diagnostic and pathological laboratory procedures.
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- SKILLS -->
+<section id="skills">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>TECHNICAL PROFILE</span>
+
+<h2>
+Skills & Knowledge
+</h2>
+
+<p>
+Key areas developed through education and practical exposure.
+</p>
+
+</div>
+
+
+<div class="grid2">
+
+<div class="skill-box">
+
+<h3>
+🩸 Sample Collection & Handling
+</h3>
+
+<p>
+Laboratory sample collection, handling and processing.
+</p>
+
+<div class="progress">
+<span style="width:90%"></span>
+</div>
+
+</div>
+
+
+<div class="skill-box">
+
+<h3>
+🧫 Hematology
+</h3>
+
+<p>
+Basic hematology testing and laboratory workflow.
+</p>
+
+<div class="progress">
+<span style="width:85%"></span>
+</div>
+
+</div>
+
+
+<div class="skill-box">
+
+<h3>
+🧪 Biochemistry
+</h3>
+
+<p>
+Clinical biochemistry laboratory fundamentals.
+</p>
+
+<div class="progress">
+<span style="width:82%"></span>
+</div>
+
+</div>
+
+
+<div class="skill-box">
+
+<h3>
+🔬 Laboratory Safety
+</h3>
+
+<p>
+Safety, hygiene and responsible laboratory practice.
+</p>
+
+<div class="progress">
+<span style="width:92%"></span>
+</div>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+<h3>
+Additional Technical Skills
+</h3>
+
+<br>
+
+<div class="badges">
+
+<span class="badge">Sample Collection & Handling</span>
+<span class="badge">Hematology Testing</span>
+<span class="badge">Biochemistry Testing</span>
+<span class="badge">Microbiology Basics</span>
+<span class="badge">Laboratory Safety</span>
+<span class="badge">MS Word</span>
+<span class="badge">Basic Computer Knowledge</span>
+<span class="badge">Report Documentation</span>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- LABORATORY -->
+<section id="laboratory">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>MY FIELD</span>
+
+<h2>
+Medical Laboratory Areas
+</h2>
+
+<p>
+Core diagnostic laboratory areas that form part of my professional interest.
+</p>
+
+</div>
+
+
+<div class="grid3">
+
+
+<div class="card lab-card">
+
+<div class="icon">
+🩸
+</div>
+
+<h3>
+Hematology
+</h3>
+
+<p>
+Blood examination, hematology testing and related laboratory procedures.
+</p>
+
+</div>
+
+
+<div class="card lab-card">
+
+<div class="icon">
+🧪
+</div>
+
+<h3>
+Clinical Biochemistry
+</h3>
+
+<p>
+Clinical chemistry testing, sample processing and laboratory workflow.
+</p>
+
+</div>
+
+
+<div class="card lab-card">
+
+<div class="icon">
+🔬
+</div>
+
+<h3>
+Histopathology
+</h3>
+
+<p>
+Basic tissue processing and histopathology laboratory workflow.
+</p>
+
+</div>
+
+
+<div class="card lab-card">
+
+<div class="icon">
+🦠
+</div>
+
+<h3>
+Microbiology
+</h3>
+
+<p>
+Basic microbiology practices and diagnostic laboratory procedures.
+</p>
+
+</div>
+
+
+<div class="card lab-card">
+
+<div class="icon">
+🩸
+</div>
+
+<h3>
+Blood Bank
+</h3>
+
+<p>
+Blood bank handling and related laboratory operations.
+</p>
+
+</div>
+
+
+<div class="card lab-card">
+
+<div class="icon">
+🧫
+</div>
+
+<h3>
+Sample Collection
+</h3>
+
+<p>
+Collection, handling, processing and safe transportation of laboratory samples.
+</p>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- LEARNING HUB -->
+<section id="learning">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>MEDICAL LEARNING</span>
+
+<h2>
+My Learning Hub
+</h2>
+
+<p>
+A section designed for future medical notes, laboratory guides and educational content.
+</p>
+
+</div>
+
+
+<div class="grid3">
+
+<div class="card">
+
+<div class="icon">
+📚
+</div>
+
+<h3>
+Laboratory Notes
+</h3>
+
+<p>
+Space for hematology, biochemistry, microbiology,
+histopathology and blood bank notes.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🧪
+</div>
+
+<h3>
+Practical Guides
+</h3>
+
+<p>
+Add step-by-step laboratory procedures,
+principles, precautions and practical observations.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🎥
+</div>
+
+<h3>
+Medical Videos
+</h3>
+
+<p>
+Add YouTube videos, laboratory demonstrations,
+study tips and medical education content here.
+</p>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<div class="cta">
+
+<div>
+
+<h2>
+Learning. Laboratory. Healthcare.
+</h2>
+
+<p>
+Building knowledge one laboratory concept at a time.
+</p>
+
+</div>
+
+<a href="#contact" class="btn primary">
+Let's Connect
+</a>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>GET IN TOUCH</span>
+
+<h2>
+Contact Me
+</h2>
+
+<p>
+For professional communication and opportunities.
+</p>
+
+</div>
+
+
+<div class="grid3">
+
+
+<div class="card contact">
+
+<div class="icon">
+📞
+</div>
+
+<h3>
+Phone
+</h3>
+
+<p>
+<a href="tel:+919026222219">
++91 90262 22219
+</a>
+</p>
+
+</div>
+
+
+<div class="card contact">
+
+<div class="icon">
+✉️
+</div>
+
+<h3>
+Email
+</h3>
+
+<p>
+<a href="mailto:SA6331322@gmail.com">
+SA6331322@gmail.com
+</a>
+</p>
+
+</div>
+
+
+<div class="card contact">
+
+<div class="icon">
+📍
+</div>
+
+<h3>
+Location
+</h3>
+
+<p>
+Utraula, Balrampur,
+Uttar Pradesh – 271604
+</p>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+<h3>
+Professional Declaration
+</h3>
+
+<p>
+I hereby declare that the information provided on this portfolio
+is true and correct to the best of my knowledge and belief.
+</p>
+
+<br>
+
+<p>
+<strong>Name:</strong>
+Sameer Ansari
+</p>
+
+<p>
+<strong>Field:</strong>
+Medical Laboratory Technology
+</p>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+<div class="container">
+
+<div class="footer-grid">
+
+<div>
+
+<h3>
+Sameer<span style="color:#62e3f4">Lab</span>
+</h3>
+
+<p>
+Medical Laboratory Technology portfolio focused on
+professional growth, laboratory knowledge and healthcare.
+</p>
+
+</div>
+
+
+<div>
+
+<h3>
+Quick Links
+</h3>
+
+<a href="#about">About</a>
+<a href="#education">Education</a>
+<a href="#skills">Skills</a>
+<a href="#contact">Contact</a>
+
+</div>
+
+
+<div>
+
+<h3>
+Contact
+</h3>
+
+<p>
++91 90262 22219
+</p>
+
+<p>
+SA6331322@gmail.com
+</p>
+
+<p>
+Utraula, Uttar Pradesh
+</p>
+
+</div>
+
+</div>
+
+
+<div class="copyright">
+
+© 2026 Sameer Ansari • Medical Laboratory Technician • All Rights Reserved
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- JAVASCRIPT -->
+<script>
+
+function toggleMenu(){
+
+document
+.getElementById("navLinks")
+.classList.toggle("show");
+
+}
+
+
+document
+.querySelectorAll(".nav-links a")
+.forEach(function(link){
+
+link.addEventListener("click",function(){
+
+document
+.getElementById("navLinks")
+.classList.remove("show");
+
+});
+
+});
+
+
+</script>
+
+</body>
+</html>

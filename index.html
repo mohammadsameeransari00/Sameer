@@ -14,17 +14,18 @@ header{background:linear-gradient(135deg,#043b4d,#0789a5);color:white;padding:18
 .logo{font-size:25px;font-weight:bold}.logo span{color:#74e5f0}
 .container{max-width:1200px;margin:auto;padding:18px}
 .tabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
-.tabs button{border:0;padding:12px 16px;border-radius:10px;background:white;color:#075b73;font-weight:bold;white-space:nowrap}
+.tabs button{border:0;padding:12px 16px;border-radius:10px;background:white;color:#075b73;font-weight:bold;white-space:nowrap;cursor:pointer;}
 .tabs button.active{background:#075b73;color:white}
 .page{display:none}.page.active{display:block}
 .card{background:white;padding:20px;border-radius:16px;margin-bottom:18px;box-shadow:0 4px 18px #0001}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
 input,select,textarea{width:100%;padding:11px;border:1px solid #c9dce2;border-radius:9px}
 textarea{min-height:75px}
 .full{grid-column:1/-1}
-.btn{border:0;border-radius:9px;padding:11px 16px;background:#075b73;color:white;font-weight:bold}
+.btn{border:0;border-radius:9px;padding:11px 16px;background:#075b73;color:white;font-weight:bold;cursor:pointer;}
 .btn.green{background:#197a4b}.btn.red{background:#c62828}.btn.light{background:#e6f5f8;color:#075b73}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -35,23 +36,23 @@ th,td{padding:10px;border-bottom:1px solid #dce7ea;text-align:left;font-size:13p
 th{background:#eaf7f9;color:#075b73}
 .scroll{overflow:auto}
 .test{display:grid;grid-template-columns:1fr 100px;gap:10px;margin:8px 0;padding:10px;background:#f7fbfc;border-radius:8px}
-.report{background:white;padding:30px;max-width:850px;margin:auto}
-.report-head{text-align:center;border-bottom:2px solid #075b73;padding-bottom:15px}
-.report-head h1{color:#075b73;margin:0}
-.patient{display:grid;grid-template-columns:1fr 1fr;background:#f5fafb;padding:12px;margin:18px 0;gap:8px}
+.report{background:white;padding:40px;max-width:850px;margin:auto;box-shadow:0 0 15px rgba(0,0,0,0.05);border:1px solid #e0e0e0;}
+.patient{display:grid;grid-template-columns:1fr 1fr;background:#f8fbfc;padding:15px;margin:20px 0;gap:10px;border:1px solid #dce7ea;border-radius:8px;}
 .muted{color:#667b83;font-size:13px}
 @media(max-width:750px){
-.grid,.grid3{grid-template-columns:1fr}
+.grid,.grid3,.grid4{grid-template-columns:1fr}
 .stats{grid-template-columns:1fr 1fr}
 .full{grid-column:auto}
 .head{align-items:flex-start}
 .patient{grid-template-columns:1fr}
+.report{padding:20px;}
 }
 @media print{
 header,.tabs,.no-print{display:none!important}
 .page{display:none!important}
 #reports{display:block!important}
-.report{box-shadow:none;max-width:none}
+body{background:white;}
+.report{box-shadow:none;border:none;max-width:100%;padding:0;}
 }
 </style>
 </head>
@@ -73,47 +74,30 @@ header,.tabs,.no-print{display:none!important}
 <button onclick="page('billing',this)">💰 Billing</button>
 <button onclick="page('results',this)">🧪 Results</button>
 <button onclick="page('reports',this)">📄 Reports</button>
-<button onclick="page('tests',this)">⚙️ Tests</button>
+<button onclick="page('tests',this)">⚙️ Tests Master</button>
 </div>
 
 <!-- DASHBOARD -->
-
 <section id="dashboard" class="page active">
-
 <div class="card">
 <h2>SameerLab Laboratory Management System</h2>
 <p class="muted">Reception • Patient Registration • Test • Billing • Result • Report</p>
 </div>
-
 <div class="stats">
 <div class="stat">Total Patients<b id="patientsCount">0</b></div>
 <div class="stat">Today's Patients<b id="todayCount">0</b></div>
 <div class="stat">Pending Results<b id="pendingCount">0</b></div>
 <div class="stat">Collection<b id="collection">₹0</b></div>
 </div>
-
 </section>
 
 <!-- PATIENT -->
-
 <section id="patients" class="page">
-
 <div class="card">
-
 <h2>👤 New Patient Registration</h2>
-
 <div class="grid">
-
-<div>
-<label>Patient Name *</label>
-<input id="name" placeholder="Patient full name">
-</div>
-
-<div>
-<label>Age *</label>
-<input id="age" type="number" placeholder="Age">
-</div>
-
+<div><label>Patient Name *</label><input id="name" placeholder="Patient full name"></div>
+<div><label>Age *</label><input id="age" type="number" placeholder="Age"></div>
 <div>
 <label>Sex *</label>
 <select id="sex">
@@ -123,17 +107,8 @@ header,.tabs,.no-print{display:none!important}
 <option>Other</option>
 </select>
 </div>
-
-<div>
-<label>Mobile Number</label>
-<input id="mobile" inputmode="tel" placeholder="Mobile">
-</div>
-
-<div>
-<label>Doctor Reference</label>
-<input id="doctor" placeholder="Dr. Name">
-</div>
-
+<div><label>Mobile Number</label><input id="mobile" inputmode="tel" placeholder="Mobile"></div>
+<div><label>Doctor Reference</label><input id="doctor" placeholder="Dr. Name"></div>
 <div>
 <label>Sample Type</label>
 <select id="sample">
@@ -145,835 +120,377 @@ header,.tabs,.no-print{display:none!important}
 <option>Other</option>
 </select>
 </div>
-
-<div class="full">
-<label>Address / Remarks</label>
-<textarea id="remarks" placeholder="Optional"></textarea>
-</div>
-
+<div class="full"><label>Address / Remarks</label><textarea id="remarks" placeholder="Optional"></textarea></div>
 </div>
 
 <h3>🧪 Select Patient Tests</h3>
-
 <div id="testList"></div>
-
 <div class="actions">
 <button class="btn" onclick="savePatient()">Save Patient</button>
 <button class="btn light" onclick="clearForm()">Clear</button>
 </div>
-
 </div>
 
 <div class="card">
-
 <h2>🔎 Patient Search</h2>
-
 <input id="search" oninput="showPatients()" placeholder="Search Lab No., name or mobile">
-
 <div class="scroll">
 <table>
-<thead>
-<tr>
-<th>Lab No.</th>
-<th>Name</th>
-<th>Age/Sex</th>
-<th>Doctor</th>
-<th>Total</th>
-<th>Status</th>
-<th>Open</th>
-</tr>
-</thead>
+<thead><tr><th>Lab No.</th><th>Name</th><th>Age/Sex</th><th>Doctor</th><th>Total</th><th>Status</th><th>Open</th></tr></thead>
 <tbody id="patientTable"></tbody>
 </table>
 </div>
-
 </div>
-
 </section>
 
 <!-- BILLING -->
-
 <section id="billing" class="page">
-
 <div class="card">
-
 <h2>💰 Patient Billing</h2>
-
-<select id="billingSelect" onchange="billing()">
-<option value="">Select Patient</option>
-</select>
-
+<select id="billingSelect" onchange="billing()"><option value="">Select Patient</option></select>
 <div id="billingBox"></div>
-
 </div>
-
 </section>
 
 <!-- RESULTS -->
-
 <section id="results" class="page">
-
 <div class="card">
-
 <h2>🧪 Result Entry</h2>
-
-<select id="resultSelect" onchange="results()">
-<option value="">Select Patient</option>
-</select>
-
+<select id="resultSelect" onchange="results()"><option value="">Select Patient</option></select>
 <div id="resultBox"></div>
-
 </div>
-
 </section>
 
 <!-- REPORT -->
-
 <section id="reports" class="page">
-
 <div class="card no-print">
-
 <h2>📄 Laboratory Report</h2>
-
-<select id="reportSelect" onchange="report()">
-<option value="">Select Patient</option>
-</select>
-
+<select id="reportSelect" onchange="report()"><option value="">Select Patient</option></select>
 <div class="actions">
 <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
 </div>
-
 </div>
-
 <div id="reportArea"></div>
-
 </section>
 
 <!-- TEST MASTER -->
-
 <section id="tests" class="page">
-
 <div class="card">
-
-<h2>⚙️ Test Master</h2>
-
-<div class="grid">
-
-<div>
-<label>Test Name</label>
-<input id="testName" placeholder="Example: CBC">
+<h2>⚙️ Test Master (With Normal Ranges & Units)</h2>
+<div class="grid4">
+<div><label>Test Name</label><input id="testName" placeholder="Example: Hemoglobin"></div>
+<div><label>Fee ₹</label><input id="testFee" type="number" placeholder="150"></div>
+<div><label>Default Unit</label><input id="testUnit" placeholder="e.g. g/dL"></div>
+<div><label>Normal Range</label><input id="testRange" placeholder="e.g. 13.0 - 17.0"></div>
 </div>
-
-<div>
-<label>Fee ₹</label>
-<input id="testFee" type="number" placeholder="300">
-</div>
-
-</div>
-
 <div class="actions">
-<button class="btn" onclick="addTest()">Add Test</button>
+<button class="btn" onclick="addTest()">Add Test Parameter</button>
 </div>
-
 <div class="scroll">
 <table>
-<thead>
-<tr><th>Test</th><th>Fee</th><th>Delete</th></tr>
-</thead>
+<thead><tr><th>Test</th><th>Fee</th><th>Unit</th><th>Range</th><th>Delete</th></tr></thead>
 <tbody id="testTable"></tbody>
 </table>
 </div>
-
 </div>
-
 </section>
 
 </div>
 
 <script>
-
 const KEY="SAMEERLAB_LIS_DATA";
-
 let data=JSON.parse(localStorage.getItem(KEY)||"null");
 
 if(!data){
-
 data={
 patients:[],
 tests:[
-{name:"CBC",fee:300},
-{name:"Hemoglobin",fee:100},
-{name:"Blood Glucose",fee:150},
-{name:"LFT",fee:600},
-{name:"KFT",fee:500},
-{name:"Lipid Profile",fee:500},
-{name:"Thyroid Profile",fee:600},
-{name:"Urine Routine",fee:150}
+{name:"Hemoglobin (Male)", fee:150, unit:"g/dL", range:"13.8 - 17.2"},
+{name:"Hemoglobin (Female)", fee:150, unit:"g/dL", range:"12.1 - 15.1"},
+{name:"Fasting Blood Glucose", fee:150, unit:"mg/dL", range:"70 - 100"},
+{name:"Postprandial Glucose (PP)", fee:150, unit:"mg/dL", range:"< 140"},
+{name:"Serum Creatinine", fee:150, unit:"mg/dL", range:"0.6 - 1.2"},
+{name:"Blood Urea Nitrogen (BUN)", fee:150, unit:"mg/dL", range:"7 - 20"},
+{name:"Total Bilirubin", fee:150, unit:"mg/dL", range:"0.1 - 1.2"},
+{name:"SGPT (ALT)", fee:150, unit:"U/L", range:"7 - 56"},
+{name:"SGOT (AST)", fee:150, unit:"U/L", range:"8 - 48"},
+{name:"Total Cholesterol", fee:200, unit:"mg/dL", range:"< 200"},
+{name:"Triglycerides", fee:200, unit:"mg/dL", range:"< 150"},
+{name:"TSH", fee:300, unit:"µIU/mL", range:"0.4 - 4.0"}
 ]
 };
-
 save();
-
 }
 
-function save(){
-
-localStorage.setItem(KEY,JSON.stringify(data));
-
-}
-
-function money(n){
-
-return "₹"+Number(n||0).toLocaleString("en-IN");
-
-}
-
-function today(){
-
-return new Date().toISOString().slice(0,10);
-
-}
+function save(){ localStorage.setItem(KEY,JSON.stringify(data)); }
+function money(n){ return "₹"+Number(n||0).toLocaleString("en-IN"); }
+function today(){ return new Date().toISOString().slice(0,10); }
 
 function labNumber(){
-
 let d=new Date().toISOString().slice(0,10).replaceAll("-","");
-
 return "SL"+d+String(data.patients.length+1).padStart(3,"0");
-
 }
 
 function esc(v){
-
 return String(v??"").replace(/[&<>"']/g,function(c){
-
-return {
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-
-}[c];
-
+return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
 });
-
 }
 
 function page(id,btn){
-
 document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-
 document.getElementById(id).classList.add("active");
-
 document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
-
 btn.classList.add("active");
-
 refresh();
-
 }
 
 function renderTests(){
-
 document.getElementById("testList").innerHTML=data.tests.map((t,i)=>`
-
 <div class="test">
-
-<label>
-
-<input type="checkbox" class="testCheck" data-index="${i}">
-
-${esc(t.name)}
-
-</label>
-
+<label><input type="checkbox" class="testCheck" data-index="${i}"> ${esc(t.name)}</label>
 <span>${money(t.fee)}</span>
-
-</div>
-
-`).join("");
+</div>`).join("");
 
 document.getElementById("testTable").innerHTML=data.tests.map((t,i)=>`
-
 <tr>
-
 <td>${esc(t.name)}</td>
-
 <td>${money(t.fee)}</td>
-
-<td>
-
-<button class="btn red" onclick="deleteTest(${i})">
-
-Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`).join("");
-
+<td>${esc(t.unit||"-")}</td>
+<td>${esc(t.range||"-")}</td>
+<td><button class="btn red" onclick="deleteTest(${i})">Delete</button></td>
+</tr>`).join("");
 }
 
 function addTest(){
-
 let name=document.getElementById("testName").value.trim();
-
 let fee=Number(document.getElementById("testFee").value);
+let unit=document.getElementById("testUnit").value.trim();
+let range=document.getElementById("testRange").value.trim();
 
 if(!name||fee<=0){
-
-alert("Test name aur fee enter karo.");
-
+alert("Test name aur fee enter karna zaroori hai.");
 return;
-
 }
-
-data.tests.push({name:name,fee:fee});
-
+data.tests.push({name:name, fee:fee, unit:unit, range:range});
 document.getElementById("testName").value="";
-
 document.getElementById("testFee").value="";
-
-save();
-
-refresh();
-
+document.getElementById("testUnit").value="";
+document.getElementById("testRange").value="";
+save(); refresh();
 }
 
 function deleteTest(i){
-
-if(confirm("Test delete karein?")){
-
+if(confirm("Test parameter delete karein?")){
 data.tests.splice(i,1);
-
-save();
-
-refresh();
-
+save(); refresh();
 }
-
 }
 
 function savePatient(){
-
 let name=document.getElementById("name").value.trim();
-
 let age=document.getElementById("age").value;
-
 let sex=document.getElementById("sex").value;
-
 let selected=[...document.querySelectorAll(".testCheck:checked")].map(x=>data.tests[Number(x.dataset.index)]);
 
-if(!name||age===""||!sex){
-
-alert("Patient Name, Age aur Sex required hai.");
-
-return;
-
-}
-
-if(!selected.length){
-
-alert("Kam se kam ek test select karo.");
-
-return;
-
-}
+if(!name||age===""||!sex){ alert("Patient Name, Age aur Sex required hai."); return; }
+if(!selected.length){ alert("Kam se kam ek test select karein."); return; }
 
 let total=selected.reduce((sum,t)=>sum+t.fee,0);
-
 let p={
-
-id:labNumber(),
-
-created:new Date().toISOString(),
-
-name:name,
-
-age:age,
-
-sex:sex,
-
+id:labNumber(), created:new Date().toISOString(),
+name:name, age:age, sex:sex,
 mobile:document.getElementById("mobile").value,
-
 doctor:document.getElementById("doctor").value,
-
 sample:document.getElementById("sample").value,
-
 remarks:document.getElementById("remarks").value,
-
 tests:selected.map(t=>({
-
-name:t.name,
-
-fee:t.fee,
-
-result:"",
-
-unit:"",
-
-range:"",
-
-status:"Pending"
-
+name:t.name, fee:t.fee, result:"",
+unit:t.unit||"", range:t.range||"", status:"Pending"
 })),
-
-total:total,
-
-paid:0,
-
-due:total
-
+total:total, paid:0, due:total
 };
-
-data.patients.push(p);
-
-save();
-
-clearForm();
-
-refresh();
-
+data.patients.push(p); save(); clearForm(); refresh();
 alert("Patient successfully saved!\n\nLab No: "+p.id);
-
 }
 
 function clearForm(){
-
 ["name","age","mobile","doctor","remarks"].forEach(id=>document.getElementById(id).value="");
-
 document.getElementById("sex").value="";
-
 document.querySelectorAll(".testCheck").forEach(x=>x.checked=false);
-
 }
 
 function showPatients(){
-
 let q=(document.getElementById("search").value||"").toLowerCase();
-
-let arr=data.patients.filter(p=>
-
-(p.id+" "+p.name+" "+p.mobile).toLowerCase().includes(q)
-
-);
-
-document.getElementById("patientTable").innerHTML=
-
-arr.map(p=>`
-
+let arr=data.patients.filter(p=>(p.id+" "+p.name+" "+p.mobile).toLowerCase().includes(q));
+document.getElementById("patientTable").innerHTML=arr.map(p=>`
 <tr>
-
-<td>${p.id}</td>
-
-<td>${esc(p.name)}</td>
-
-<td>${p.age}/${p.sex}</td>
-
-<td>${esc(p.doctor||"-")}</td>
-
-<td>${money(p.total)}</td>
-
+<td>${p.id}</td><td>${esc(p.name)}</td><td>${p.age}/${p.sex}</td>
+<td>${esc(p.doctor||"-")}</td><td>${money(p.total)}</td>
 <td>${p.tests.some(t=>t.status==="Pending")?"Pending":"Complete"}</td>
-
-<td>
-
-<button class="btn" onclick="openResult('${p.id}')">
-
-Open
-
-</button>
-
-</td>
-
-</tr>
-
-`).join("")||
-
-"<tr><td colspan='7'>No patient found</td></tr>";
-
+<td><button class="btn" onclick="openResult('${p.id}')">Open</button></td>
+</tr>`).join("")||"<tr><td colspan='7'>No patient found</td></tr>";
 }
 
 function selects(){
-
 let html="<option value=''>Select Patient</option>"+
-
-data.patients.map(p=>
-
-`<option value="${p.id}">${p.id} - ${esc(p.name)}</option>`
-
-).join("");
-
+data.patients.map(p=>`<option value="${p.id}">${p.id} - ${esc(p.name)}</option>`).join("");
 ["billingSelect","resultSelect","reportSelect"].forEach(id=>{
-
-let el=document.getElementById(id);
-
-let old=el.value;
-
-el.innerHTML=html;
-
-el.value=old;
-
+let el=document.getElementById(id); let old=el.value; el.innerHTML=html; el.value=old;
 });
-
 }
 
 function billing(){
-
 let id=document.getElementById("billingSelect").value;
-
 let p=data.patients.find(x=>x.id===id);
-
-if(!p){
-
-document.getElementById("billingBox").innerHTML="";
-
-return;
-
-}
-
+if(!p){ document.getElementById("billingBox").innerHTML=""; return; }
 document.getElementById("billingBox").innerHTML=`
-
-<div class="card">
-
-<div class="grid">
-
-<div>
-
-<label>Patient</label>
-
-<input value="${esc(p.name)}" disabled>
-
+<div class="card"><div class="grid">
+<div><label>Patient</label><input value="${esc(p.name)}" disabled></div>
+<div><label>Total Fee</label><input value="${money(p.total)}" disabled></div>
+<div><label>Paid Amount</label><input id="paid" type="number" value="${p.paid}"></div>
+<div><label>Due Amount</label><input value="${money(p.total-p.paid)}" disabled></div>
 </div>
-
-<div>
-
-<label>Total Fee</label>
-
-<input value="${money(p.total)}" disabled>
-
-</div>
-
-<div>
-
-<label>Paid Amount</label>
-
-<input id="paid" type="number" value="${p.paid}">
-
-</div>
-
-<div>
-
-<label>Due Amount</label>
-
-<input value="${money(p.total-p.paid)}" disabled>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="btn green" onclick="payment('${p.id}')">
-
-Save Payment
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
+<div class="actions"><button class="btn green" onclick="payment('${p.id}')">Save Payment</button></div></div>`;
 }
 
 function payment(id){
-
 let p=data.patients.find(x=>x.id===id);
-
 let paid=Number(document.getElementById("paid").value)||0;
-
 if(paid>p.total)paid=p.total;
-
-p.paid=paid;
-
-p.due=p.total-paid;
-
-save();
-
-billing();
-
-refresh();
-
+p.paid=paid; p.due=p.total-paid;
+save(); billing(); refresh();
 alert("Payment saved.\nDue: "+money(p.due));
-
 }
 
 function openResult(id){
-
 document.getElementById("resultSelect").value=id;
-
 page("results",document.querySelectorAll(".tabs button")[3]);
-
 results();
-
 }
 
 function results(){
-
 let id=document.getElementById("resultSelect").value;
-
 let p=data.patients.find(x=>x.id===id);
-
-if(!p){
-
-document.getElementById("resultBox").innerHTML="";
-
-return;
-
-}
-
-document.getElementById("resultBox").innerHTML=
-
-p.tests.map((t,i)=>`
-
+if(!p){ document.getElementById("resultBox").innerHTML=""; return; }
+document.getElementById("resultBox").innerHTML=p.tests.map((t,i)=>`
 <div class="card">
-
 <h3>${esc(t.name)}</h3>
-
 <div class="grid">
-
-<div>
-
-<label>Result</label>
-
-<input id="result${i}" value="${esc(t.result)}">
-
-</div>
-
-<div>
-
-<label>Unit</label>
-
-<input id="unit${i}" value="${esc(t.unit)}">
-
-</div>
-
-<div>
-
-<label>Reference Range</label>
-
-<input id="range${i}" value="${esc(t.range)}">
-
-</div>
-
-<div>
-
-<label>Status</label>
-
+<div><label>Result</label><input id="result${i}" value="${esc(t.result)}"></div>
+<div><label>Unit</label><input id="unit${i}" value="${esc(t.unit)}"></div>
+<div><label>Reference Range</label><input id="range${i}" value="${esc(t.range)}"></div>
+<div><label>Status</label>
 <select id="status${i}">
-
 <option ${t.status==="Pending"?"selected":""}>Pending</option>
-
 <option ${t.status==="Final"?"selected":""}>Final</option>
-
 </select>
-
 </div>
-
-</div>
-
-</div>
-
-`).join("")+
-
-`<button class="btn green" onclick="saveResults('${p.id}')">
-
-Save All Results
-
-</button>`;
-
+</div></div>`).join("")+`<button class="btn green" onclick="saveResults('${p.id}')">Save All Results</button>`;
 }
 
 function saveResults(id){
-
 let p=data.patients.find(x=>x.id===id);
-
 p.tests.forEach((t,i)=>{
-
 t.result=document.getElementById("result"+i).value;
-
 t.unit=document.getElementById("unit"+i).value;
-
 t.range=document.getElementById("range"+i).value;
-
 t.status=document.getElementById("status"+i).value;
-
 });
-
-save();
-
-refresh();
-
-results();
-
+save(); refresh(); results();
 alert("Results saved successfully.");
-
 }
 
 function report(){
-
 let id=document.getElementById("reportSelect").value;
-
 let p=data.patients.find(x=>x.id===id);
+if(!p){ document.getElementById("reportArea").innerHTML=""; return; }
 
-if(!p){
-
-document.getElementById("reportArea").innerHTML="";
-
-return;
-
-}
+// Barcode API Integration
+let barcodeUrl = "https://barcode.tec-it.com/barcode.ashx?data=" + p.id + "&code=Code128&dpi=96&hidehrt=1";
 
 document.getElementById("reportArea").innerHTML=`
-
 <div class="report">
+    
+    <!-- Professional Letterhead -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:3px solid #075b73; padding-bottom:15px; margin-bottom:20px;">
+        <div style="text-align:left;">
+            <h1 style="color:#075b73; margin:0; font-size:32px; letter-spacing:1px;">🧪 SameerLab</h1>
+            <p style="margin:5px 0 0 0; font-size:13px; color:#444; font-weight:bold;">ADVANCED PATHOLOGY CENTER</p>
+            <p style="margin:2px 0; font-size:12px; color:#555;">Mohalla Subhash Nagar, Utraula, Balrampur, UP - 271604</p>
+            <p style="margin:2px 0; font-size:12px; color:#555;">📞 +91 90262 22219 | ✉️ SA6331322@gmail.com</p>
+        </div>
+        <div style="text-align:right;">
+            <img src="${barcodeUrl}" alt="Barcode" style="height:45px; margin-bottom:5px;">
+            <br>
+            <strong style="font-size:14px; letter-spacing:1px; color:#075b73;">${p.id}</strong>
+        </div>
+    </div>
 
-<div class="report-head">
+    <!-- Report Title -->
+    <div style="text-align:center; margin-bottom:20px;">
+        <h3 style="margin:0; text-decoration:underline; color:#333;">LABORATORY TEST REPORT</h3>
+    </div>
 
-<h1>SameerLab</h1>
+    <!-- Patient Details Grid -->
+    <div class="patient">
+        <div><span class="muted">Patient Name:</span> <br><b>${esc(p.name)}</b></div>
+        <div><span class="muted">Date & Time:</span> <br><b>${new Date(p.created).toLocaleString("en-IN")}</b></div>
+        <div><span class="muted">Age / Sex:</span> <br><b>${p.age} Yrs / ${p.sex}</b></div>
+        <div><span class="muted">Referred By:</span> <br><b>${esc(p.doctor||"Self")}</b></div>
+        <div><span class="muted">Mobile No:</span> <br><b>${esc(p.mobile||"-")}</b></div>
+        <div><span class="muted">Sample Type:</span> <br><b>${esc(p.sample||"-")}</b></div>
+    </div>
 
-<p>Medical Laboratory</p>
+    <!-- Test Results Table -->
+    <table style="margin-bottom:30px;">
+        <thead>
+            <tr>
+                <th style="width:40%">Investigation</th>
+                <th style="width:20%">Result</th>
+                <th style="width:15%">Unit</th>
+                <th style="width:25%">Reference Range</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${p.tests.map(t=>`
+            <tr>
+                <td><b>${esc(t.name)}</b></td>
+                <td style="font-size:15px;"><b>${esc(t.result||"Pending")}</b></td>
+                <td class="muted">${esc(t.unit||"-")}</td>
+                <td class="muted">${esc(t.range||"-")}</td>
+            </tr>
+            `).join("")}
+        </tbody>
+    </table>
 
-<strong>LABORATORY REPORT</strong>
-
-</div>
-
-<div class="patient">
-
-<div><b>Lab No:</b> ${p.id}</div>
-
-<div><b>Date:</b> ${new Date(p.created).toLocaleString("en-IN")}</div>
-
-<div><b>Patient:</b> ${esc(p.name)}</div>
-
-<div><b>Age / Sex:</b> ${p.age} / ${p.sex}</div>
-
-<div><b>Mobile:</b> ${esc(p.mobile||"-")}</div>
-
-<div><b>Referred By:</b> ${esc(p.doctor||"-")}</div>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Test</th>
-
-<th>Result</th>
-
-<th>Unit</th>
-
-<th>Reference Range</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${p.tests.map(t=>`
-
-<tr>
-
-<td>${esc(t.name)}</td>
-
-<td>${esc(t.result||"Pending")}</td>
-
-<td>${esc(t.unit||"-")}</td>
-
-<td>${esc(t.range||"-")}</td>
-
-</tr>
-
-`).join("")}
-
-</tbody>
-
-</table>
-
-<p><b>Remarks:</b> ${esc(p.remarks||"-")}</p>
-
-<br><br>
-
-<div style="display:flex;justify-content:space-between">
-
-<span>Patient Copy</span>
-
-<span>Authorized Signatory</span>
-
-</div>
-
-</div>
-
-`;
-
+    <p style="font-size:12px;"><b>Remarks:</b> ${esc(p.remarks||"None")}</p>
+    
+    <br><br><br><br>
+    
+    <!-- Signatures -->
+    <div style="display:flex; justify-content:space-between; margin-top:30px;">
+        <div style="text-align:center;">
+            <span style="display:inline-block; border-top:1px solid #000; padding-top:5px; width:150px; font-weight:bold; font-size:12px;">End of Report</span>
+        </div>
+        <div style="text-align:center;">
+            <span style="display:inline-block; border-top:1px solid #000; padding-top:5px; width:180px; font-weight:bold; font-size:12px;">Sameer Ansari<br><small style="font-weight:normal; color:#555;">Medical Lab Technician</small></span>
+        </div>
+    </div>
+</div>`;
 }
 
-function refresh(){
-
-renderTests();
-
-showPatients();
-
-selects();
-
-stats();
-
-report();
-
-}
+function refresh(){ renderTests(); showPatients(); selects(); stats(); report(); }
 
 function stats(){
-
 document.getElementById("patientsCount").textContent=data.patients.length;
-
-document.getElementById("todayCount").textContent=
-
-data.patients.filter(p=>p.created.slice(0,10)===today()).length;
-
-document.getElementById("pendingCount").textContent=
-
-data.patients.reduce((n,p)=>n+p.tests.filter(t=>t.status==="Pending").length,0);
-
-document.getElementById("collection").textContent=
-
-money(data.patients
-
-.filter(p=>p.created.slice(0,10)===today())
-
-.reduce((n,p)=>n+p.paid,0));
-
+document.getElementById("todayCount").textContent=data.patients.filter(p=>p.created.slice(0,10)===today()).length;
+document.getElementById("pendingCount").textContent=data.patients.reduce((n,p)=>n+p.tests.filter(t=>t.status==="Pending").length,0);
+document.getElementById("collection").textContent=money(data.patients.filter(p=>p.created.slice(0,10)===today()).reduce((n,p)=>n+p.paid,0));
 }
 
-setInterval(()=>{
-
-document.getElementById("clock").textContent=
-
-new Date().toLocaleString("en-IN");
-
-},1000);
-
+setInterval(()=>{ document.getElementById("clock").textContent=new Date().toLocaleString("en-IN"); },1000);
 refresh();
-
 </script>
-
 </body>
 </html>

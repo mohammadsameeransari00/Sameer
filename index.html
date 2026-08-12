@@ -2,237 +2,343 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SameerLab LIS</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
+
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f8fa;
-color:#17323d
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f3f7f9;
+    color:#17323d;
 }
+
 header{
-background:#075b73;
-color:#fff;
-padding:12px;
-position:sticky;
-top:0;
-z-index:20
+    background:#075b73;
+    color:white;
+    padding:12px;
+    position:sticky;
+    top:0;
+    z-index:10;
 }
+
 .header{
-max-width:1200px;
-margin:auto;
-display:flex;
-align-items:center;
-gap:12px
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
+
+.profile-img{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid white;
+}
+
 .logo{
-font-size:25px;
-font-weight:700
+    font-size:24px;
+    font-weight:bold;
 }
-.logo span{color:#8de9f1}
-.sub{font-size:12px}
+
+.logo span{
+    color:#8de9f1;
+}
+
+.subtitle{
+    font-size:11px;
+}
+
 main{
-max-width:1200px;
-margin:auto;
-padding:14px
+    max-width:1200px;
+    margin:auto;
+    padding:14px;
 }
+
 .tabs{
-display:flex;
-gap:6px;
-overflow-x:auto;
-margin-bottom:14px
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    margin-bottom:15px;
 }
+
 .tabs button{
-border:0;
-padding:10px 13px;
-border-radius:9px;
-background:#fff;
-color:#075b73;
-font-weight:700;
-white-space:nowrap
+    border:0;
+    background:white;
+    color:#075b73;
+    padding:10px 13px;
+    border-radius:9px;
+    font-weight:bold;
+    white-space:nowrap;
 }
+
 .tabs button.active{
-background:#075b73;
-color:#fff
+    background:#075b73;
+    color:white;
 }
-.page{display:none}
-.page.active{display:block}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
 .card{
-background:#fff;
-padding:16px;
-border-radius:14px;
-margin-bottom:14px;
-box-shadow:0 3px 15px #0001
+    background:white;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 3px 15px #0001;
 }
+
 .grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
 }
+
 .grid3{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 }
+
 label{
-font-size:12px;
-font-weight:700;
-display:block;
-margin-bottom:4px
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:4px;
 }
+
 input,select,textarea{
-width:100%;
-padding:9px;
-border:1px solid #cadde3;
-border-radius:7px;
-background:#fff
+    width:100%;
+    padding:9px;
+    border:1px solid #cbdde2;
+    border-radius:7px;
+    background:white;
 }
-textarea{min-height:70px}
+
+textarea{
+    min-height:70px;
+}
+
 .btn{
-border:0;
-background:#075b73;
-color:#fff;
-padding:10px 14px;
-border-radius:8px;
-font-weight:700
+    border:0;
+    background:#075b73;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:bold;
 }
-.btn.green{background:#197a4b}
-.btn.red{background:#c62828}
+
+.btn.green{
+    background:#197a4b;
+}
+
+.btn.red{
+    background:#c62828;
+}
+
 .btn.light{
-background:#e8f6f8;
-color:#075b73
+    background:#e8f6f8;
+    color:#075b73;
 }
+
 .actions{
-display:flex;
-gap:7px;
-flex-wrap:wrap;
-margin-top:12px
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-top:12px;
 }
+
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
 }
+
 .stat{
-background:#fff;
-padding:15px;
-border-radius:13px
+    background:white;
+    border-radius:13px;
+    padding:15px;
 }
+
 .stat b{
-display:block;
-font-size:24px;
-color:#075b73
+    display:block;
+    font-size:24px;
+    color:#075b73;
 }
-.scroll{overflow:auto}
+
+.scroll{
+    overflow:auto;
+}
+
 table{
-border-collapse:collapse;
-width:100%
+    border-collapse:collapse;
+    width:100%;
 }
+
 th,td{
-padding:8px;
-border-bottom:1px solid #dce7ea;
-font-size:12px;
-text-align:left
+    padding:8px;
+    border-bottom:1px solid #dce7ea;
+    text-align:left;
+    font-size:12px;
 }
+
 th{
-background:#e9f6f8;
-color:#075b73
+    background:#e9f6f8;
+    color:#075b73;
 }
+
 .test{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#f7fbfc;
-padding:9px;
-border-radius:8px;
-margin:5px 0
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:9px;
+    background:#f7fbfc;
+    border-radius:8px;
+    margin:5px 0;
 }
-.result-box{
-border:1px solid #d9e8eb;
-border-radius:10px;
-padding:12px;
-margin:9px 0
-}
-.flag{
-font-weight:700;
-margin-top:6px
-}
-.normal{color:#197a4b}
-.high{color:#c62828}
-.low{color:#b26a00}
+
 .muted{
-font-size:12px;
-color:#687d84
+    font-size:12px;
+    color:#687d84;
 }
+
 .notice{
-font-size:12px;
-background:#fff8df;
-border-left:4px solid #dca000;
-padding:10px;
-border-radius:6px
+    font-size:12px;
+    background:#fff8df;
+    border-left:4px solid #dca000;
+    padding:10px;
+    border-radius:6px;
 }
+
+.result-box{
+    border:1px solid #d9e8eb;
+    border-radius:10px;
+    padding:12px;
+    margin:9px 0;
+}
+
+.normal{
+    color:#197a4b;
+}
+
+.high{
+    color:#c62828;
+}
+
+.low{
+    color:#b26a00;
+}
+
+.flag{
+    font-weight:bold;
+    margin-top:6px;
+}
+
 .report{
-background:#fff;
-max-width:900px;
-margin:auto;
-padding:25px
+    background:white;
+    max-width:900px;
+    margin:auto;
+    padding:25px;
 }
+
 .report-head{
-text-align:center;
-border-bottom:2px solid #075b73;
-padding-bottom:10px
+    text-align:center;
+    border-bottom:2px solid #075b73;
+    padding-bottom:10px;
 }
+
+.report-head img{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
 .report-head h1{
-margin:5px;
-color:#075b73
+    margin:5px;
+    color:#075b73;
 }
-.report-profile{
-width:80px;
-height:80px;
-border-radius:50%;
-object-fit:cover;
-border:2px solid #075b73
-}
+
 .patient-info{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:7px;
-background:#f5fafb;
-padding:10px;
-margin:12px 0
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#f5fafb;
+    padding:10px;
+    margin:12px 0;
+    gap:6px;
 }
+
 .barcode{
-text-align:center;
-margin:12px
+    text-align:center;
+    margin:12px;
 }
+
 .barcode img{
-height:65px;
-max-width:330px
+    height:60px;
+    max-width:300px;
 }
-.profile-links a{
-display:inline-block;
-margin:5px;
-padding:8px 12px;
-background:#075b73;
-color:white;
-text-decoration:none;
-border-radius:7px
+
+.profile-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
+
+.profile-card img{
+    width:110px;
+    height:110px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
 @media(max-width:700px){
-.grid,.grid3,.patient-info{grid-template-columns:1fr}
-.stats{grid-template-columns:1fr 1fr}
+
+    .grid,
+    .grid3{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .patient-info{
+        grid-template-columns:1fr;
+    }
 }
+
 @media print{
-header,.tabs,.no-print{display:none!important}
-.page{display:none!important}
-#reports{display:block!important}
-.report{
-max-width:none;
-box-shadow:none
-}
+
+    header,
+    .tabs,
+    .no-print{
+        display:none!important;
+    }
+
+    .page{
+        display:none!important;
+    }
+
+    #reports{
+        display:block!important;
+    }
+
+    .report{
+        max-width:none;
+        box-shadow:none;
+    }
 }
 </style>
 </head>
@@ -240,19 +346,35 @@ box-shadow:none
 <body>
 
 <header>
+
 <div class="header">
+
+<img id="headerPhoto"
+class="profile-img"
+alt="Profile">
+
 <div>
-<div class="logo">🧪 Sameer<span>Lab</span></div>
-<div class="sub">Laboratory Information System</div>
+
+<div class="logo">
+🧪 Sameer<span>Lab</span>
 </div>
+
+<div class="subtitle">
+Laboratory Information System
 </div>
+
+</div>
+
+</div>
+
 </header>
 
 <main>
 
 <div class="tabs">
 
-<button class="active" onclick="openPage('home',this)">
+<button class="active"
+onclick="openPage('home',this)">
 🏠 Dashboard
 </button>
 
@@ -283,24 +405,18 @@ box-shadow:none
 </div>
 
 
+<!-- DASHBOARD -->
+
 <section id="home" class="page active">
 
 <div class="card">
 
 <h2>SameerLab LIS</h2>
 
-<p>
-Complete laboratory reception and reporting
-system for patient registration, test entry,
-billing, result entry and report generation.
+<p class="muted">
+Patient registration, test selection, billing,
+result entry, barcode and laboratory report system.
 </p>
-
-<div class="notice">
-Reference intervals are example intervals.
-Before issuing a clinical report, verify
-ranges with your laboratory SOP, analyzer
-method and reagent manufacturer's insert.
-</div>
 
 </div>
 
@@ -329,8 +445,27 @@ Collection
 
 </div>
 
+
+<div class="card">
+
+<div class="notice">
+
+<b>Important:</b>
+
+Reference ranges shown in this software are
+example laboratory intervals. Before issuing
+patient reports, verify them with your laboratory
+SOP, analyzer method and reagent manufacturer's
+instructions.
+
+</div>
+
+</div>
+
 </section>
 
+
+<!-- PATIENT -->
 
 <section id="patients" class="page">
 
@@ -341,66 +476,115 @@ Collection
 <div class="grid">
 
 <div>
+
 <label>Patient Name *</label>
+
 <input id="patientName">
+
 </div>
 
+
 <div>
+
 <label>Age *</label>
-<input id="patientAge" type="number">
+
+<input id="patientAge"
+type="number">
+
 </div>
 
+
 <div>
+
 <label>Sex *</label>
+
 <select id="patientSex">
+
 <option value="">Select</option>
+
 <option>Male</option>
+
 <option>Female</option>
+
 <option>Other</option>
+
 </select>
+
 </div>
 
+
 <div>
+
 <label>Mobile Number</label>
-<input id="patientMobile" type="tel">
+
+<input id="patientMobile"
+type="tel">
+
 </div>
 
+
 <div>
+
 <label>Doctor Reference</label>
+
 <input id="doctorReference">
+
 </div>
 
+
 <div>
+
 <label>Sample Type</label>
+
 <select id="sampleType">
+
 <option>Blood</option>
+
 <option>Serum</option>
+
 <option>Plasma</option>
+
 <option>Urine</option>
+
 <option>Stool</option>
+
 <option>Other</option>
+
 </select>
+
 </div>
+
 
 <div style="grid-column:1/-1">
+
 <label>Remarks</label>
+
 <textarea id="patientRemarks"></textarea>
+
 </div>
 
 </div>
+
 
 <h3>🧪 Select Test / Profile</h3>
 
 <div id="testList"></div>
 
+
 <div class="actions">
 
-<button class="btn" onclick="savePatient()">
+<button class="btn"
+onclick="savePatient()">
+
 Save Patient
+
 </button>
 
-<button class="btn light" onclick="clearPatient()">
+<button class="btn light"
+onclick="clearPatient()">
+
 Clear
+
 </button>
 
 </div>
@@ -422,15 +606,25 @@ oninput="showPatients()">
 <table>
 
 <thead>
+
 <tr>
+
 <th>Lab No</th>
+
 <th>Name</th>
+
 <th>Age/Sex</th>
+
 <th>Doctor</th>
+
 <th>Total</th>
+
 <th>Status</th>
+
 <th>Action</th>
+
 </tr>
+
 </thead>
 
 <tbody id="patientTable"></tbody>
@@ -444,6 +638,8 @@ oninput="showPatients()">
 </section>
 
 
+<!-- BILLING -->
+
 <section id="billing" class="page">
 
 <div class="card">
@@ -453,7 +649,9 @@ oninput="showPatients()">
 <select id="billingPatient"
 onchange="showBilling()">
 
-<option value="">Select Patient</option>
+<option value="">
+Select Patient
+</option>
 
 </select>
 
@@ -464,6 +662,8 @@ onchange="showBilling()">
 </section>
 
 
+<!-- RESULTS -->
+
 <section id="results" class="page">
 
 <div class="card">
@@ -473,7 +673,9 @@ onchange="showBilling()">
 <select id="resultPatient"
 onchange="showResults()">
 
-<option value="">Select Patient</option>
+<option value="">
+Select Patient
+</option>
 
 </select>
 
@@ -484,6 +686,8 @@ onchange="showResults()">
 </section>
 
 
+<!-- REPORT -->
+
 <section id="reports" class="page">
 
 <div class="card no-print">
@@ -493,15 +697,20 @@ onchange="showResults()">
 <select id="reportPatient"
 onchange="createReport()">
 
-<option value="">Select Patient</option>
+<option value="">
+Select Patient
+</option>
 
 </select>
 
 <div class="actions">
 
-<button class="btn"
+<button
+class="btn"
 onclick="window.print()">
+
 🖨️ Print / Save PDF
+
 </button>
 
 </div>
@@ -513,60 +722,94 @@ onclick="window.print()">
 </section>
 
 
+<!-- TEST MASTER -->
+
 <section id="master" class="page">
 
 <div class="card">
 
-<h2>⚙️ Test / Parameter Master</h2>
+<h2>⚙️ Parameter Master</h2>
 
 <div class="grid3">
 
 <div>
+
 <label>Parameter Name</label>
+
 <input id="newParameter">
+
 </div>
 
+
 <div>
+
 <label>Fee ₹</label>
-<input id="newFee" type="number">
+
+<input id="newFee"
+type="number">
+
 </div>
 
+
 <div>
+
 <label>Unit</label>
+
 <input id="newUnit">
+
 </div>
 
+
 <div>
+
 <label>Male Reference</label>
+
 <input id="maleRange">
+
 </div>
 
+
 <div>
+
 <label>Female Reference</label>
+
 <input id="femaleRange">
+
 </div>
+
 
 <div>
+
 <label>General Reference</label>
+
 <input id="generalRange">
+
 </div>
 
 </div>
+
 
 <div class="actions">
 
-<button class="btn" onclick="addParameter()">
+<button
+class="btn"
+onclick="addParameter()">
+
 Add Parameter
+
 </button>
 
 </div>
+
 
 <div class="scroll">
 
 <table>
 
 <thead>
+
 <tr>
+
 <th>Parameter</th>
 <th>Fee</th>
 <th>Unit</th>
@@ -574,7 +817,9 @@ Add Parameter
 <th>Female</th>
 <th>General</th>
 <th>Action</th>
+
 </tr>
+
 </thead>
 
 <tbody id="masterTable"></tbody>
@@ -588,66 +833,82 @@ Add Parameter
 </section>
 
 
+<!-- PROFILE -->
+
 <section id="profile" class="page">
 
 <div class="card">
 
-<h2>👨‍💼 Laboratory Profile</h2>
+<h2>👨‍💼 SameerLab Profile</h2>
+
+<div class="profile-card">
+
+<img id="profilePhoto">
+
+<div>
+
+<b>Laboratory Profile</b>
+
+<p class="muted">
+Your profile photo is used in the website
+and laboratory report.
+</p>
+
+</div>
+
+</div>
+
 
 <div class="grid">
 
 <div>
+
 <label>Lab Name</label>
-<input id="labName">
+
+<input id="labName"
+value="SameerLab">
+
 </div>
 
+
 <div>
+
 <label>Subtitle</label>
-<input id="labSubtitle">
+
+<input id="labSubtitle"
+value="Medical Laboratory">
+
 </div>
 
+
 <div>
+
 <label>Phone</label>
+
 <input id="labPhone">
+
 </div>
 
+
 <div>
+
 <label>Address</label>
+
 <input id="labAddress">
-</div>
 
-<div>
-<label>LinkedIn Profile</label>
-<input id="linkedin">
-</div>
-
-<div>
-<label>YouTube Channel</label>
-<input id="youtube">
 </div>
 
 </div>
+
 
 <div class="actions">
 
 <button class="btn green"
 onclick="saveProfile()">
+
 Save Profile
+
 </button>
-
-</div>
-
-<div class="profile-links">
-
-<a href="https://www.linkedin.com/"
-target="_blank">
-LinkedIn
-</a>
-
-<a href="https://youtube.com/"
-target="_blank">
-YouTube
-</a>
 
 </div>
 
@@ -657,10 +918,18 @@ YouTube
 
 </main>
 
-
 <script>
 
-const STORAGE_KEY="SAMEERLAB_LIS";
+/* SAMEERLAB LIS */
+
+const STORAGE_KEY="SAMEERLAB_LIS_V4";
+
+/*
+Profile photo is embedded in the application.
+*/
+
+const PROFILE_PHOTO="PASTE_PROFILE_PHOTO_DATA_HERE";
+
 
 const DEFAULT_TESTS=[
 
@@ -836,7 +1105,7 @@ general:""
 },
 
 {
-name:"Fasting Blood Glucose",
+name:"Blood Glucose - Fasting",
 fee:100,
 unit:"mg/dL",
 male:"70-99",
@@ -845,7 +1114,7 @@ general:"70-99"
 },
 
 {
-name:"Postprandial Blood Glucose",
+name:"Blood Glucose - PP",
 fee:100,
 unit:"mg/dL",
 male:"<140",
@@ -1062,10 +1331,9 @@ general:"0-5"
 
 ];
 
+
 let data=
-JSON.parse(
-localStorage.getItem(STORAGE_KEY)
-);
+JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
 
 if(!data){
 
@@ -1076,15 +1344,14 @@ profile:{
 name:"SameerLab",
 subtitle:"Medical Laboratory",
 phone:"",
-address:"",
-linkedin:"https://www.linkedin.com/in/muhammad-sameer-ba23493a0",
-youtube:"https://youtube.com/@prof.mohammadsameer"
+address:""
 }
 };
 
 saveData();
 
 }
+
 
 function saveData(){
 
@@ -1095,13 +1362,14 @@ JSON.stringify(data)
 
 }
 
+
 function money(value){
 
-return "₹"+
-Number(value||0)
+return "₹"+Number(value||0)
 .toLocaleString("en-IN");
 
 }
+
 
 function escapeHTML(value){
 
@@ -1114,19 +1382,25 @@ return String(value??"")
 
 }
 
+
 function openPage(id,button){
 
 document
 .querySelectorAll(".page")
-.forEach(x=>x.classList.remove("active"));
+.forEach(page=>{
+page.classList.remove("active");
+});
 
 document
 .getElementById(id)
 .classList.add("active");
 
+
 document
 .querySelectorAll(".tabs button")
-.forEach(x=>x.classList.remove("active"));
+.forEach(btn=>{
+btn.classList.remove("active");
+});
 
 button.classList.add("active");
 
@@ -1134,12 +1408,13 @@ refreshAll();
 
 }
 
+
 function renderTests(){
 
-const box=
+const container=
 document.getElementById("testList");
 
-box.innerHTML=
+container.innerHTML=
 data.tests.map((test,index)=>`
 
 <div class="test">
@@ -1153,11 +1428,9 @@ data-index="${index}">
 
 ${escapeHTML(test.name)}
 
-${
-test.profile
+${test.profile
 ?" <span class='muted'>(Profile)</span>"
-:""
-}
+:""}
 
 </label>
 
@@ -1170,6 +1443,7 @@ ${money(test.fee)}
 `).join("");
 
 }
+
 
 function profileParameters(profile){
 
@@ -1235,57 +1509,76 @@ return groups[profile]||[];
 
 }
 
+
 function getSelectedParameters(selected){
 
-let result=[];
+let output=[];
 
 selected.forEach(test=>{
 
 if(test.profile){
 
-profileParameters(test.name)
-.forEach(name=>{
+const names=
+profileParameters(test.name);
+
+names.forEach(name=>{
 
 const parameter=
 data.tests.find(
-x=>x.name===name
+item=>item.name===name
 );
 
-if(parameter)result.push({...parameter});
+if(parameter){
+
+output.push({
+...parameter
+});
+
+}
 
 });
 
 }else{
 
-result.push({...test});
+output.push({
+...test
+});
 
 }
 
 });
 
-return result.filter(
-(item,index,array)=>
-array.findIndex(
-x=>x.name===item.name
-)===index
-);
+const unique=[];
+
+output.forEach(item=>{
+
+if(!unique.some(x=>x.name===item.name)){
+unique.push(item);
+}
+
+});
+
+return unique;
 
 }
 
+
 function generateLabNumber(){
 
-const d=
+const number=
+data.patients.length+1;
+
+const date=
 new Date()
 .toISOString()
 .slice(0,10)
 .replaceAll("-","");
 
-return "SL"+
-d+
-String(data.patients.length+1)
-.padStart(3,"0");
+return "SL"+date+
+String(number).padStart(3,"0");
 
 }
+
 
 function savePatient(){
 
@@ -1303,24 +1596,22 @@ document.getElementById("patientSex")
 
 const selected=
 [...document.querySelectorAll(".testCheck:checked")]
-.map(x=>
+.map(check=>
 data.tests[
-Number(x.dataset.index)
+Number(check.dataset.index)
 ]);
 
 if(!name||age===""||!sex){
 
-alert(
-"Patient name, age and sex required."
-);
+alert("Patient name, age and sex required.");
 
 return;
 
 }
 
-if(!selected.length){
+if(selected.length===0){
 
-alert("Select at least one test.");
+alert("Please select at least one test.");
 
 return;
 
@@ -1331,7 +1622,8 @@ getSelectedParameters(selected);
 
 const total=
 parameters.reduce(
-(a,b)=>a+Number(b.fee||0),0
+(sum,test)=>sum+Number(test.fee||0),
+0
 );
 
 const patient={
@@ -1340,11 +1632,11 @@ labNo:generateLabNumber(),
 
 created:new Date().toISOString(),
 
-name,
+name:name,
 
-age,
+age:age,
 
-sex,
+sex:sex,
 
 mobile:
 document.getElementById("patientMobile").value,
@@ -1358,7 +1650,7 @@ document.getElementById("sampleType").value,
 remarks:
 document.getElementById("patientRemarks").value,
 
-total,
+total:total,
 
 paid:0,
 
@@ -1385,81 +1677,93 @@ clearPatient();
 refreshAll();
 
 alert(
-"Patient saved.\nLab No: "+
+"Patient saved successfully.\nLab No: "+
 patient.labNo
 );
 
 }
 
+
 function clearPatient(){
 
-[
-"patientName",
-"patientAge",
-"patientMobile",
-"doctorReference",
-"patientRemarks"
-].forEach(id=>{
-document.getElementById(id).value="";
-});
-
+document.getElementById("patientName").value="";
+document.getElementById("patientAge").value="";
 document.getElementById("patientSex").value="";
+document.getElementById("patientMobile").value="";
+document.getElementById("doctorReference").value="";
+document.getElementById("patientRemarks").value="";
 
 document
 .querySelectorAll(".testCheck")
-.forEach(x=>x.checked=false);
+.forEach(check=>{
+check.checked=false;
+});
 
 }
+
 
 function showPatients(){
 
 const search=
-(
-document.getElementById("patientSearch")
-?.value||""
-).toLowerCase();
+(document.getElementById("patientSearch")
+.value||"")
+.toLowerCase();
 
-const list=
-data.patients.filter(p=>
-(
-p.labNo+" "+
-p.name+" "+
-p.mobile
-).toLowerCase()
-.includes(search)
-);
+const patients=
+data.patients.filter(patient=>{
+
+const text=
+patient.labNo+" "+
+patient.name+" "+
+patient.mobile;
+
+return text.toLowerCase()
+.includes(search);
+
+});
 
 document.getElementById("patientTable")
 .innerHTML=
-list.map(p=>`
+patients.map(patient=>`
 
 <tr>
 
-<td>${p.labNo}</td>
+<td>${patient.labNo}</td>
 
-<td>${escapeHTML(p.name)}</td>
+<td>${escapeHTML(patient.name)}</td>
 
-<td>${p.age}/${p.sex}</td>
+<td>
+${patient.age}/${patient.sex}
+</td>
 
-<td>${escapeHTML(p.doctor||"-")}</td>
+<td>
+${escapeHTML(patient.doctor||"-")}
+</td>
 
-<td>${money(p.total)}</td>
+<td>
+${money(patient.total)}
+</td>
 
 <td>
 ${
-p.tests.some(
-t=>t.status!=="Final"
+patient.tests.some(
+test=>test.status!=="Final"
 )
-?"Pending":"Complete"
+?"Pending"
+:"Complete"
 }
 </td>
 
 <td>
+
 <button
 class="btn"
-onclick="openPatientResults('${p.labNo}')">
+onclick="openPatientResults('${patient.labNo}')">
+
 Open
+
 </button>
+
 </td>
 
 </tr>
@@ -1468,190 +1772,33 @@ Open
 
 }
 
-function populateSelect(id){
+
+function populatePatientSelect(id){
 
 const select=
 document.getElementById(id);
 
-if(!select)return;
-
-const old=select.value;
+const current=select.value;
 
 select.innerHTML=
 `<option value="">Select Patient</option>`+
-data.patients.map(p=>`
+data.patients.map(patient=>`
 
-<option value="${p.labNo}">
-${p.labNo} - ${escapeHTML(p.name)}
+<option value="${patient.labNo}">
+
+${patient.labNo} -
+${escapeHTML(patient.name)}
+
 </option>
 
 `).join("");
 
-select.value=old;
+select.value=current;
 
 }
+
 
 function showBilling(){
 
 const labNo=
-document.getElementById("billingPatient").value;
-
-const p=
-data.patients.find(
-x=>x.labNo===labNo
-);
-
-const box=
-document.getElementById("billingBox");
-
-if(!p){
-
-box.innerHTML="";
-
-return;
-
-}
-
-box.innerHTML=`
-
-<div class="card">
-
-<div class="grid">
-
-<div>
-<label>Total Fee</label>
-<input disabled value="${money(p.total)}">
-</div>
-
-<div>
-<label>Paid</label>
-<input
-id="paymentAmount"
-type="number"
-value="${p.paid}">
-</div>
-
-<div>
-<label>Due</label>
-<input disabled value="${money(p.total-p.paid)}">
-</div>
-
-</div>
-
-<button
-class="btn green"
-onclick="savePayment('${p.labNo}')">
-Save Payment
-</button>
-
-</div>
-
-`;
-
-}
-
-function savePayment(labNo){
-
-const p=
-data.patients.find(
-x=>x.labNo===labNo
-);
-
-const amount=
-Number(
-document.getElementById("paymentAmount")
-.value||0
-);
-
-p.paid=
-Math.min(
-p.total,
-Math.max(0,amount)
-);
-
-p.due=p.total-p.paid;
-
-saveData();
-
-showBilling();
-
-refreshDashboard();
-
-alert("Payment saved.");
-
-}
-
-function openPatientResults(labNo){
-
-document.getElementById(
-"resultPatient"
-).value=labNo;
-
-document
-.querySelectorAll(".tabs button")[3]
-.click();
-
-showResults();
-
-}
-
-function referenceRange(test,sex){
-
-if(sex==="Male")
-return test.male||test.general||"";
-
-if(sex==="Female")
-return test.female||test.general||"";
-
-return test.general||
-test.male||
-test.female||
-"";
-
-}
-
-function numericRange(range){
-
-const m=
-String(range||"")
-.match(
-/([0-9]+(?:\.[0-9]+)?)\s*-\s*([0-9]+(?:\.[0-9]+)?)/
-);
-
-return m?
-[Number(m[1]),Number(m[2])]:
-null;
-
-}
-
-function showResults(){
-
-const labNo=
-document.getElementById(
-"resultPatient"
-).value;
-
-const p=
-data.patients.find(
-x=>x.labNo===labNo
-);
-
-const box=
-document.getElementById("resultBox");
-
-if(!p){
-
-box.innerHTML="";
-
-return;
-
-}
-
-box.innerHTML=
-p.tests.map((t,i)=>`
-
-<div class="result-box">
-
-<b>${escapeHTML(t.name)}</b>
-
-<div
+document.ge

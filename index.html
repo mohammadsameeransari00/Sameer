@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
-<meta name="google-site-verification" content="OaqEu8bEm-lAj26PR9zqjHxq2us4zUe4FFbeS2kS1yU" />
-
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Sameer Ansari - Medical Laboratory Technician Portfolio">
-<title>Sameer Ansari | Medical Laboratory Technician</title>
+
+<title>Sameer Ansari | MedLab Professional | SameerLab</title>
+
+<meta name="description" content="Sameer Ansari | MedLab Professional. Medical Laboratory Technology portfolio covering Hematology, Biochemistry, Histopathology, Microbiology, Blood Bank and clinical laboratory training.">
+
+<meta name="keywords" content="Sameer Ansari, SameerLab, Sameer Ansari MLT, Medical Laboratory Technician, MedLab Professional, BSc MLT, Hematology, Biochemistry, Histopathology, Microbiology, Blood Bank">
+
+<meta name="author" content="Sameer Ansari">
 
 <style>
 *{
@@ -23,7 +26,7 @@ html{
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#f4f9fb;
+    background:#f4fafc;
     color:#173042;
     line-height:1.6;
 }
@@ -39,12 +42,13 @@ a{
 }
 
 /* NAVBAR */
+
 nav{
     position:sticky;
     top:0;
-    z-index:999;
+    z-index:1000;
     background:#06283d;
-    box-shadow:0 5px 20px rgba(0,0,0,.2);
+    box-shadow:0 5px 20px rgba(0,0,0,.18);
 }
 
 .navbar{
@@ -56,29 +60,29 @@ nav{
 
 .logo{
     color:white;
-    font-size:23px;
+    font-size:24px;
     font-weight:bold;
 }
 
 .logo span{
-    color:#40d9ed;
+    color:#51dce9;
 }
 
 .nav-links{
     display:flex;
-    gap:6px;
+    gap:5px;
 }
 
 .nav-links a{
     color:white;
-    padding:9px 13px;
+    padding:9px 12px;
     border-radius:20px;
     font-size:13px;
     font-weight:bold;
 }
 
 .nav-links a:hover{
-    background:#087ea4;
+    background:#087e9e;
 }
 
 .menu{
@@ -89,13 +93,14 @@ nav{
 }
 
 /* HERO */
+
 .hero{
     min-height:680px;
     display:flex;
     align-items:center;
     color:white;
     background:
-    radial-gradient(circle at 85% 20%,rgba(53,218,240,.3),transparent 28%),
+    radial-gradient(circle at 85% 15%,rgba(71,220,235,.28),transparent 28%),
     linear-gradient(135deg,#041d2d,#07536d,#0b91ae);
 }
 
@@ -104,12 +109,12 @@ nav{
     grid-template-columns:1.2fr .8fr;
     align-items:center;
     gap:50px;
-    padding:80px 0;
+    padding:85px 0;
 }
 
 .badge-top{
     display:inline-block;
-    padding:8px 15px;
+    padding:8px 16px;
     border:1px solid #8cebf4;
     border-radius:30px;
     font-size:12px;
@@ -117,13 +122,13 @@ nav{
 }
 
 .hero h1{
-    font-size:clamp(42px,6vw,70px);
+    font-size:clamp(43px,6vw,72px);
     line-height:1.05;
-    margin:20px 0 10px;
+    margin:20px 0 8px;
 }
 
 .hero h1 span{
-    color:#68e8f5;
+    color:#69e9f5;
 }
 
 .hero h2{
@@ -177,8 +182,8 @@ nav{
 }
 
 .avatar{
-    width:150px;
-    height:150px;
+    width:155px;
+    height:155px;
     border-radius:50%;
     background:#ecfcff;
     color:#07536d;
@@ -187,7 +192,7 @@ nav{
     justify-content:center;
     align-items:center;
     margin:auto auto 20px;
-    font-size:43px;
+    font-size:44px;
     font-weight:bold;
 }
 
@@ -223,14 +228,15 @@ nav{
     font-size:9px;
 }
 
-/* SECTION */
+/* SECTIONS */
+
 section{
     padding:85px 0;
 }
 
 .section-title{
     text-align:center;
-    max-width:720px;
+    max-width:750px;
     margin:0 auto 45px;
 }
 
@@ -239,7 +245,6 @@ section{
     font-weight:bold;
     letter-spacing:2px;
     font-size:12px;
-    text-transform:uppercase;
 }
 
 .section-title h2{
@@ -253,6 +258,7 @@ section{
 }
 
 /* CARDS */
+
 .grid2{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -295,6 +301,7 @@ section{
 }
 
 /* ABOUT */
+
 .check-list{
     list-style:none;
     margin-top:18px;
@@ -312,19 +319,27 @@ section{
     margin-right:10px;
 }
 
-/* EDUCATION */
-.edu{
-    position:relative;
-    overflow:hidden;
+/* BADGES */
+
+.badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
 }
 
-.edu .year{
-    color:#087ea4;
+.badge{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:30px;
+    background:#effaff;
+    color:#086681;
+    border:1px solid #cceff5;
     font-size:12px;
     font-weight:bold;
 }
 
-/* TRAINING */
+/* TIMELINE */
+
 .timeline{
     max-width:900px;
     margin:auto;
@@ -358,34 +373,8 @@ section{
     border:5px solid #dff8fb;
 }
 
-.timeline ul{
-    margin:12px 0 0 20px;
-    color:#607786;
-}
-
-.timeline li{
-    margin:5px 0;
-}
-
-/* BADGES */
-.badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:9px;
-}
-
-.badge{
-    display:inline-block;
-    padding:8px 12px;
-    border-radius:30px;
-    background:#effaff;
-    color:#086681;
-    border:1px solid #cceff5;
-    font-size:12px;
-    font-weight:bold;
-}
-
 /* SKILLS */
+
 .skill-box{
     background:white;
     padding:25px;
@@ -407,7 +396,8 @@ section{
     background:linear-gradient(90deg,#087ea4,#39cadc);
 }
 
-/* LAB */
+/* LAB CARDS */
+
 .lab-card{
     transition:.25s;
 }
@@ -416,7 +406,37 @@ section{
     transform:translateY(-7px);
 }
 
+/* SOCIAL */
+
+.social-card{
+    text-align:center;
+}
+
+.social-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:11px 20px;
+    border-radius:25px;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+    transition:.2s;
+}
+
+.social-btn:hover{
+    transform:translateY(-3px);
+}
+
+.linkedin{
+    background:#0a66c2;
+}
+
+.youtube{
+    background:#e62117;
+}
+
 /* CTA */
+
 .cta{
     background:linear-gradient(135deg,#06354d,#087e9f);
     color:white;
@@ -437,6 +457,7 @@ section{
 }
 
 /* CONTACT */
+
 .contact{
     text-align:center;
 }
@@ -447,6 +468,7 @@ section{
 }
 
 /* FOOTER */
+
 footer{
     background:#041e2e;
     color:white;
@@ -480,6 +502,7 @@ footer a{
 }
 
 /* MOBILE */
+
 @media(max-width:850px){
 
     .menu{
@@ -553,14 +576,18 @@ footer a{
 <body>
 
 <!-- NAVIGATION -->
+
 <nav>
 <div class="container navbar">
 
-<a href="#home" class="logo">Sameer<span>Lab</span></a>
+<a href="#home" class="logo">
+Sameer<span>Lab</span>
+</a>
 
 <div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="nav-links" id="navLinks">
+
 <a href="#home">Home</a>
 <a href="#about">About</a>
 <a href="#education">Education</a>
@@ -568,7 +595,9 @@ footer a{
 <a href="#skills">Skills</a>
 <a href="#laboratory">Laboratory</a>
 <a href="#learning">Learning</a>
+<a href="#connect">Connect</a>
 <a href="#contact">Contact</a>
+
 </div>
 
 </div>
@@ -576,6 +605,7 @@ footer a{
 
 
 <!-- HERO -->
+
 <header class="hero" id="home">
 
 <div class="container hero-content">
@@ -591,13 +621,13 @@ Sameer <span>Ansari</span>
 </h1>
 
 <h2>
-Medical Laboratory Technician (MLT)
+MedLab Professional • SameerLab
 </h2>
 
 <p>
-Welcome to my professional medical laboratory portfolio.
-Explore my education, clinical training, laboratory skills,
-areas of interest and medical-learning journey.
+Welcome to SameerLab — the professional portfolio of
+Sameer Ansari, focused on Medical Laboratory Technology,
+clinical laboratory learning and healthcare.
 </p>
 
 <div class="buttons">
@@ -606,8 +636,8 @@ areas of interest and medical-learning journey.
 Explore Portfolio
 </a>
 
-<a href="#contact" class="btn outline">
-Contact Me
+<a href="#connect" class="btn outline">
+Connect With Me
 </a>
 
 </div>
@@ -622,8 +652,12 @@ SA
 </div>
 
 <h3>
-Medical Lab Professional
+SameerLab
 </h3>
+
+<p>
+Medical Laboratory Technology
+</p>
 
 <p>
 Hematology • Biochemistry • Histopathology • Microbiology
@@ -632,18 +666,18 @@ Hematology • Biochemistry • Histopathology • Microbiology
 <div class="stats">
 
 <div class="stat">
+<strong>MLT</strong>
+<small>PROFESSION</small>
+</div>
+
+<div class="stat">
 <strong>8+</strong>
 <small>LAB AREAS</small>
 </div>
 
 <div class="stat">
-<strong>6</strong>
-<small>MONTH TRAINING</small>
-</div>
-
-<div class="stat">
-<strong>MLT</strong>
-<small>PROFESSION</small>
+<strong>RML</strong>
+<small>TRAINING</small>
 </div>
 
 </div>
@@ -655,20 +689,22 @@ Hematology • Biochemistry • Histopathology • Microbiology
 
 
 <!-- ABOUT -->
+
 <section id="about">
 
 <div class="container">
 
 <div class="section-title">
 
-<span>ABOUT ME</span>
+<span>ABOUT SAMEERLAB</span>
 
 <h2>
 Behind the Lab Coat
 </h2>
 
 <p>
-A professional introduction based on my education and clinical training.
+A professional introduction to my education,
+clinical training and laboratory interests.
 </p>
 
 </div>
@@ -683,25 +719,21 @@ A professional introduction based on my education and clinical training.
 </div>
 
 <h3>
-Professional Profile
+About Me
 </h3>
 
 <p>
-I am a dedicated and detail-oriented Medical Laboratory Technician
-with practical training experience in pathology, biochemistry,
-microbiology and related laboratory areas.
+I am Sameer Ansari, a Medical Laboratory professional
+with an academic background in Medical Laboratory Technology
+and practical clinical laboratory training.
 </p>
 
 <ul class="check-list">
 
 <li>Laboratory sample handling</li>
-
 <li>Diagnostic laboratory procedures</li>
-
 <li>Laboratory safety and hygiene</li>
-
 <li>Report documentation</li>
-
 <li>Continuous professional learning</li>
 
 </ul>
@@ -721,9 +753,9 @@ Career Objective
 
 <p>
 To work in a professional healthcare and diagnostic laboratory
-environment where I can apply my laboratory knowledge, improve
-my technical skills and contribute to accurate and quality
-patient care.
+environment where I can apply my laboratory knowledge,
+develop technical skills and contribute to accurate
+and quality patient care.
 </p>
 
 <br>
@@ -735,8 +767,8 @@ Professional Values
 <div class="badges">
 
 <span class="badge">Accuracy</span>
-<span class="badge">Patient Safety</span>
 <span class="badge">Quality</span>
+<span class="badge">Patient Safety</span>
 <span class="badge">Teamwork</span>
 <span class="badge">Learning</span>
 <span class="badge">Discipline</span>
@@ -752,6 +784,7 @@ Professional Values
 
 
 <!-- EDUCATION -->
+
 <section id="education">
 
 <div class="container">
@@ -773,16 +806,14 @@ My academic background in science and Medical Laboratory Technology.
 
 <div class="grid3">
 
-<div class="card edu">
+<div class="card">
 
-<div class="icon">🎓</div>
-
-<div class="year">
-B.Sc. MLT
+<div class="icon">
+🎓
 </div>
 
 <h3>
-Bachelor of Science in Medical Laboratory Technology
+B.Sc. Medical Laboratory Technology
 </h3>
 
 <p>
@@ -790,22 +821,20 @@ Bachelor of Science in Medical Laboratory Technology
 </p>
 
 <p>
-Completed
+Medical Laboratory Technology education and professional development.
 </p>
 
 </div>
 
 
-<div class="card edu">
+<div class="card">
 
-<div class="icon">📚</div>
-
-<div class="year">
-2022 • 67.4%
+<div class="icon">
+📚
 </div>
 
 <h3>
-Intermediate — Science Stream
+Intermediate
 </h3>
 
 <p>
@@ -813,18 +842,16 @@ Intermediate — Science Stream
 </p>
 
 <p>
-Physics • Chemistry • Biology
+Science Stream • Physics • Chemistry • Biology
 </p>
 
 </div>
 
 
-<div class="card edu">
+<div class="card">
 
-<div class="icon">📖</div>
-
-<div class="year">
-2020 • 62.8%
+<div class="icon">
+📖
 </div>
 
 <h3>
@@ -848,20 +875,21 @@ Secondary Education
 
 
 <!-- TRAINING -->
+
 <section id="training">
 
 <div class="container">
 
 <div class="section-title">
 
-<span>CLINICAL EXPOSURE</span>
+<span>CLINICAL EXPERIENCE</span>
 
 <h2>
 Training & Internship
 </h2>
 
 <p>
-Practical exposure gained across multiple diagnostic laboratory departments.
+Practical exposure across multiple diagnostic laboratory departments.
 </p>
 
 </div>
@@ -875,24 +903,18 @@ Practical exposure gained across multiple diagnostic laboratory departments.
 
 <div class="card">
 
-<div class="year">
-AUGUST 2025 — JANUARY 2026 • 6 MONTHS
-</div>
-
 <h3>
 🏥 Dr. Ram Manohar Lohia Hospital, Lucknow
 </h3>
 
 <p>
-<strong>Role:</strong>
-Trainee / Bachelor of Medical Laboratory Technology
-(BMLT) Internship
+<strong>Clinical Training / Internship</strong>
 </p>
 
 <br>
 
 <h3>
-Departments Covered
+Departments
 </h3>
 
 <div class="badges">
@@ -911,26 +933,16 @@ Departments Covered
 <br>
 
 <h3>
-Internship Experience
+Training Focus
 </h3>
 
-<ul>
+<ul class="check-list">
 
-<li>
-Performed laboratory sample handling and testing procedures.
-</li>
-
-<li>
-Assisted in blood bank and hematology operations.
-</li>
-
-<li>
-Maintained laboratory hygiene and safety standards.
-</li>
-
-<li>
-Worked with diagnostic and pathological laboratory procedures.
-</li>
+<li>Laboratory sample handling and processing</li>
+<li>Diagnostic laboratory workflow</li>
+<li>Blood bank laboratory operations</li>
+<li>Laboratory safety and hygiene</li>
+<li>Pathology and clinical laboratory procedures</li>
 
 </ul>
 
@@ -945,6 +957,7 @@ Worked with diagnostic and pathological laboratory procedures.
 
 
 <!-- SKILLS -->
+
 <section id="skills">
 
 <div class="container">
@@ -958,7 +971,7 @@ Skills & Knowledge
 </h2>
 
 <p>
-Key areas developed through education and practical exposure.
+Key laboratory areas developed through education and practical exposure.
 </p>
 
 </div>
@@ -968,12 +981,10 @@ Key areas developed through education and practical exposure.
 
 <div class="skill-box">
 
-<h3>
-🩸 Sample Collection & Handling
-</h3>
+<h3>🩸 Sample Collection & Handling</h3>
 
 <p>
-Laboratory sample collection, handling and processing.
+Collection, handling and processing of laboratory samples.
 </p>
 
 <div class="progress">
@@ -985,9 +996,7 @@ Laboratory sample collection, handling and processing.
 
 <div class="skill-box">
 
-<h3>
-🧫 Hematology
-</h3>
+<h3>🩸 Hematology</h3>
 
 <p>
 Basic hematology testing and laboratory workflow.
@@ -1002,9 +1011,7 @@ Basic hematology testing and laboratory workflow.
 
 <div class="skill-box">
 
-<h3>
-🧪 Biochemistry
-</h3>
+<h3>🧪 Biochemistry</h3>
 
 <p>
 Clinical biochemistry laboratory fundamentals.
@@ -1019,12 +1026,10 @@ Clinical biochemistry laboratory fundamentals.
 
 <div class="skill-box">
 
-<h3>
-🔬 Laboratory Safety
-</h3>
+<h3>🔬 Laboratory Safety</h3>
 
 <p>
-Safety, hygiene and responsible laboratory practice.
+Laboratory safety, hygiene and quality practices.
 </p>
 
 <div class="progress">
@@ -1038,25 +1043,26 @@ Safety, hygiene and responsible laboratory practice.
 
 <br>
 
-
 <div class="card">
 
 <h3>
-Additional Technical Skills
+Additional Skills
 </h3>
 
 <br>
 
 <div class="badges">
 
-<span class="badge">Sample Collection & Handling</span>
-<span class="badge">Hematology Testing</span>
-<span class="badge">Biochemistry Testing</span>
-<span class="badge">Microbiology Basics</span>
+<span class="badge">Hematology</span>
+<span class="badge">Biochemistry</span>
+<span class="badge">Histopathology</span>
+<span class="badge">Microbiology</span>
+<span class="badge">Blood Bank</span>
+<span class="badge">Sample Collection</span>
 <span class="badge">Laboratory Safety</span>
 <span class="badge">MS Word</span>
-<span class="badge">Basic Computer Knowledge</span>
-<span class="badge">Report Documentation</span>
+<span class="badge">Computer Knowledge</span>
+<span class="badge">Documentation</span>
 
 </div>
 
@@ -1067,16 +1073,17 @@ Additional Technical Skills
 
 
 <!-- LABORATORY -->
+
 <section id="laboratory">
 
 <div class="container">
 
 <div class="section-title">
 
-<span>MY FIELD</span>
+<span>MEDICAL LABORATORY</span>
 
 <h2>
-Medical Laboratory Areas
+Laboratory Areas
 </h2>
 
 <p>
@@ -1088,16 +1095,11 @@ Core diagnostic laboratory areas that form part of my professional interest.
 
 <div class="grid3">
 
-
 <div class="card lab-card">
 
-<div class="icon">
-🩸
-</div>
+<div class="icon">🩸</div>
 
-<h3>
-Hematology
-</h3>
+<h3>Hematology</h3>
 
 <p>
 Blood examination, hematology testing and related laboratory procedures.
@@ -1108,13 +1110,9 @@ Blood examination, hematology testing and related laboratory procedures.
 
 <div class="card lab-card">
 
-<div class="icon">
-🧪
-</div>
+<div class="icon">🧪</div>
 
-<h3>
-Clinical Biochemistry
-</h3>
+<h3>Clinical Biochemistry</h3>
 
 <p>
 Clinical chemistry testing, sample processing and laboratory workflow.
@@ -1125,13 +1123,9 @@ Clinical chemistry testing, sample processing and laboratory workflow.
 
 <div class="card lab-card">
 
-<div class="icon">
-🔬
-</div>
+<div class="icon">🔬</div>
 
-<h3>
-Histopathology
-</h3>
+<h3>Histopathology</h3>
 
 <p>
 Basic tissue processing and histopathology laboratory workflow.
@@ -1142,13 +1136,9 @@ Basic tissue processing and histopathology laboratory workflow.
 
 <div class="card lab-card">
 
-<div class="icon">
-🦠
-</div>
+<div class="icon">🦠</div>
 
-<h3>
-Microbiology
-</h3>
+<h3>Microbiology</h3>
 
 <p>
 Basic microbiology practices and diagnostic laboratory procedures.
@@ -1159,13 +1149,9 @@ Basic microbiology practices and diagnostic laboratory procedures.
 
 <div class="card lab-card">
 
-<div class="icon">
-🩸
-</div>
+<div class="icon">🩸</div>
 
-<h3>
-Blood Bank
-</h3>
+<h3>Blood Bank</h3>
 
 <p>
 Blood bank handling and related laboratory operations.
@@ -1176,13 +1162,9 @@ Blood bank handling and related laboratory operations.
 
 <div class="card lab-card">
 
-<div class="icon">
-🧫
-</div>
+<div class="icon">🧫</div>
 
-<h3>
-Sample Collection
-</h3>
+<h3>Sample Collection</h3>
 
 <p>
 Collection, handling, processing and safe transportation of laboratory samples.
@@ -1196,7 +1178,8 @@ Collection, handling, processing and safe transportation of laboratory samples.
 </section>
 
 
-<!-- LEARNING HUB -->
+<!-- LEARNING -->
+
 <section id="learning">
 
 <div class="container">
@@ -1206,11 +1189,12 @@ Collection, handling, processing and safe transportation of laboratory samples.
 <span>MEDICAL LEARNING</span>
 
 <h2>
-My Learning Hub
+SameerLab Learning Hub
 </h2>
 
 <p>
-A section designed for future medical notes, laboratory guides and educational content.
+A future space for medical laboratory notes, practical guides,
+study material and educational content.
 </p>
 
 </div>
@@ -1220,17 +1204,13 @@ A section designed for future medical notes, laboratory guides and educational c
 
 <div class="card">
 
-<div class="icon">
-📚
-</div>
+<div class="icon">📚</div>
 
-<h3>
-Laboratory Notes
-</h3>
+<h3>Laboratory Notes</h3>
 
 <p>
-Space for hematology, biochemistry, microbiology,
-histopathology and blood bank notes.
+Hematology, biochemistry, microbiology, histopathology
+and blood bank learning material.
 </p>
 
 </div>
@@ -1238,17 +1218,13 @@ histopathology and blood bank notes.
 
 <div class="card">
 
-<div class="icon">
-🧪
-</div>
+<div class="icon">🧪</div>
 
-<h3>
-Practical Guides
-</h3>
+<h3>Practical Guides</h3>
 
 <p>
-Add step-by-step laboratory procedures,
-principles, precautions and practical observations.
+Step-by-step laboratory procedures, principles,
+precautions and practical observations.
 </p>
 
 </div>
@@ -1256,17 +1232,13 @@ principles, precautions and practical observations.
 
 <div class="card">
 
-<div class="icon">
-🎥
-</div>
+<div class="icon">🎥</div>
 
-<h3>
-Medical Videos
-</h3>
+<h3>Medical Videos</h3>
 
 <p>
-Add YouTube videos, laboratory demonstrations,
-study tips and medical education content here.
+Medical education, laboratory demonstrations,
+study tips and practical learning videos.
 </p>
 
 </div>
@@ -1276,13 +1248,12 @@ study tips and medical education content here.
 
 <br>
 
-
 <div class="cta">
 
 <div>
 
 <h2>
-Learning. Laboratory. Healthcare.
+Learning • Laboratory • Healthcare
 </h2>
 
 <p>
@@ -1291,8 +1262,8 @@ Building knowledge one laboratory concept at a time.
 
 </div>
 
-<a href="#contact" class="btn primary">
-Let's Connect
+<a href="#connect" class="btn primary">
+Connect With Me
 </a>
 
 </div>
@@ -1301,7 +1272,90 @@ Let's Connect
 </section>
 
 
+<!-- CONNECT -->
+
+<section id="connect">
+
+<div class="container">
+
+<div class="section-title">
+
+<span>SOCIAL PROFILES</span>
+
+<h2>
+Connect With SameerLab
+</h2>
+
+<p>
+Follow my professional and educational journey.
+</p>
+
+</div>
+
+
+<div class="grid2">
+
+
+<div class="card social-card">
+
+<div class="icon">
+🔗
+</div>
+
+<h3>
+LinkedIn
+</h3>
+
+<p>
+Connect with Sameer Ansari on LinkedIn for
+professional updates and career networking.
+</p>
+
+<a
+class="social-btn linkedin"
+href="https://www.linkedin.com/in/muhammad-sameer-ba23493a0/"
+target="_blank"
+rel="noopener noreferrer">
+Visit LinkedIn
+</a>
+
+</div>
+
+
+<div class="card social-card">
+
+<div class="icon">
+▶️
+</div>
+
+<h3>
+YouTube
+</h3>
+
+<p>
+Follow Prof. Mohammad Sameer for medical,
+laboratory and educational content.
+</p>
+
+<a
+class="social-btn youtube"
+href="https://youtube.com/@prof.mohammadsameer"
+target="_blank"
+rel="noopener noreferrer">
+Visit YouTube
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+</section>
+
+
 <!-- CONTACT -->
+
 <section id="contact">
 
 <div class="container">
@@ -1322,7 +1376,6 @@ For professional communication and opportunities.
 
 
 <div class="grid3">
-
 
 <div class="card contact">
 
@@ -1381,40 +1434,12 @@ Uttar Pradesh – 271604
 
 </div>
 
-
-<br>
-
-
-<div class="card">
-
-<h3>
-Professional Declaration
-</h3>
-
-<p>
-I hereby declare that the information provided on this portfolio
-is true and correct to the best of my knowledge and belief.
-</p>
-
-<br>
-
-<p>
-<strong>Name:</strong>
-Sameer Ansari
-</p>
-
-<p>
-<strong>Field:</strong>
-Medical Laboratory Technology
-</p>
-
-</div>
-
 </div>
 </section>
 
 
 <!-- FOOTER -->
+
 <footer>
 
 <div class="container">
@@ -1444,7 +1469,8 @@ Quick Links
 <a href="#about">About</a>
 <a href="#education">Education</a>
 <a href="#skills">Skills</a>
-<a href="#contact">Contact</a>
+<a href="#laboratory">Laboratory</a>
+<a href="#connect">Connect</a>
 
 </div>
 
@@ -1452,20 +1478,16 @@ Quick Links
 <div>
 
 <h3>
-Contact
+Social
 </h3>
 
-<p>
-+91 90262 22219
-</p>
+<a href="https://www.linkedin.com/in/muhammad-sameer-ba23493a0/" target="_blank">
+LinkedIn
+</a>
 
-<p>
-SA6331322@gmail.com
-</p>
-
-<p>
-Utraula, Uttar Pradesh
-</p>
+<a href="https://youtube.com/@prof.mohammadsameer" target="_blank">
+YouTube
+</a>
 
 </div>
 
@@ -1474,7 +1496,7 @@ Utraula, Uttar Pradesh
 
 <div class="copyright">
 
-© 2026 Sameer Ansari • Medical Laboratory Technician • All Rights Reserved
+© 2026 SameerLab • Sameer Ansari • MedLab Professional
 
 </div>
 
@@ -1483,7 +1505,6 @@ Utraula, Uttar Pradesh
 </footer>
 
 
-<!-- JAVASCRIPT -->
 <script>
 
 function toggleMenu(){
@@ -1494,23 +1515,8 @@ document
 
 }
 
-
 document
 .querySelectorAll(".nav-links a")
 .forEach(function(link){
 
-link.addEventListener("click",function(){
-
-document
-.getElementById("navLinks")
-.classList.remove("show");
-
-});
-
-});
-
-
-</script>
-
-</body>
-</html>
+link.addEventListener("click",functi

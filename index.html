@@ -1,50 +1,1657 @@
-<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SameerLab LIS</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f7f9;color:#17323d}
-header{background:#075b73;color:#fff;padding:12px;position:sticky;top:0;z-index:5}.head{max-width:1200px;margin:auto;display:flex;align-items:center;gap:12px}
-.avatar{width:55px;height:55px;border-radius:50%;object-fit:cover;border:2px solid #fff}.brand{font-size:23px;font-weight:700}.brand span{color:#8de9f1}.sub{font-size:11px;font-weight:normal}
-main{max-width:1200px;margin:auto;padding:14px}.tabs{display:flex;gap:6px;overflow:auto;margin-bottom:14px}.tabs button{border:0;background:#fff;color:#075b73;padding:10px 13px;border-radius:9px;font-weight:bold;white-space:nowrap}.tabs .on{background:#075b73;color:#fff}
-.page{display:none}.page.on{display:block}.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 3px 15px #0001}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-label{font-size:12px;font-weight:bold;display:block;margin-bottom:4px}input,select,textarea{width:100%;padding:9px;border:1px solid #cbdde2;border-radius:7px;background:#fff}textarea{min-height:65px}
-button{cursor:pointer}.btn{border:0;background:#075b73;color:#fff;padding:10px 13px;border-radius:8px;font-weight:bold}.green{background:#197a4b}.red{background:#c62828}.light{background:#e8f6f8;color:#075b73}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border-radius:13px;padding:15px}.stat b{display:block;font-size:24px;color:#075b73}
-.scroll{overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:8px;border-bottom:1px solid #dce7ea;text-align:left;font-size:12px}th{background:#e9f6f8;color:#075b73}
-.test{display:flex;justify-content:space-between;padding:9px;background:#f7fbfc;border-radius:8px;margin:5px 0}.muted{font-size:12px;color:#687d84}.notice{font-size:12px;background:#fff8df;border-left:4px solid #dca000;padding:10px;border-radius:6px}
-.result{border:1px solid #d9e8eb;border-radius:10px;padding:12px;margin:9px 0}.normal{color:#197a4b}.high{color:#c62828}.low{color:#b26a00}.flag{font-weight:bold;margin-top:6px}
-.report{background:#fff;max-width:900px;margin:auto;padding:25px}.rhead{text-align:center;border-bottom:2px solid #075b73;padding-bottom:10px}.rhead img{width:70px;height:70px;border-radius:50%;object-fit:cover}.rhead h1{margin:4px;color:#075b73}.patient{display:grid;grid-template-columns:1fr 1fr;background:#f5fafb;padding:10px;margin:12px 0;gap:6px}.barcode{text-align:center;margin:10px}.barcode img{height:58px;max-width:280px}
-.profile{display:flex;gap:15px;align-items:center}.profile img{width:110px;height:110px;border-radius:50%;object-fit:cover}
-@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.patient{grid-template-columns:1fr}}
-@media print{header,.tabs,.no-print{display:none!important}.page{display:none!important}#reports{display:block!important}.report{box-shadow:none;max-width:none}}
-</style></head><body>
-<header><div class="head"><img id="headPhoto" class="avatar"><div><div class="brand">🧪 Sameer<span>Lab</span></div><div class="sub">Laboratory Information System • Patient • Billing • Results • Barcode</div></div></div></header>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f8fa;
+color:#17323d
+}
+header{
+background:#075b73;
+color:#fff;
+padding:12px;
+position:sticky;
+top:0;
+z-index:20
+}
+.header{
+max-width:1200px;
+margin:auto;
+display:flex;
+align-items:center;
+gap:12px
+}
+.logo{
+font-size:25px;
+font-weight:700
+}
+.logo span{color:#8de9f1}
+.sub{font-size:12px}
+main{
+max-width:1200px;
+margin:auto;
+padding:14px
+}
+.tabs{
+display:flex;
+gap:6px;
+overflow-x:auto;
+margin-bottom:14px
+}
+.tabs button{
+border:0;
+padding:10px 13px;
+border-radius:9px;
+background:#fff;
+color:#075b73;
+font-weight:700;
+white-space:nowrap
+}
+.tabs button.active{
+background:#075b73;
+color:#fff
+}
+.page{display:none}
+.page.active{display:block}
+.card{
+background:#fff;
+padding:16px;
+border-radius:14px;
+margin-bottom:14px;
+box-shadow:0 3px 15px #0001
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
+.grid3{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+label{
+font-size:12px;
+font-weight:700;
+display:block;
+margin-bottom:4px
+}
+input,select,textarea{
+width:100%;
+padding:9px;
+border:1px solid #cadde3;
+border-radius:7px;
+background:#fff
+}
+textarea{min-height:70px}
+.btn{
+border:0;
+background:#075b73;
+color:#fff;
+padding:10px 14px;
+border-radius:8px;
+font-weight:700
+}
+.btn.green{background:#197a4b}
+.btn.red{background:#c62828}
+.btn.light{
+background:#e8f6f8;
+color:#075b73
+}
+.actions{
+display:flex;
+gap:7px;
+flex-wrap:wrap;
+margin-top:12px
+}
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px
+}
+.stat{
+background:#fff;
+padding:15px;
+border-radius:13px
+}
+.stat b{
+display:block;
+font-size:24px;
+color:#075b73
+}
+.scroll{overflow:auto}
+table{
+border-collapse:collapse;
+width:100%
+}
+th,td{
+padding:8px;
+border-bottom:1px solid #dce7ea;
+font-size:12px;
+text-align:left
+}
+th{
+background:#e9f6f8;
+color:#075b73
+}
+.test{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#f7fbfc;
+padding:9px;
+border-radius:8px;
+margin:5px 0
+}
+.result-box{
+border:1px solid #d9e8eb;
+border-radius:10px;
+padding:12px;
+margin:9px 0
+}
+.flag{
+font-weight:700;
+margin-top:6px
+}
+.normal{color:#197a4b}
+.high{color:#c62828}
+.low{color:#b26a00}
+.muted{
+font-size:12px;
+color:#687d84
+}
+.notice{
+font-size:12px;
+background:#fff8df;
+border-left:4px solid #dca000;
+padding:10px;
+border-radius:6px
+}
+.report{
+background:#fff;
+max-width:900px;
+margin:auto;
+padding:25px
+}
+.report-head{
+text-align:center;
+border-bottom:2px solid #075b73;
+padding-bottom:10px
+}
+.report-head h1{
+margin:5px;
+color:#075b73
+}
+.report-profile{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #075b73
+}
+.patient-info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px;
+background:#f5fafb;
+padding:10px;
+margin:12px 0
+}
+.barcode{
+text-align:center;
+margin:12px
+}
+.barcode img{
+height:65px;
+max-width:330px
+}
+.profile-links a{
+display:inline-block;
+margin:5px;
+padding:8px 12px;
+background:#075b73;
+color:white;
+text-decoration:none;
+border-radius:7px
+}
+@media(max-width:700px){
+.grid,.grid3,.patient-info{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr 1fr}
+}
+@media print{
+header,.tabs,.no-print{display:none!important}
+.page{display:none!important}
+#reports{display:block!important}
+.report{
+max-width:none;
+box-shadow:none
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header">
+<div>
+<div class="logo">🧪 Sameer<span>Lab</span></div>
+<div class="sub">Laboratory Information System</div>
+</div>
+</div>
+</header>
+
 <main>
-<nav class="tabs">
-<button class="on" onclick="go('home',this)">🏠 Dashboard</button><button onclick="go('patients',this)">👤 Patients</button><button onclick="go('billing',this)">💰 Billing</button><button onclick="go('results',this)">🧪 Results</button><button onclick="go('reports',this)">📄 Reports</button><button onclick="go('master',this)">⚙️ Test Master</button><button onclick="go('profile',this)">👨‍💼 Profile</button>
-</nav>
 
-<section id="home" class="page on"><div class="card"><h2>SameerLab LIS</h2><p class="muted">Reception-style laboratory software for registration, test parameters, billing, results and reports.</p></div>
-<div class="stats"><div class="stat">Patients<b id="s1">0</b></div><div class="stat">Today<b id="s2">0</b></div><div class="stat">Pending Results<b id="s3">0</b></div><div class="stat">Collection<b id="s4">₹0</b></div></div>
-<div class="card"><div class="notice"><b>Reference-range note:</b> The ranges supplied here are common example intervals/decision limits, not a universal WHO range. Before clinical use, replace them with the validated ranges from your analyzer method, reagent insert and laboratory SOP. WHO does not publish one universal normal interval for every analyte.</div></div></section>
+<div class="tabs">
 
-<section id="patients" class="page"><div class="card"><h2>👤 Patient Registration</h2><div class="grid">
-<div><label>Name *</label><input id="pn"></div><div><label>Age *</label><input id="pa" type="number"></div><div><label>Sex *</label><select id="ps"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div><div><label>Mobile</label><input id="pm"></div><div><label>Doctor Reference</label><input id="pd"></div><div><label>Sample</label><select id="pSample"><option>Blood</option><option>Serum</option><option>Plasma</option><option>Urine</option><option>Stool</option><option>Other</option></select></div><div style="grid-column:1/-1"><label>Remarks</label><textarea id="pr"></textarea></div></div>
-<h3>🧪 Select Test / Profile</h3><div id="tests"></div><div class="actions"><button class="btn" onclick="addPatient()">Save Patient</button><button class="btn light" onclick="clearPatient()">Clear</button></div></div>
-<div class="card"><h2>🔎 Patients</h2><input id="search" oninput="listPatients()" placeholder="Search Lab No / name / mobile"><div class="scroll"><table><thead><tr><th>Lab No</th><th>Name</th><th>Age/Sex</th><th>Doctor</th><th>Total</th><th>Status</th><th></th></tr></thead><tbody id="pt"></tbody></table></div></div></section>
+<button class="active" onclick="openPage('home',this)">
+🏠 Dashboard
+</button>
 
-<section id="billing" class="page"><div class="card"><h2>💰 Billing</h2><select id="billSel" onchange="bill()"></select><div id="billBox"></div></div></section>
-<section id="results" class="page"><div class="card"><h2>🧪 Result Entry</h2><select id="resSel" onchange="resultPage()"></select><div id="resBox"></div></div></section>
-<section id="reports" class="page"><div class="card no-print"><h2>📄 Report</h2><select id="repSel" onchange="makeReport()"></select><div class="actions"><button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button></div></div><div id="reportArea"></div></section>
+<button onclick="openPage('patients',this)">
+👤 Patients
+</button>
 
-<section id="master" class="page"><div class="card"><h2>⚙️ Parameter Master</h2><p class="muted">Add individual parameters. Existing profiles already expand into their parameters when selected.</p>
-<div class="grid3"><div><label>Parameter</label><input id="tn"></div><div><label>Fee ₹</label><input id="tf" type="number"></div><div><label>Unit</label><input id="tu"></div><div><label>Male Range</label><input id="tm"></div><div><label>Female Range</label><input id="tfr"></div><div><label>General Range</label><input id="tg"></div></div><button class="btn" style="margin-top:10px" onclick="addTest()">Add Parameter</button>
-<div class="scroll" style="margin-top:12px"><table><thead><tr><th>Parameter</th><th>Fee</th><th>Unit</th><th>Male</th><th>Female</th><th>General</th><th></th></tr></thead><tbody id="masterTable"></tbody></table></div></div></section>
+<button onclick="openPage('billing',this)">
+💰 Billing
+</button>
 
-<section id="profile" class="page"><div class="card"><h2>👨‍💼 SameerLab Profile</h2><div class="profile"><img id="profilePhoto"><div><b>Profile photo</b><p class="muted">This uploaded photo is already embedded in this version.</p></div></div><div class="grid" style="margin-top:15px"><div><label>Lab Name</label><input id="lab" value="SameerLab"></div><div><label>Subtitle</label><input id="sub" value="Medical Laboratory"></div><div><label>Phone</label><input id="phone"></div><div><label>Address</label><input id="addr"></div></div><button class="btn green" style="margin-top:10px" onclick="saveProfile()">Save Profile</button></div></section>
+<button onclick="openPage('results',this)">
+🧪 Results
+</button>
+
+<button onclick="openPage('reports',this)">
+📄 Reports
+</button>
+
+<button onclick="openPage('master',this)">
+⚙️ Test Master
+</button>
+
+<button onclick="openPage('profile',this)">
+👨‍💼 Profile
+</button>
+
+</div>
+
+
+<section id="home" class="page active">
+
+<div class="card">
+
+<h2>SameerLab LIS</h2>
+
+<p>
+Complete laboratory reception and reporting
+system for patient registration, test entry,
+billing, result entry and report generation.
+</p>
+
+<div class="notice">
+Reference intervals are example intervals.
+Before issuing a clinical report, verify
+ranges with your laboratory SOP, analyzer
+method and reagent manufacturer's insert.
+</div>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+Patients
+<b id="totalPatients">0</b>
+</div>
+
+<div class="stat">
+Today
+<b id="todayPatients">0</b>
+</div>
+
+<div class="stat">
+Pending
+<b id="pendingResults">0</b>
+</div>
+
+<div class="stat">
+Collection
+<b id="collection">₹0</b>
+</div>
+
+</div>
+
+</section>
+
+
+<section id="patients" class="page">
+
+<div class="card">
+
+<h2>👤 Patient Registration</h2>
+
+<div class="grid">
+
+<div>
+<label>Patient Name *</label>
+<input id="patientName">
+</div>
+
+<div>
+<label>Age *</label>
+<input id="patientAge" type="number">
+</div>
+
+<div>
+<label>Sex *</label>
+<select id="patientSex">
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div>
+<label>Mobile Number</label>
+<input id="patientMobile" type="tel">
+</div>
+
+<div>
+<label>Doctor Reference</label>
+<input id="doctorReference">
+</div>
+
+<div>
+<label>Sample Type</label>
+<select id="sampleType">
+<option>Blood</option>
+<option>Serum</option>
+<option>Plasma</option>
+<option>Urine</option>
+<option>Stool</option>
+<option>Other</option>
+</select>
+</div>
+
+<div style="grid-column:1/-1">
+<label>Remarks</label>
+<textarea id="patientRemarks"></textarea>
+</div>
+
+</div>
+
+<h3>🧪 Select Test / Profile</h3>
+
+<div id="testList"></div>
+
+<div class="actions">
+
+<button class="btn" onclick="savePatient()">
+Save Patient
+</button>
+
+<button class="btn light" onclick="clearPatient()">
+Clear
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔎 Patient List</h2>
+
+<input
+id="patientSearch"
+placeholder="Search Lab No / Name / Mobile"
+oninput="showPatients()">
+
+<div class="scroll">
+
+<table>
+
+<thead>
+<tr>
+<th>Lab No</th>
+<th>Name</th>
+<th>Age/Sex</th>
+<th>Doctor</th>
+<th>Total</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="patientTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="billing" class="page">
+
+<div class="card">
+
+<h2>💰 Billing</h2>
+
+<select id="billingPatient"
+onchange="showBilling()">
+
+<option value="">Select Patient</option>
+
+</select>
+
+<div id="billingBox"></div>
+
+</div>
+
+</section>
+
+
+<section id="results" class="page">
+
+<div class="card">
+
+<h2>🧪 Result Entry</h2>
+
+<select id="resultPatient"
+onchange="showResults()">
+
+<option value="">Select Patient</option>
+
+</select>
+
+<div id="resultBox"></div>
+
+</div>
+
+</section>
+
+
+<section id="reports" class="page">
+
+<div class="card no-print">
+
+<h2>📄 Laboratory Report</h2>
+
+<select id="reportPatient"
+onchange="createReport()">
+
+<option value="">Select Patient</option>
+
+</select>
+
+<div class="actions">
+
+<button class="btn"
+onclick="window.print()">
+🖨️ Print / Save PDF
+</button>
+
+</div>
+
+</div>
+
+<div id="reportArea"></div>
+
+</section>
+
+
+<section id="master" class="page">
+
+<div class="card">
+
+<h2>⚙️ Test / Parameter Master</h2>
+
+<div class="grid3">
+
+<div>
+<label>Parameter Name</label>
+<input id="newParameter">
+</div>
+
+<div>
+<label>Fee ₹</label>
+<input id="newFee" type="number">
+</div>
+
+<div>
+<label>Unit</label>
+<input id="newUnit">
+</div>
+
+<div>
+<label>Male Reference</label>
+<input id="maleRange">
+</div>
+
+<div>
+<label>Female Reference</label>
+<input id="femaleRange">
+</div>
+
+<div>
+<label>General Reference</label>
+<input id="generalRange">
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn" onclick="addParameter()">
+Add Parameter
+</button>
+
+</div>
+
+<div class="scroll">
+
+<table>
+
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Fee</th>
+<th>Unit</th>
+<th>Male</th>
+<th>Female</th>
+<th>General</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="masterTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="profile" class="page">
+
+<div class="card">
+
+<h2>👨‍💼 Laboratory Profile</h2>
+
+<div class="grid">
+
+<div>
+<label>Lab Name</label>
+<input id="labName">
+</div>
+
+<div>
+<label>Subtitle</label>
+<input id="labSubtitle">
+</div>
+
+<div>
+<label>Phone</label>
+<input id="labPhone">
+</div>
+
+<div>
+<label>Address</label>
+<input id="labAddress">
+</div>
+
+<div>
+<label>LinkedIn Profile</label>
+<input id="linkedin">
+</div>
+
+<div>
+<label>YouTube Channel</label>
+<input id="youtube">
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn green"
+onclick="saveProfile()">
+Save Profile
+</button>
+
+</div>
+
+<div class="profile-links">
+
+<a href="https://www.linkedin.com/"
+target="_blank">
+LinkedIn
+</a>
+
+<a href="https://youtube.com/"
+target="_blank">
+YouTube
+</a>
+
+</div>
+
+</div>
+
+</section>
+
 </main>
 
+
 <script>
-const PHOTO="data:image/jpeg;base64,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
+
+const STORAGE_KEY="SAMEERLAB_LIS";
+
+const DEFAULT_TESTS=[
+
+{
+name:"CBC",
+fee:500,
+profile:true
+},
+
+{
+name:"LFT",
+fee:700,
+profile:true
+},
+
+{
+name:"KFT",
+fee:500,
+profile:true
+},
+
+{
+name:"Lipid Profile",
+fee:600,
+profile:true
+},
+
+{
+name:"Thyroid Profile",
+fee:650,
+profile:true
+},
+
+{
+name:"Urine Routine",
+fee:250,
+profile:true
+},
+
+{
+name:"Hemoglobin (Hb)",
+fee:100,
+unit:"g/dL",
+male:"13.0-17.0",
+female:"12.0-15.0",
+general:""
+},
+
+{
+name:"RBC Count",
+fee:100,
+unit:"million/µL",
+male:"4.5-5.9",
+female:"4.0-5.2",
+general:""
+},
+
+{
+name:"Hematocrit / PCV",
+fee:100,
+unit:"%",
+male:"40-52",
+female:"36-46",
+general:""
+},
+
+{
+name:"MCV",
+fee:80,
+unit:"fL",
+male:"80-100",
+female:"80-100",
+general:"80-100"
+},
+
+{
+name:"MCH",
+fee:80,
+unit:"pg",
+male:"27-33",
+female:"27-33",
+general:"27-33"
+},
+
+{
+name:"MCHC",
+fee:80,
+unit:"g/dL",
+male:"32-36",
+female:"32-36",
+general:"32-36"
+},
+
+{
+name:"RDW-CV",
+fee:80,
+unit:"%",
+male:"11.5-14.5",
+female:"11.5-14.5",
+general:"11.5-14.5"
+},
+
+{
+name:"TLC / WBC",
+fee:100,
+unit:"/µL",
+male:"4000-11000",
+female:"4000-11000",
+general:"4000-11000"
+},
+
+{
+name:"Neutrophils",
+fee:70,
+unit:"%",
+male:"40-75",
+female:"40-75",
+general:"40-75"
+},
+
+{
+name:"Lymphocytes",
+fee:70,
+unit:"%",
+male:"20-45",
+female:"20-45",
+general:"20-45"
+},
+
+{
+name:"Eosinophils",
+fee:70,
+unit:"%",
+male:"1-6",
+female:"1-6",
+general:"1-6"
+},
+
+{
+name:"Monocytes",
+fee:70,
+unit:"%",
+male:"2-10",
+female:"2-10",
+general:"2-10"
+},
+
+{
+name:"Basophils",
+fee:70,
+unit:"%",
+male:"0-2",
+female:"0-2",
+general:"0-2"
+},
+
+{
+name:"Platelet Count",
+fee:100,
+unit:"lakh/µL",
+male:"1.5-4.5",
+female:"1.5-4.5",
+general:"1.5-4.5"
+},
+
+{
+name:"ESR",
+fee:100,
+unit:"mm/hr",
+male:"0-15",
+female:"0-20",
+general:""
+},
+
+{
+name:"Fasting Blood Glucose",
+fee:100,
+unit:"mg/dL",
+male:"70-99",
+female:"70-99",
+general:"70-99"
+},
+
+{
+name:"Postprandial Blood Glucose",
+fee:100,
+unit:"mg/dL",
+male:"<140",
+female:"<140",
+general:"<140"
+},
+
+{
+name:"HbA1c",
+fee:400,
+unit:"%",
+male:"<5.7",
+female:"<5.7",
+general:"<5.7"
+},
+
+{
+name:"Total Bilirubin",
+fee:150,
+unit:"mg/dL",
+male:"0.2-1.2",
+female:"0.2-1.2",
+general:"0.2-1.2"
+},
+
+{
+name:"Direct Bilirubin",
+fee:150,
+unit:"mg/dL",
+male:"0.0-0.3",
+female:"0.0-0.3",
+general:"0.0-0.3"
+},
+
+{
+name:"ALT / SGPT",
+fee:150,
+unit:"U/L",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"AST / SGOT",
+fee:150,
+unit:"U/L",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"ALP",
+fee:150,
+unit:"U/L",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"Total Protein",
+fee:150,
+unit:"g/dL",
+male:"6.0-8.3",
+female:"6.0-8.3",
+general:"6.0-8.3"
+},
+
+{
+name:"Albumin",
+fee:150,
+unit:"g/dL",
+male:"3.5-5.0",
+female:"3.5-5.0",
+general:"3.5-5.0"
+},
+
+{
+name:"Urea",
+fee:150,
+unit:"mg/dL",
+male:"15-45",
+female:"15-45",
+general:""
+},
+
+{
+name:"Creatinine",
+fee:150,
+unit:"mg/dL",
+male:"0.7-1.3",
+female:"0.6-1.1",
+general:""
+},
+
+{
+name:"Uric Acid",
+fee:150,
+unit:"mg/dL",
+male:"3.5-7.2",
+female:"2.6-6.0",
+general:""
+},
+
+{
+name:"Total Cholesterol",
+fee:150,
+unit:"mg/dL",
+male:"<200",
+female:"<200",
+general:"<200"
+},
+
+{
+name:"Triglycerides",
+fee:150,
+unit:"mg/dL",
+male:"<150",
+female:"<150",
+general:"<150"
+},
+
+{
+name:"HDL Cholesterol",
+fee:150,
+unit:"mg/dL",
+male:">40",
+female:">50",
+general:""
+},
+
+{
+name:"LDL Cholesterol",
+fee:150,
+unit:"mg/dL",
+male:"<100",
+female:"<100",
+general:"<100"
+},
+
+{
+name:"TSH",
+fee:200,
+unit:"µIU/mL",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"Free T4",
+fee:250,
+unit:"ng/dL",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"Urine pH",
+fee:80,
+unit:"",
+male:"4.5-8.0",
+female:"4.5-8.0",
+general:"4.5-8.0"
+},
+
+{
+name:"Urine Specific Gravity",
+fee:80,
+unit:"",
+male:"1.005-1.030",
+female:"1.005-1.030",
+general:"1.005-1.030"
+},
+
+{
+name:"Urine Protein",
+fee:80,
+unit:"",
+male:"Negative",
+female:"Negative",
+general:"Negative"
+},
+
+{
+name:"Urine Glucose",
+fee:80,
+unit:"",
+male:"Negative",
+female:"Negative",
+general:"Negative"
+},
+
+{
+name:"Urine RBC",
+fee:80,
+unit:"/HPF",
+male:"0-2",
+female:"0-2",
+general:"0-2"
+},
+
+{
+name:"Urine WBC",
+fee:80,
+unit:"/HPF",
+male:"0-5",
+female:"0-5",
+general:"0-5"
+}
+
+];
+
+let data=
+JSON.parse(
+localStorage.getItem(STORAGE_KEY)
+);
+
+if(!data){
+
+data={
+patients:[],
+tests:DEFAULT_TESTS,
+profile:{
+name:"SameerLab",
+subtitle:"Medical Laboratory",
+phone:"",
+address:"",
+linkedin:"https://www.linkedin.com/in/muhammad-sameer-ba23493a0",
+youtube:"https://youtube.com/@prof.mohammadsameer"
+}
+};
+
+saveData();
+
+}
+
+function saveData(){
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(data)
+);
+
+}
+
+function money(value){
+
+return "₹"+
+Number(value||0)
+.toLocaleString("en-IN");
+
+}
+
+function escapeHTML(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function openPage(id,button){
+
+document
+.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
+
+document
+.getElementById(id)
+.classList.add("active");
+
+document
+.querySelectorAll(".tabs button")
+.forEach(x=>x.classList.remove("active"));
+
+button.classList.add("active");
+
+refreshAll();
+
+}
+
+function renderTests(){
+
+const box=
+document.getElementById("testList");
+
+box.innerHTML=
+data.tests.map((test,index)=>`
+
+<div class="test">
+
+<label>
+
+<input
+type="checkbox"
+class="testCheck"
+data-index="${index}">
+
+${escapeHTML(test.name)}
+
+${
+test.profile
+?" <span class='muted'>(Profile)</span>"
+:""
+}
+
+</label>
+
+<span>
+${money(test.fee)}
+</span>
+
+</div>
+
+`).join("");
+
+}
+
+function profileParameters(profile){
+
+const groups={
+
+"CBC":[
+"Hemoglobin (Hb)",
+"RBC Count",
+"Hematocrit / PCV",
+"MCV",
+"MCH",
+"MCHC",
+"RDW-CV",
+"TLC / WBC",
+"Neutrophils",
+"Lymphocytes",
+"Eosinophils",
+"Monocytes",
+"Basophils",
+"Platelet Count"
+],
+
+"LFT":[
+"Total Bilirubin",
+"Direct Bilirubin",
+"ALT / SGPT",
+"AST / SGOT",
+"ALP",
+"Total Protein",
+"Albumin"
+],
+
+"KFT":[
+"Urea",
+"Creatinine",
+"Uric Acid"
+],
+
+"Lipid Profile":[
+"Total Cholesterol",
+"Triglycerides",
+"HDL Cholesterol",
+"LDL Cholesterol"
+],
+
+"Thyroid Profile":[
+"TSH",
+"Free T4"
+],
+
+"Urine Routine":[
+"Urine pH",
+"Urine Specific Gravity",
+"Urine Protein",
+"Urine Glucose",
+"Urine RBC",
+"Urine WBC"
+]
+
+};
+
+return groups[profile]||[];
+
+}
+
+function getSelectedParameters(selected){
+
+let result=[];
+
+selected.forEach(test=>{
+
+if(test.profile){
+
+profileParameters(test.name)
+.forEach(name=>{
+
+const parameter=
+data.tests.find(
+x=>x.name===name
+);
+
+if(parameter)result.push({...parameter});
+
+});
+
+}else{
+
+result.push({...test});
+
+}
+
+});
+
+return result.filter(
+(item,index,array)=>
+array.findIndex(
+x=>x.name===item.name
+)===index
+);
+
+}
+
+function generateLabNumber(){
+
+const d=
+new Date()
+.toISOString()
+.slice(0,10)
+.replaceAll("-","");
+
+return "SL"+
+d+
+String(data.patients.length+1)
+.padStart(3,"0");
+
+}
+
+function savePatient(){
+
+const name=
+document.getElementById("patientName")
+.value.trim();
+
+const age=
+document.getElementById("patientAge")
+.value;
+
+const sex=
+document.getElementById("patientSex")
+.value;
+
+const selected=
+[...document.querySelectorAll(".testCheck:checked")]
+.map(x=>
+data.tests[
+Number(x.dataset.index)
+]);
+
+if(!name||age===""||!sex){
+
+alert(
+"Patient name, age and sex required."
+);
+
+return;
+
+}
+
+if(!selected.length){
+
+alert("Select at least one test.");
+
+return;
+
+}
+
+const parameters=
+getSelectedParameters(selected);
+
+const total=
+parameters.reduce(
+(a,b)=>a+Number(b.fee||0),0
+);
+
+const patient={
+
+labNo:generateLabNumber(),
+
+created:new Date().toISOString(),
+
+name,
+
+age,
+
+sex,
+
+mobile:
+document.getElementById("patientMobile").value,
+
+doctor:
+document.getElementById("doctorReference").value,
+
+sample:
+document.getElementById("sampleType").value,
+
+remarks:
+document.getElementById("patientRemarks").value,
+
+total,
+
+paid:0,
+
+due:total,
+
+tests:parameters.map(test=>({
+
+...test,
+
+result:"",
+
+status:"Pending"
+
+}))
+
+};
+
+data.patients.push(patient);
+
+saveData();
+
+clearPatient();
+
+refreshAll();
+
+alert(
+"Patient saved.\nLab No: "+
+patient.labNo
+);
+
+}
+
+function clearPatient(){
+
+[
+"patientName",
+"patientAge",
+"patientMobile",
+"doctorReference",
+"patientRemarks"
+].forEach(id=>{
+document.getElementById(id).value="";
+});
+
+document.getElementById("patientSex").value="";
+
+document
+.querySelectorAll(".testCheck")
+.forEach(x=>x.checked=false);
+
+}
+
+function showPatients(){
+
+const search=
+(
+document.getElementById("patientSearch")
+?.value||""
+).toLowerCase();
+
+const list=
+data.patients.filter(p=>
+(
+p.labNo+" "+
+p.name+" "+
+p.mobile
+).toLowerCase()
+.includes(search)
+);
+
+document.getElementById("patientTable")
+.innerHTML=
+list.map(p=>`
+
+<tr>
+
+<td>${p.labNo}</td>
+
+<td>${escapeHTML(p.name)}</td>
+
+<td>${p.age}/${p.sex}</td>
+
+<td>${escapeHTML(p.doctor||"-")}</td>
+
+<td>${money(p.total)}</td>
+
+<td>
+${
+p.tests.some(
+t=>t.status!=="Final"
+)
+?"Pending":"Complete"
+}
+</td>
+
+<td>
+<button
+class="btn"
+onclick="openPatientResults('${p.labNo}')">
+Open
+</button>
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+function populateSelect(id){
+
+const select=
+document.getElementById(id);
+
+if(!select)return;
+
+const old=select.value;
+
+select.innerHTML=
+`<option value="">Select Patient</option>`+
+data.patients.map(p=>`
+
+<option value="${p.labNo}">
+${p.labNo} - ${escapeHTML(p.name)}
+</option>
+
+`).join("");
+
+select.value=old;
+
+}
+
+function showBilling(){
+
+const labNo=
+document.getElementById("billingPatient").value;
+
+const p=
+data.patients.find(
+x=>x.labNo===labNo
+);
+
+const box=
+document.getElementById("billingBox");
+
+if(!p){
+
+box.innerHTML="";
+
+return;
+
+}
+
+box.innerHTML=`
+
+<div class="card">
+
+<div class="grid">
+
+<div>
+<label>Total Fee</label>
+<input disabled value="${money(p.total)}">
+</div>
+
+<div>
+<label>Paid</label>
+<input
+id="paymentAmount"
+type="number"
+value="${p.paid}">
+</div>
+
+<div>
+<label>Due</label>
+<input disabled value="${money(p.total-p.paid)}">
+</div>
+
+</div>
+
+<button
+class="btn green"
+onclick="savePayment('${p.labNo}')">
+Save Payment
+</button>
+
+</div>
+
+`;
+
+}
+
+function savePayment(labNo){
+
+const p=
+data.patients.find(
+x=>x.labNo===labNo
+);
+
+const amount=
+Number(
+document.getElementById("paymentAmount")
+.value||0
+);
+
+p.paid=
+Math.min(
+p.total,
+Math.max(0,amount)
+);
+
+p.due=p.total-p.paid;
+
+saveData();
+
+showBilling();
+
+refreshDashboard();
+
+alert("Payment saved.");
+
+}
+
+function openPatientResults(labNo){
+
+document.getElementById(
+"resultPatient"
+).value=labNo;
+
+document
+.querySelectorAll(".tabs button")[3]
+.click();
+
+showResults();
+
+}
+
+function referenceRange(test,sex){
+
+if(sex==="Male")
+return test.male||test.general||"";
+
+if(sex==="Female")
+return test.female||test.general||"";
+
+return test.general||
+test.male||
+test.female||
+"";
+
+}
+
+function numericRange(range){
+
+const m=
+String(range||"")
+.match(
+/([0-9]+(?:\.[0-9]+)?)\s*-\s*([0-9]+(?:\.[0-9]+)?)/
+);
+
+return m?
+[Number(m[1]),Number(m[2])]:
+null;
+
+}
+
+function showResults(){
+
+const labNo=
+document.getElementById(
+"resultPatient"
+).value;
+
+const p=
+data.patients.find(
+x=>x.labNo===labNo
+);
+
+const box=
+document.getElementById("resultBox");
+
+if(!p){
+
+box.innerHTML="";
+
+return;
+
+}
+
+box.innerHTML=
+p.tests.map((t,i)=>`
+
+<div class="result-box">
+
+<b>${escapeHTML(t.name)}</b>
+
+<div

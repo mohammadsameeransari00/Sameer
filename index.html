@@ -1,1294 +1,85 @@
-import os
-import re
-from datetime import datetime, timezone
-from io import BytesIO
-
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.responses import HTMLResponse, Response
-from pydantic import BaseModel, Field
-
-from sqlalchemy import (
-    create_engine,
-    String,
-    Integer,
-    Float,
-    DateTime,
-    ForeignKey,
-    Text,
-    select,
-)
-
-from sqlalchemy.orm import (
-    DeclarativeBase,
-    Mapped,
-    mapped_column,
-    relationship,
-    Session,
-    sessionmaker,
-)
-
-
-# ============================================================
-# SAMEERLAB LIS
-# Single-file Laboratory Information System
-# ============================================================
-
-APP_NAME = "SameerLab LIS"
-APP_VERSION = "1.0.0"
-
-
-# ============================================================
-# DATABASE
-# ============================================================
-
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "sqlite:///./sameerlab.db"
-)
-
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace(
-        "postgres://",
-        "postgresql+psycopg://",
-        1
-    )
-
-elif DATABASE_URL.startswith("postgresql://"):
-    DATABASE_URL = DATABASE_URL.replace(
-        "postgresql://",
-        "postgresql+psycopg://",
-        1
-    )
-
-
-connect_args = {}
-
-if DATABASE_URL.startswith("sqlite"):
-    connect_args = {
-        "check_same_thread": False
-    }
-
-
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
-    connect_args=connect_args
-)
-
-
-SessionLocal = sessionmaker(
-    bind=engine,
-    autoflush=False,
-    autocommit=False
-)
-
-
-class Base(DeclarativeBase):
-    pass
-
-
-# ============================================================
-# PATIENT TABLE
-# ============================================================
-
-class Patient(Base):
-
-    __tablename__ = "patients"
-
-    id: Mapped[int] = mapped_column(
-        Integer,
-        primary_key=True
-    )
-
-    lab_no: Mapped[str] = mapped_column(
-        String(50),
-        unique=True,
-        index=True
-    )
-
-    name: Mapped[str] = mapped_column(
-        String(150)
-    )
-
-    age: Mapped[int] = mapped_column(
-        Integer
-    )
-
-    sex: Mapped[str] = mapped_column(
-        String(20)
-    )
-
-    mobile: Mapped[str] = mapped_column(
-        String(30),
-        default=""
-    )
-
-    doctor: Mapped[str] = mapped_column(
-        String(150),
-        default=""
-    )
-
-    sample_type: Mapped[str] = mapped_column(
-        String(60),
-        default="Blood"
-    )
-
-    remarks: Mapped[str] = mapped_column(
-        Text,
-        default=""
-    )
-
-    total_fee: Mapped[float] = mapped_column(
-        Float,
-        default=0
-    )
-
-    paid: Mapped[float] = mapped_column(
-        Float,
-        default=0
-    )
-
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc)
-    )
-
-    tests: Mapped[list["PatientTest"]] = relationship(
-        back_populates="patient",
-        cascade="all, delete-orphan"
-    )
-
-
-# ============================================================
-# TEST MASTER TABLE
-# ============================================================
-
-class Test(Base):
-
-    __tablename__ = "tests"
-
-    id: Mapped[int] = mapped_column(
-        Integer,
-        primary_key=True
-    )
-
-    name: Mapped[str] = mapped_column(
-        String(150),
-        unique=True
-    )
-
-    fee: Mapped[float] = mapped_column(
-        Float,
-        default=0
-    )
-
-    department: Mapped[str] = mapped_column(
-        String(100),
-        default="Biochemistry"
-    )
-
-    unit: Mapped[str] = mapped_column(
-        String(50),
-        default=""
-    )
-
-    male_range: Mapped[str] = mapped_column(
-        String(100),
-        default=""
-    )
-
-    female_range: Mapped[str] = mapped_column(
-        String(100),
-        default=""
-    )
-
-    general_range: Mapped[str] = mapped_column(
-        String(100),
-        default=""
-    )
-
-
-# ============================================================
-# PATIENT TEST TABLE
-# ============================================================
-
-class PatientTest(Base):
-
-    __tablename__ = "patient_tests"
-
-    id: Mapped[int] = mapped_column(
-        Integer,
-        primary_key=True
-    )
-
-    patient_id: Mapped[int] = mapped_column(
-        ForeignKey("patients.id")
-    )
-
-    test_id: Mapped[int] = mapped_column(
-        ForeignKey("tests.id")
-    )
-
-    status: Mapped[str] = mapped_column(
-        String(30),
-        default="Pending"
-    )
-
-    patient: Mapped[Patient] = relationship(
-        back_populates="tests"
-    )
-
-    test: Mapped[Test] = relationship()
-
-    results: Mapped[list["Result"]] = relationship(
-        back_populates="patient_test",
-        cascade="all, delete-orphan"
-    )
-
-
-# ============================================================
-# RESULT TABLE
-# ============================================================
-
-class Result(Base):
-
-    __tablename__ = "results"
-
-    id: Mapped[int] = mapped_column(
-        Integer,
-        primary_key=True
-    )
-
-    patient_test_id: Mapped[int] = mapped_column(
-        ForeignKey("patient_tests.id")
-    )
-
-    parameter: Mapped[str] = mapped_column(
-        String(150)
-    )
-
-    value: Mapped[str] = mapped_column(
-        String(100),
-        default=""
-    )
-
-    unit: Mapped[str] = mapped_column(
-        String(50),
-        default=""
-    )
-
-    reference_range: Mapped[str] = mapped_column(
-        String(100),
-        default=""
-    )
-
-    flag: Mapped[str] = mapped_column(
-        String(30),
-        default=""
-    )
-
-    patient_test: Mapped[PatientTest] = relationship(
-        back_populates="results"
-    )
-
-
-# ============================================================
-# API MODELS
-# ============================================================
-
-class PatientCreate(BaseModel):
-
-    name: str = Field(
-        min_length=1,
-        max_length=150
-    )
-
-    age: int = Field(
-        ge=0,
-        le=130
-    )
-
-    sex: str
-
-    mobile: str = ""
-
-    doctor: str = ""
-
-    sample_type: str = "Blood"
-
-    remarks: str = ""
-
-    test_ids: list[int] = []
-
-
-class TestCreate(BaseModel):
-
-    name: str
-
-    fee: float = Field(
-        ge=0
-    )
-
-    department: str = "Biochemistry"
-
-    unit: str = ""
-
-    male_range: str = ""
-
-    female_range: str = ""
-
-    general_range: str = ""
-
-
-class ResultUpdate(BaseModel):
-
-    result_id: int
-
-    value: str
-
-    status: str = "Final"
-
-
-class PaymentUpdate(BaseModel):
-
-    paid: float = Field(
-        ge=0
-    )
-
-
-# ============================================================
-# FASTAPI APP
-# ============================================================
-
-app = FastAPI(
-    title=APP_NAME,
-    version=APP_VERSION
-)
-
-
-# ============================================================
-# DATABASE DEPENDENCY
-# ============================================================
-
-def get_db():
-
-    session = SessionLocal()
-
-    try:
-
-        yield session
-
-    finally:
-
-        session.close()
-
-
-# ============================================================
-# DEFAULT TEST MASTER
-# ============================================================
-
-DEFAULT_TESTS = [
-
-    (
-        "Hemoglobin (Hb)",
-        100,
-        "Hematology",
-        "g/dL",
-        "13.0-17.0",
-        "12.0-15.0",
-        ""
-    ),
-
-    (
-        "RBC Count",
-        100,
-        "Hematology",
-        "million/µL",
-        "4.5-5.9",
-        "4.0-5.2",
-        ""
-    ),
-
-    (
-        "TLC / WBC",
-        100,
-        "Hematology",
-        "/µL",
-        "4000-11000",
-        "4000-11000",
-        "4000-11000"
-    ),
-
-    (
-        "Platelet Count",
-        100,
-        "Hematology",
-        "lakh/µL",
-        "1.5-4.5",
-        "1.5-4.5",
-        "1.5-4.5"
-    ),
-
-    (
-        "Fasting Blood Glucose",
-        100,
-        "Biochemistry",
-        "mg/dL",
-        "70-99",
-        "70-99",
-        "70-99"
-    ),
-
-    (
-        "Post Prandial Blood Glucose",
-        100,
-        "Biochemistry",
-        "mg/dL",
-        "<140",
-        "<140",
-        "<140"
-    ),
-
-    (
-        "Random Blood Glucose",
-        100,
-        "Biochemistry",
-        "mg/dL",
-        "",
-        "",
-        "Lab-specific"
-    ),
-
-    (
-        "HbA1c",
-        400,
-        "Biochemistry",
-        "%",
-        "<5.7",
-        "<5.7",
-        "<5.7"
-    ),
-
-    (
-        "Urea",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "15-45",
-        "15-45",
-        ""
-    ),
-
-    (
-        "Creatinine",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "0.7-1.3",
-        "0.6-1.1",
-        ""
-    ),
-
-    (
-        "Total Bilirubin",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "0.2-1.2",
-        "0.2-1.2",
-        "0.2-1.2"
-    ),
-
-    (
-        "Direct Bilirubin",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "0.0-0.3",
-        "0.0-0.3",
-        "0.0-0.3"
-    ),
-
-    (
-        "ALT / SGPT",
-        150,
-        "Biochemistry",
-        "U/L",
-        "",
-        "",
-        "Lab-specific"
-    ),
-
-    (
-        "AST / SGOT",
-        150,
-        "Biochemistry",
-        "U/L",
-        "",
-        "",
-        "Lab-specific"
-    ),
-
-    (
-        "Alkaline Phosphatase",
-        150,
-        "Biochemistry",
-        "U/L",
-        "",
-        "",
-        "Lab-specific"
-    ),
-
-    (
-        "Total Protein",
-        150,
-        "Biochemistry",
-        "g/dL",
-        "6.0-8.3",
-        "6.0-8.3",
-        "6.0-8.3"
-    ),
-
-    (
-        "Albumin",
-        150,
-        "Biochemistry",
-        "g/dL",
-        "3.5-5.0",
-        "3.5-5.0",
-        "3.5-5.0"
-    ),
-
-    (
-        "Total Cholesterol",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "<200",
-        "<200",
-        "<200"
-    ),
-
-    (
-        "Triglycerides",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "<150",
-        "<150",
-        "<150"
-    ),
-
-    (
-        "HDL Cholesterol",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        ">40",
-        ">50",
-        ""
-    ),
-
-    (
-        "LDL Cholesterol",
-        150,
-        "Biochemistry",
-        "mg/dL",
-        "<100",
-        "<100",
-        ""
-    ),
-
-    (
-        "TSH",
-        200,
-        "Endocrinology",
-        "µIU/mL",
-        "",
-        "",
-        "Lab-specific"
-    ),
-
-    (
-        "Free T4",
-        250,
-        "Endocrinology",
-        "ng/dL",
-        "",
-        "",
-        "Lab-specific"
-    ),
-
-    (
-        "Urine Protein",
-        80,
-        "Clinical Pathology",
-        "",
-        "Negative",
-        "Negative",
-        "Negative"
-    ),
-
-    (
-        "Urine Glucose",
-        80,
-        "Clinical Pathology",
-        "",
-        "Negative",
-        "Negative",
-        "Negative"
-    ),
-
-    (
-        "Urine Ketone",
-        80,
-        "Clinical Pathology",
-        "",
-        "Negative",
-        "Negative",
-        "Negative"
-    ),
-
-    (
-        "Urine Blood",
-        80,
-        "Clinical Pathology",
-        "",
-        "Negative",
-        "Negative",
-        "Negative"
-    ),
-
-]
-
-
-# ============================================================
-# SEED TESTS
-# ============================================================
-
-def seed_tests(session):
-
-    first = session.scalar(
-        select(Test).limit(1)
-    )
-
-    if first:
-
-        return
-
-    for item in DEFAULT_TESTS:
-
-        test = Test(
-
-            name=item[0],
-
-            fee=item[1],
-
-            department=item[2],
-
-            unit=item[3],
-
-            male_range=item[4],
-
-            female_range=item[5],
-
-            general_range=item[6]
-
-        )
-
-        session.add(test)
-
-    session.commit()
-
-
-# ============================================================
-# STARTUP
-# ============================================================
-
-@app.on_event("startup")
-def startup():
-
-    Base.metadata.create_all(
-        engine
-    )
-
-    with SessionLocal() as session:
-
-        seed_tests(session)
-
-
-# ============================================================
-# LAB NUMBER
-# ============================================================
-
-def generate_lab_no(session):
-
-    date_part = datetime.now().strftime(
-        "%Y%m%d"
-    )
-
-    count = len(
-        session.scalars(
-            select(Patient)
-        ).all()
-    ) + 1
-
-    return (
-        f"SL{date_part}{count:04d}"
-    )
-
-
-# ============================================================
-# PATIENT DETAIL FORMAT
-# ============================================================
-
-def patient_detail(patient):
-
-    return {
-
-        "id":
-            patient.id,
-
-        "lab_no":
-            patient.lab_no,
-
-        "name":
-            patient.name,
-
-        "age":
-            patient.age,
-
-        "sex":
-            patient.sex,
-
-        "mobile":
-            patient.mobile,
-
-        "doctor":
-            patient.doctor,
-
-        "sample_type":
-            patient.sample_type,
-
-        "remarks":
-            patient.remarks,
-
-        "total_fee":
-            patient.total_fee,
-
-        "paid":
-            patient.paid,
-
-        "due":
-            patient.total_fee -
-            patient.paid,
-
-        "created_at":
-            patient.created_at.isoformat(),
-
-        "tests": [
-
-            {
-
-                "patient_test_id":
-                    patient_test.id,
-
-                "test_id":
-                    patient_test.test_id,
-
-                "name":
-                    patient_test.test.name,
-
-                "department":
-                    patient_test.test.department,
-
-                "status":
-                    patient_test.status,
-
-                "results": [
-
-                    {
-
-                        "id":
-                            result.id,
-
-                        "parameter":
-                            result.parameter,
-
-                        "value":
-                            result.value,
-
-                        "unit":
-                            result.unit,
-
-                        "reference_range":
-                            result.reference_range,
-
-                        "flag":
-                            result.flag
-
-                    }
-
-                    for result
-                    in patient_test.results
-
-                ]
-
-            }
-
-            for patient_test
-            in patient.tests
-
-        ]
-
-    }
-
-
-# ============================================================
-# FLAG CALCULATION
-# ============================================================
-
-def calculate_flag(
-    value,
-    reference
-):
-
-    try:
-
-        number = float(
-            value
-        )
-
-    except:
-
-        return ""
-
-    if not reference:
-
-        return ""
-
-    match = re.search(
-        r"(-?\d+(?:\.\d+)?)\s*-\s*(-?\d+(?:\.\d+)?)",
-        reference
-    )
-
-    if not match:
-
-        return ""
-
-    low = float(
-        match.group(1)
-    )
-
-    high = float(
-        match.group(2)
-    )
-
-    if number < low:
-
-        return "LOW"
-
-    if number > high:
-
-        return "HIGH"
-
-    return "NORMAL"
-
-
-# ============================================================
-# HEALTH
-# ============================================================
-
-@app.get("/health")
-def health():
-
-    return {
-
-        "status":
-            "ok",
-
-        "application":
-            APP_NAME,
-
-        "version":
-            APP_VERSION
-
-    }
-
-
-# ============================================================
-# GET TESTS
-# ============================================================
-
-@app.get("/api/tests")
-def get_tests(
-    session: Session = Depends(get_db)
-):
-
-    records = session.scalars(
-        select(Test)
-        .order_by(Test.name)
-    ).all()
-
-    return [
-
-        {
-
-            "id":
-                test.id,
-
-            "name":
-                test.name,
-
-            "fee":
-                test.fee,
-
-            "department":
-                test.department,
-
-            "unit":
-                test.unit,
-
-            "male_range":
-                test.male_range,
-
-            "female_range":
-                test.female_range,
-
-            "general_range":
-                test.general_range
-
-        }
-
-        for test in records
-
-    ]
-
-
-# ============================================================
-# ADD TEST
-# ============================================================
-
-@app.post("/api/tests")
-def add_test(
-    payload: TestCreate,
-    session: Session = Depends(get_db)
-):
-
-    existing = session.scalar(
-        select(Test)
-        .where(
-            Test.name ==
-            payload.name
-        )
-    )
-
-    if existing:
-
-        raise HTTPException(
-            status_code=409,
-            detail="Test already exists"
-        )
-
-    test = Test(
-        **payload.model_dump()
-    )
-
-    session.add(test)
-
-    session.commit()
-
-    session.refresh(test)
-
-    return {
-
-        "id":
-            test.id,
-
-        "message":
-            "Test added successfully"
-
-    }
-
-
-# ============================================================
-# CREATE PATIENT
-# ============================================================
-
-@app.post("/api/patients")
-def create_patient(
-    payload: PatientCreate,
-    session: Session = Depends(get_db)
-):
-
-    if not payload.test_ids:
-
-        raise HTTPException(
-            status_code=400,
-            detail="Please select at least one test"
-        )
-
-    unique_ids = set(
-        payload.test_ids
-    )
-
-    tests = session.scalars(
-        select(Test)
-        .where(
-            Test.id.in_(unique_ids)
-        )
-    ).all()
-
-    if len(tests) != len(unique_ids):
-
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid test selected"
-        )
-
-    total_fee = sum(
-        test.fee
-        for test in tests
-    )
-
-    patient = Patient(
-
-        lab_no=
-            generate_lab_no(session),
-
-        name=
-            payload.name,
-
-        age=
-            payload.age,
-
-        sex=
-            payload.sex,
-
-        mobile=
-            payload.mobile,
-
-        doctor=
-            payload.doctor,
-
-        sample_type=
-            payload.sample_type,
-
-        remarks=
-            payload.remarks,
-
-        total_fee=
-            total_fee,
-
-        paid=
-            0
-
-    )
-
-    session.add(patient)
-
-    session.flush()
-
-    for test in tests:
-
-        patient_test = PatientTest(
-
-            patient_id=
-                patient.id,
-
-            test_id=
-                test.id,
-
-            status=
-                "Pending"
-
-        )
-
-        session.add(
-            patient_test
-        )
-
-        session.flush()
-
-        if payload.sex == "Male":
-
-            reference = (
-                test.male_range
-            )
-
-        elif payload.sex == "Female":
-
-            reference = (
-                test.female_range
-            )
-
-        else:
-
-            reference = (
-                test.general_range
-            )
-
-        if not reference:
-
-            reference = (
-                test.general_range
-                or test.male_range
-                or test.female_range
-            )
-
-        result = Result(
-
-            patient_test_id=
-                patient_test.id,
-
-            parameter=
-                test.name,
-
-            value=
-                "",
-
-            unit=
-                test.unit,
-
-            reference_range=
-                reference or "",
-
-            flag=
-                ""
-
-        )
-
-        session.add(
-            result
-        )
-
-    session.commit()
-
-    return {
-
-        "id":
-            patient.id,
-
-        "lab_no":
-            patient.lab_no,
-
-        "total_fee":
-            patient.total_fee,
-
-        "paid":
-            patient.paid,
-
-        "due":
-            patient.total_fee
-
-    }
-
-
-# ============================================================
-# PATIENT LIST
-# ============================================================
-
-@app.get("/api/patients")
-def patient_list(
-    session: Session = Depends(get_db)
-):
-
-    records = session.scalars(
-        select(Patient)
-        .order_by(
-            Patient.id.desc()
-        )
-    ).all()
-
-    return [
-
-        {
-
-   # ============================================================
-# SAMEERLAB LIS - FRONTEND
-# ============================================================
-
-HTML = r"""
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SameerLab LIS</title>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
 
 body{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f2f6f8;
-    color:#18323b;
+    font-family:Arial,sans-serif;
+    background:#f3f7f9;
+    color:#17323d;
 }
 
 header{
     background:#075b73;
     color:white;
-    padding:15px;
+    padding:12px;
     position:sticky;
     top:0;
-    z-index:100;
+    z-index:10;
 }
 
-.header-inner{
-    max-width:1250px;
+.header{
+    max-width:1200px;
     margin:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile-img{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid white;
 }
 
 .logo{
-    font-size:26px;
+    font-size:24px;
     font-weight:bold;
 }
 
 .logo span{
-    color:#8eeaf2;
+    color:#8de9f1;
 }
 
 .subtitle{
-    font-size:12px;
-    margin-top:3px;
+    font-size:11px;
 }
 
-.container{
-    max-width:1250px;
+main{
+    max-width:1200px;
     margin:auto;
-    padding:15px;
+    padding:14px;
 }
 
-nav{
+.tabs{
     display:flex;
-    gap:8px;
+    gap:6px;
     overflow-x:auto;
     margin-bottom:15px;
 }
 
-nav button{
+.tabs button{
     border:0;
     background:white;
     color:#075b73;
-    padding:11px 16px;
+    padding:10px 13px;
     border-radius:9px;
     font-weight:bold;
     white-space:nowrap;
-    cursor:pointer;
 }
 
-nav button.active{
+.tabs button.active{
     background:#075b73;
     color:white;
 }
@@ -1304,254 +95,218 @@ nav button.active{
 .card{
     background:white;
     border-radius:14px;
-    padding:17px;
-    margin-bottom:15px;
-    box-shadow:0 3px 14px rgba(0,0,0,.07);
-}
-
-h1,h2,h3{
-    margin-top:0;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 3px 15px #0001;
 }
 
 .grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:12px;
+    gap:10px;
 }
 
 .grid3{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:12px;
+    gap:10px;
 }
 
 label{
     display:block;
     font-size:12px;
     font-weight:bold;
-    margin-bottom:5px;
+    margin-bottom:4px;
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
     width:100%;
-    padding:11px;
-    border:1px solid #ccdce1;
-    border-radius:8px;
-    font-size:14px;
+    padding:9px;
+    border:1px solid #cbdde2;
+    border-radius:7px;
     background:white;
 }
 
 textarea{
-    min-height:80px;
-    resize:vertical;
+    min-height:70px;
 }
 
-button{
-    cursor:pointer;
-}
-
-.primary,
-.green,
-.orange,
-.red{
+.btn{
     border:0;
+    background:#075b73;
+    color:white;
     padding:10px 14px;
     border-radius:8px;
-    color:white;
     font-weight:bold;
 }
 
-.primary{
-    background:#075b73;
-}
-
-.green{
+.btn.green{
     background:#197a4b;
 }
 
-.orange{
-    background:#bd7200;
+.btn.red{
+    background:#c62828;
 }
 
-.red{
-    background:#b42318;
+.btn.light{
+    background:#e8f6f8;
+    color:#075b73;
 }
 
 .actions{
     display:flex;
+    gap:7px;
     flex-wrap:wrap;
-    gap:8px;
-    margin-top:13px;
+    margin-top:12px;
 }
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
 }
 
 .stat{
     background:white;
-    padding:18px;
     border-radius:13px;
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    padding:15px;
 }
 
-.stat-title{
-    font-size:13px;
-}
-
-.stat-value{
-    font-size:27px;
-    font-weight:bold;
+.stat b{
+    display:block;
+    font-size:24px;
     color:#075b73;
-    margin-top:7px;
 }
 
-.notice{
-    background:#fff7db;
-    border-left:4px solid #d69c00;
-    padding:12px;
-    font-size:12px;
-    border-radius:5px;
-}
-
-.test-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    background:#f7fafb;
-    padding:11px;
-    margin:6px 0;
-    border-radius:8px;
-}
-
-.test-row label{
-    margin:0;
-    flex:1;
+.scroll{
+    overflow:auto;
 }
 
 table{
-    width:100%;
     border-collapse:collapse;
+    width:100%;
 }
 
-th,
-td{
-    border-bottom:1px solid #e1eaed;
-    padding:9px;
+th,td{
+    padding:8px;
+    border-bottom:1px solid #dce7ea;
     text-align:left;
     font-size:12px;
 }
 
 th{
-    background:#eaf6f8;
+    background:#e9f6f8;
+    color:#075b73;
 }
 
-.table-scroll{
-    overflow-x:auto;
+.test{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:9px;
+    background:#f7fbfc;
+    border-radius:8px;
+    margin:5px 0;
 }
 
-.badge{
-    display:inline-block;
-    padding:4px 8px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
+.muted{
+    font-size:12px;
+    color:#687d84;
 }
 
-.badge.pending{
-    background:#fff1cc;
-    color:#8a5900;
+.notice{
+    font-size:12px;
+    background:#fff8df;
+    border-left:4px solid #dca000;
+    padding:10px;
+    border-radius:6px;
 }
 
-.badge.final{
-    background:#dff6e9;
-    color:#147342;
-}
-
-.result-card{
-    border:1px solid #dce7ea;
-    padding:13px;
+.result-box{
+    border:1px solid #d9e8eb;
     border-radius:10px;
-    margin:10px 0;
+    padding:12px;
+    margin:9px 0;
 }
 
-.flag-high{
-    color:#b42318;
-    font-weight:bold;
-}
-
-.flag-low{
-    color:#a15c00;
-    font-weight:bold;
-}
-
-.flag-normal{
+.normal{
     color:#197a4b;
+}
+
+.high{
+    color:#c62828;
+}
+
+.low{
+    color:#b26a00;
+}
+
+.flag{
     font-weight:bold;
+    margin-top:6px;
 }
 
 .report{
     background:white;
     max-width:900px;
     margin:auto;
-    padding:30px;
+    padding:25px;
 }
 
-.report-header{
+.report-head{
     text-align:center;
     border-bottom:2px solid #075b73;
-    padding-bottom:12px;
+    padding-bottom:10px;
 }
 
-.report-header h1{
+.report-head img{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.report-head h1{
+    margin:5px;
     color:#075b73;
-    margin:4px;
 }
 
 .patient-info{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
+    grid-template-columns:1fr 1fr;
     background:#f5fafb;
-    padding:12px;
-    margin:15px 0;
+    padding:10px;
+    margin:12px 0;
+    gap:6px;
 }
 
-.codes{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:30px;
-    flex-wrap:wrap;
-    margin:15px 0;
-}
-
-.codes img{
-    max-width:300px;
-    max-height:100px;
-}
-
-.signature{
-    text-align:right;
-    margin-top:50px;
-}
-
-.empty{
-    padding:25px;
+.barcode{
     text-align:center;
-    color:#75888e;
+    margin:12px;
+}
+
+.barcode img{
+    height:60px;
+    max-width:300px;
+}
+
+.profile-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.profile-card img{
+    width:110px;
+    height:110px;
+    object-fit:cover;
+    border-radius:50%;
 }
 
 @media(max-width:700px){
 
     .grid,
-    .grid3,
-    .patient-info{
+    .grid3{
         grid-template-columns:1fr;
     }
 
@@ -1559,51 +314,49 @@ th{
         grid-template-columns:1fr 1fr;
     }
 
-    .report{
-        padding:15px;
+    .patient-info{
+        grid-template-columns:1fr;
     }
-
 }
 
 @media print{
 
     header,
-    nav,
+    .tabs,
     .no-print{
-        display:none !important;
-    }
-
-    body{
-        background:white;
+        display:none!important;
     }
 
     .page{
-        display:none !important;
+        display:none!important;
     }
 
     #reports{
-        display:block !important;
+        display:block!important;
     }
 
     .report{
         max-width:none;
         box-shadow:none;
     }
-
 }
-
 </style>
-
 </head>
 
 <body>
 
 <header>
 
-<div class="header-inner">
+<div class="header">
+
+<img id="headerPhoto"
+class="profile-img"
+alt="Profile">
+
+<div>
 
 <div class="logo">
-🧪 Sameer<span>Lab</span> LIS
+🧪 Sameer<span>Lab</span>
 </div>
 
 <div class="subtitle">
@@ -1612,71 +365,58 @@ Laboratory Information System
 
 </div>
 
+</div>
+
 </header>
 
+<main>
 
-<div class="container">
+<div class="tabs">
 
-
-<nav>
-
-<button
-class="active"
-onclick="openPage('dashboard',this)"
->
-Dashboard
+<button class="active"
+onclick="openPage('home',this)">
+🏠 Dashboard
 </button>
 
-<button
-onclick="openPage('patients',this)"
->
-Patients
+<button onclick="openPage('patients',this)">
+👤 Patients
 </button>
 
-<button
-onclick="openPage('results',this)"
->
-Result Entry
+<button onclick="openPage('billing',this)">
+💰 Billing
 </button>
 
-<button
-onclick="openPage('reports',this)"
->
-Reports
+<button onclick="openPage('results',this)">
+🧪 Results
 </button>
 
-<button
-onclick="openPage('master',this)"
->
-Test Master
+<button onclick="openPage('reports',this)">
+📄 Reports
 </button>
 
-</nav>
+<button onclick="openPage('master',this)">
+⚙️ Test Master
+</button>
+
+<button onclick="openPage('profile',this)">
+👨‍💼 Profile
+</button>
+
+</div>
 
 
-<!-- ======================================================
-DASHBOARD
-====================================================== -->
+<!-- DASHBOARD -->
 
-<section
-id="dashboard"
-class="page active"
->
+<section id="home" class="page active">
 
 <div class="card">
 
-<h2>
-SameerLab Dashboard
-</h2>
+<h2>SameerLab LIS</h2>
 
-<div class="notice">
-
-This is a laboratory information system foundation.
-Reference ranges must be verified according to the
-laboratory's analyzer, reagent, method and validated
-population before clinical reporting.
-
-</div>
+<p class="muted">
+Patient registration, test selection, billing,
+result entry, barcode and laboratory report system.
+</p>
 
 </div>
 
@@ -1684,49 +424,39 @@ population before clinical reporting.
 <div class="stats">
 
 <div class="stat">
-
-<div class="stat-title">
-Total Patients
+Patients
+<b id="totalPatients">0</b>
 </div>
-
-<div
-class="stat-value"
-id="dashboardPatients"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div class="stat-title">
-Pending Tests
+Today
+<b id="todayPatients">0</b>
 </div>
-
-<div
-class="stat-value"
-id="dashboardPending"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
+Pending
+<b id="pendingResults">0</b>
+</div>
 
-<div class="stat-title">
+<div class="stat">
 Collection
+<b id="collection">₹0</b>
 </div>
 
-<div
-class="stat-value"
-id="dashboardCollection"
->
-₹0
 </div>
+
+
+<div class="card">
+
+<div class="notice">
+
+<b>Important:</b>
+
+Reference ranges shown in this software are
+example laboratory intervals. Before issuing
+patient reports, verify them with your laboratory
+SOP, analyzer method and reagent manufacturer's
+instructions.
 
 </div>
 
@@ -1735,182 +465,437 @@ id="dashboardCollection"
 </section>
 
 
-<!-- ======================================================
-PATIENTS
-====================================================== -->
+<!-- PATIENT -->
 
-<section
-id="patients"
-class="page"
->
+<section id="patients" class="page">
+
+<div class="card">
+
+<h2>👤 Patient Registration</h2>
+
+<div class="grid">
+
+<div>
+
+<label>Patient Name *</label>
+
+<input id="patientName">
+
+</div>
+
+
+<div>
+
+<label>Age *</label>
+
+<input id="patientAge"
+type="number">
+
+</div>
+
+
+<div>
+
+<label>Sex *</label>
+
+<select id="patientSex">
+
+<option value="">Select</option>
+
+<option>Male</option>
+
+<option>Female</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Mobile Number</label>
+
+<input id="patientMobile"
+type="tel">
+
+</div>
+
+
+<div>
+
+<label>Doctor Reference</label>
+
+<input id="doctorReference">
+
+</div>
+
+
+<div>
+
+<label>Sample Type</label>
+
+<select id="sampleType">
+
+<option>Blood</option>
+
+<option>Serum</option>
+
+<option>Plasma</option>
+
+<option>Urine</option>
+
+<option>Stool</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+
+<div style="grid-column:1/-1">
+
+<label>Remarks</label>
+
+<textarea id="patientRemarks"></textarea>
+
+</div>
+
+</div>
+
+
+<h3>🧪 Select Test / Profile</h3>
+
+<div id="testList"></div>
+
+
+<div class="actions">
+
+<button class="btn"
+onclick="savePatient()">
+
+Save Patient
+
+</button>
+
+<button class="btn light"
+onclick="clearPatient()">
+
+Clear
+
+</button>
+
+</div>
+
+</div>
 
 
 <div class="card">
 
-<h2>
-Patient Registration
-</h2>
+<h2>🔎 Patient List</h2>
+
+<input
+id="patientSearch"
+placeholder="Search Lab No / Name / Mobile"
+oninput="showPatients()">
+
+<div class="scroll">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Lab No</th>
+
+<th>Name</th>
+
+<th>Age/Sex</th>
+
+<th>Doctor</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="patientTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- BILLING -->
+
+<section id="billing" class="page">
+
+<div class="card">
+
+<h2>💰 Billing</h2>
+
+<select id="billingPatient"
+onchange="showBilling()">
+
+<option value="">
+Select Patient
+</option>
+
+</select>
+
+<div id="billingBox"></div>
+
+</div>
+
+</section>
+
+
+<!-- RESULTS -->
+
+<section id="results" class="page">
+
+<div class="card">
+
+<h2>🧪 Result Entry</h2>
+
+<select id="resultPatient"
+onchange="showResults()">
+
+<option value="">
+Select Patient
+</option>
+
+</select>
+
+<div id="resultBox"></div>
+
+</div>
+
+</section>
+
+
+<!-- REPORT -->
+
+<section id="reports" class="page">
+
+<div class="card no-print">
+
+<h2>📄 Laboratory Report</h2>
+
+<select id="reportPatient"
+onchange="createReport()">
+
+<option value="">
+Select Patient
+</option>
+
+</select>
+
+<div class="actions">
+
+<button
+class="btn"
+onclick="window.print()">
+
+🖨️ Print / Save PDF
+
+</button>
+
+</div>
+
+</div>
+
+<div id="reportArea"></div>
+
+</section>
+
+
+<!-- TEST MASTER -->
+
+<section id="master" class="page">
+
+<div class="card">
+
+<h2>⚙️ Parameter Master</h2>
+
+<div class="grid3">
+
+<div>
+
+<label>Parameter Name</label>
+
+<input id="newParameter">
+
+</div>
+
+
+<div>
+
+<label>Fee ₹</label>
+
+<input id="newFee"
+type="number">
+
+</div>
+
+
+<div>
+
+<label>Unit</label>
+
+<input id="newUnit">
+
+</div>
+
+
+<div>
+
+<label>Male Reference</label>
+
+<input id="maleRange">
+
+</div>
+
+
+<div>
+
+<label>Female Reference</label>
+
+<input id="femaleRange">
+
+</div>
+
+
+<div>
+
+<label>General Reference</label>
+
+<input id="generalRange">
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn"
+onclick="addParameter()">
+
+Add Parameter
+
+</button>
+
+</div>
+
+
+<div class="scroll">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Parameter</th>
+<th>Fee</th>
+<th>Unit</th>
+<th>Male</th>
+<th>Female</th>
+<th>General</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="masterTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+<div class="card">
+
+<h2>👨‍💼 SameerLab Profile</h2>
+
+<div class="profile-card">
+
+<img id="profilePhoto">
+
+<div>
+
+<b>Laboratory Profile</b>
+
+<p class="muted">
+Your profile photo is used in the website
+and laboratory report.
+</p>
+
+</div>
+
+</div>
 
 
 <div class="grid">
 
-
 <div>
 
-<label>
-Patient Name *
-</label>
+<label>Lab Name</label>
 
-<input
-id="patientName"
-placeholder="Enter patient name"
->
+<input id="labName"
+value="SameerLab">
 
 </div>
 
 
 <div>
 
-<label>
-Age *
-</label>
+<label>Subtitle</label>
 
-<input
-id="patientAge"
-type="number"
-min="0"
-max="130"
-placeholder="Age"
->
+<input id="labSubtitle"
+value="Medical Laboratory">
 
 </div>
 
 
 <div>
 
-<label>
-Sex *
-</label>
+<label>Phone</label>
 
-<select id="patientSex">
-
-<option value="">
-Select Sex
-</option>
-
-<option value="Male">
-Male
-</option>
-
-<option value="Female">
-Female
-</option>
-
-<option value="Other">
-Other
-</option>
-
-</select>
+<input id="labPhone">
 
 </div>
 
 
 <div>
 
-<label>
-Mobile Number
-</label>
+<label>Address</label>
 
-<input
-id="patientMobile"
-placeholder="Mobile"
-inputmode="numeric"
->
+<input id="labAddress">
 
-</div>
-
-
-<div>
-
-<label>
-Doctor / Reference
-</label>
-
-<input
-id="patientDoctor"
-placeholder="Referring doctor"
->
-
-</div>
-
-
-<div>
-
-<label>
-Sample Type
-</label>
-
-<select id="sampleType">
-
-<option>
-Blood
-</option>
-
-<option>
-Serum
-</option>
-
-<option>
-Plasma
-</option>
-
-<option>
-Urine
-</option>
-
-<option>
-Stool
-</option>
-
-<option>
-CSF
-</option>
-
-<option>
-Other
-</option>
-
-</select>
-
-</div>
-
-
-<div
-style="grid-column:1/-1"
->
-
-<label>
-Remarks
-</label>
-
-<textarea
-id="patientRemarks"
-placeholder="Remarks"
-></textarea>
-
-</div>
-
-</div>
-
-
-<h3>
-Select Tests
-</h3>
-
-<div id="testSelection">
-
-<div class="empty">
-Loading tests...
 </div>
 
 </div>
@@ -1918,926 +903,902 @@ Loading tests...
 
 <div class="actions">
 
-<button
-class="primary"
-onclick="registerPatient()"
->
-Register Patient
+<button class="btn green"
+onclick="saveProfile()">
+
+Save Profile
+
 </button>
 
 </div>
 
 </div>
 
-
-<!-- PATIENT LIST -->
-
-<div class="card">
-
-<h2>
-Patient Records
-</h2>
-
-<input
-id="patientSearch"
-placeholder="Search Lab No / Patient Name / Mobile"
-oninput="loadPatients()"
->
-
-<br><br>
-
-<div class="table-scroll">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-Lab No
-</th>
-
-<th>
-Patient
-</th>
-
-<th>
-Age/Sex
-</th>
-
-<th>
-Doctor
-</th>
-
-<th>
-Total
-</th>
-
-<th>
-Paid
-</th>
-
-<th>
-Due
-</th>
-
-<th>
-Action
-</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="patientTable"
->
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- ======================================================
-RESULT ENTRY
-====================================================== -->
-
-<section
-id="results"
-class="page"
->
-
-<div class="card">
-
-<h2>
-Result Entry
-</h2>
-
-
-<select
-id="resultPatient"
-onchange="loadResultPatient()"
->
-
-<option value="">
-Select Patient
-</option>
-
-</select>
-
-
-<div
-id="resultArea"
-style="margin-top:15px"
->
-
-<div class="empty">
-Select a patient.
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ======================================================
-REPORTS
-====================================================== -->
-
-<section
-id="reports"
-class="page"
->
-
-<div class="card no-print">
-
-<h2>
-Final Laboratory Report
-</h2>
-
-
-<select
-id="reportPatient"
-onchange="loadReport()"
->
-
-<option value="">
-Select Patient
-</option>
-
-</select>
-
-
-<div class="actions">
-
-<button
-class="primary"
-onclick="window.print()"
->
-🖨 Print / Save PDF
-</button>
-
-</div>
-
-</div>
-
-
-<div id="reportArea">
-
-</div>
-
-</section>
-
-
-<!-- ======================================================
-TEST MASTER
-====================================================== -->
-
-<section
-id="master"
-class="page"
->
-
-<div class="card">
-
-<h2>
-Test Master
-</h2>
-
-
-<div class="grid3">
-
-
-<div>
-
-<label>
-Test / Parameter
-</label>
-
-<input
-id="newTestName"
-placeholder="e.g. Sodium"
->
-
-</div>
-
-
-<div>
-
-<label>
-Fee
-</label>
-
-<input
-id="newTestFee"
-type="number"
-placeholder="100"
->
-
-</div>
-
-
-<div>
-
-<label>
-Department
-</label>
-
-<input
-id="newTestDepartment"
-value="Biochemistry"
->
-
-</div>
-
-
-<div>
-
-<label>
-Unit
-</label>
-
-<input
-id="newTestUnit"
-placeholder="mg/dL"
->
-
-</div>
-
-
-<div>
-
-<label>
-Male Reference
-</label>
-
-<input
-id="newMaleRange"
-placeholder="10-20"
->
-
-</div>
-
-
-<div>
-
-<label>
-Female Reference
-</label>
-
-<input
-id="newFemaleRange"
-placeholder="10-20"
->
-
-</div>
-
-
-<div>
-
-<label>
-General Reference
-</label>
-
-<input
-id="newGeneralRange"
-placeholder="10-20"
->
-
-</div>
-
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="primary"
-onclick="addNewTest()"
->
-Add Test
-</button>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-Available Tests
-</h2>
-
-
-<div class="table-scroll">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-Test
-</th>
-
-<th>
-Department
-</th>
-
-<th>
-Fee
-</th>
-
-<th>
-Unit
-</th>
-
-<th>
-Male
-</th>
-
-<th>
-Female
-</th>
-
-<th>
-General
-</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="testMasterTable"
->
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-</div>
-
+</main>
 
 <script>
 
+/* SAMEERLAB LIS */
 
-// ============================================================
-// BASIC HELPERS
-// ============================================================
+const STORAGE_KEY="SAMEERLAB_LIS_V4";
 
-function $(id){
+/*
+Profile photo is embedded in the application.
+*/
 
-    return document.getElementById(id);
+const PROFILE_PHOTO="PASTE_PROFILE_PHOTO_DATA_HERE";
+
+
+const DEFAULT_TESTS=[
+
+{
+name:"CBC",
+fee:500,
+profile:true
+},
+
+{
+name:"LFT",
+fee:700,
+profile:true
+},
+
+{
+name:"KFT",
+fee:500,
+profile:true
+},
+
+{
+name:"Lipid Profile",
+fee:600,
+profile:true
+},
+
+{
+name:"Thyroid Profile",
+fee:650,
+profile:true
+},
+
+{
+name:"Urine Routine",
+fee:250,
+profile:true
+},
+
+{
+name:"Hemoglobin (Hb)",
+fee:100,
+unit:"g/dL",
+male:"13.0-17.0",
+female:"12.0-15.0",
+general:""
+},
+
+{
+name:"RBC Count",
+fee:100,
+unit:"million/µL",
+male:"4.5-5.9",
+female:"4.0-5.2",
+general:""
+},
+
+{
+name:"Hematocrit / PCV",
+fee:100,
+unit:"%",
+male:"40-52",
+female:"36-46",
+general:""
+},
+
+{
+name:"MCV",
+fee:80,
+unit:"fL",
+male:"80-100",
+female:"80-100",
+general:"80-100"
+},
+
+{
+name:"MCH",
+fee:80,
+unit:"pg",
+male:"27-33",
+female:"27-33",
+general:"27-33"
+},
+
+{
+name:"MCHC",
+fee:80,
+unit:"g/dL",
+male:"32-36",
+female:"32-36",
+general:"32-36"
+},
+
+{
+name:"RDW-CV",
+fee:80,
+unit:"%",
+male:"11.5-14.5",
+female:"11.5-14.5",
+general:"11.5-14.5"
+},
+
+{
+name:"TLC / WBC",
+fee:100,
+unit:"/µL",
+male:"4000-11000",
+female:"4000-11000",
+general:"4000-11000"
+},
+
+{
+name:"Neutrophils",
+fee:70,
+unit:"%",
+male:"40-75",
+female:"40-75",
+general:"40-75"
+},
+
+{
+name:"Lymphocytes",
+fee:70,
+unit:"%",
+male:"20-45",
+female:"20-45",
+general:"20-45"
+},
+
+{
+name:"Eosinophils",
+fee:70,
+unit:"%",
+male:"1-6",
+female:"1-6",
+general:"1-6"
+},
+
+{
+name:"Monocytes",
+fee:70,
+unit:"%",
+male:"2-10",
+female:"2-10",
+general:"2-10"
+},
+
+{
+name:"Basophils",
+fee:70,
+unit:"%",
+male:"0-2",
+female:"0-2",
+general:"0-2"
+},
+
+{
+name:"Platelet Count",
+fee:100,
+unit:"lakh/µL",
+male:"1.5-4.5",
+female:"1.5-4.5",
+general:"1.5-4.5"
+},
+
+{
+name:"ESR",
+fee:100,
+unit:"mm/hr",
+male:"0-15",
+female:"0-20",
+general:""
+},
+
+{
+name:"Blood Glucose - Fasting",
+fee:100,
+unit:"mg/dL",
+male:"70-99",
+female:"70-99",
+general:"70-99"
+},
+
+{
+name:"Blood Glucose - PP",
+fee:100,
+unit:"mg/dL",
+male:"<140",
+female:"<140",
+general:"<140"
+},
+
+{
+name:"HbA1c",
+fee:400,
+unit:"%",
+male:"<5.7",
+female:"<5.7",
+general:"<5.7"
+},
+
+{
+name:"Total Bilirubin",
+fee:150,
+unit:"mg/dL",
+male:"0.2-1.2",
+female:"0.2-1.2",
+general:"0.2-1.2"
+},
+
+{
+name:"Direct Bilirubin",
+fee:150,
+unit:"mg/dL",
+male:"0.0-0.3",
+female:"0.0-0.3",
+general:"0.0-0.3"
+},
+
+{
+name:"ALT / SGPT",
+fee:150,
+unit:"U/L",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"AST / SGOT",
+fee:150,
+unit:"U/L",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"ALP",
+fee:150,
+unit:"U/L",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"Total Protein",
+fee:150,
+unit:"g/dL",
+male:"6.0-8.3",
+female:"6.0-8.3",
+general:"6.0-8.3"
+},
+
+{
+name:"Albumin",
+fee:150,
+unit:"g/dL",
+male:"3.5-5.0",
+female:"3.5-5.0",
+general:"3.5-5.0"
+},
+
+{
+name:"Urea",
+fee:150,
+unit:"mg/dL",
+male:"15-45",
+female:"15-45",
+general:""
+},
+
+{
+name:"Creatinine",
+fee:150,
+unit:"mg/dL",
+male:"0.7-1.3",
+female:"0.6-1.1",
+general:""
+},
+
+{
+name:"Uric Acid",
+fee:150,
+unit:"mg/dL",
+male:"3.5-7.2",
+female:"2.6-6.0",
+general:""
+},
+
+{
+name:"Total Cholesterol",
+fee:150,
+unit:"mg/dL",
+male:"<200",
+female:"<200",
+general:"<200"
+},
+
+{
+name:"Triglycerides",
+fee:150,
+unit:"mg/dL",
+male:"<150",
+female:"<150",
+general:"<150"
+},
+
+{
+name:"HDL Cholesterol",
+fee:150,
+unit:"mg/dL",
+male:">40",
+female:">50",
+general:""
+},
+
+{
+name:"LDL Cholesterol",
+fee:150,
+unit:"mg/dL",
+male:"<100",
+female:"<100",
+general:"<100"
+},
+
+{
+name:"TSH",
+fee:200,
+unit:"µIU/mL",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"Free T4",
+fee:250,
+unit:"ng/dL",
+male:"Lab-specific",
+female:"Lab-specific",
+general:"Lab-specific"
+},
+
+{
+name:"Urine pH",
+fee:80,
+unit:"",
+male:"4.5-8.0",
+female:"4.5-8.0",
+general:"4.5-8.0"
+},
+
+{
+name:"Urine Specific Gravity",
+fee:80,
+unit:"",
+male:"1.005-1.030",
+female:"1.005-1.030",
+general:"1.005-1.030"
+},
+
+{
+name:"Urine Protein",
+fee:80,
+unit:"",
+male:"Negative",
+female:"Negative",
+general:"Negative"
+},
+
+{
+name:"Urine Glucose",
+fee:80,
+unit:"",
+male:"Negative",
+female:"Negative",
+general:"Negative"
+},
+
+{
+name:"Urine RBC",
+fee:80,
+unit:"/HPF",
+male:"0-2",
+female:"0-2",
+general:"0-2"
+},
+
+{
+name:"Urine WBC",
+fee:80,
+unit:"/HPF",
+male:"0-5",
+female:"0-5",
+general:"0-5"
+}
+
+];
+
+
+let data=
+JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
+
+if(!data){
+
+data={
+patients:[],
+tests:DEFAULT_TESTS,
+profile:{
+name:"SameerLab",
+subtitle:"Medical Laboratory",
+phone:"",
+address:""
+}
+};
+
+saveData();
 
 }
 
 
-function escapeHtml(value){
+function saveData(){
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /[&<>"']/g,
-        function(character){
-
-            const map = {
-
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                '"':"&quot;",
-                "'":"&#039;"
-
-            };
-
-            return map[character];
-
-        }
-    );
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(data)
+);
 
 }
 
 
 function money(value){
 
-    return "₹" +
-        Number(
-            value || 0
-        ).toLocaleString(
-            "en-IN"
-        );
+return "₹"+Number(value||0)
+.toLocaleString("en-IN");
 
 }
 
 
-async function api(
-    url,
-    options={}
-){
+function escapeHTML(value){
 
-    const response =
-        await fetch(
-            url,
-            {
-                headers:{
-                    "Content-Type":
-                        "application/json"
-                },
-                ...options
-            }
-        );
-
-
-    const data =
-        await response
-        .json()
-        .catch(
-            () => ({})
-        );
-
-
-    if(
-        !response.ok
-    ){
-
-        throw new Error(
-            data.detail ||
-            "Request failed"
-        );
-
-    }
-
-
-    return data;
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-// ============================================================
-// PAGE NAVIGATION
-// ============================================================
+function openPage(id,button){
 
-function openPage(
-    pageId,
-    button
-){
+document
+.querySelectorAll(".page")
+.forEach(page=>{
+page.classList.remove("active");
+});
 
-    document
-        .querySelectorAll(
-            ".page"
-        )
-        .forEach(
-            page =>
-                page.classList.remove(
-                    "active"
-                )
-        );
+document
+.getElementById(id)
+.classList.add("active");
 
 
-    $(pageId)
-        .classList.add(
-            "active"
-        );
+document
+.querySelectorAll(".tabs button")
+.forEach(btn=>{
+btn.classList.remove("active");
+});
 
+button.classList.add("active");
 
-    document
-        .querySelectorAll(
-            "nav button"
-        )
-        .forEach(
-            button =>
-                button.classList.remove(
-                    "active"
-                )
-        );
-
-
-    button.classList.add(
-        "active"
-    );
-
-
-    if(
-        pageId === "patients"
-    ){
-
-        loadPatients();
-
-    }
-
-
-    if(
-        pageId === "results" ||
-        pageId === "reports"
-    ){
-
-        loadPatientOptions();
-
-    }
-
-
-    if(
-        pageId === "master"
-    ){
-
-        loadTestMaster();
-
-    }
+refreshAll();
 
 }
 
 
-// ============================================================
-// LOAD TESTS
-// ============================================================
+function renderTests(){
 
-async function loadTests(){
+const container=
+document.getElementById("testList");
 
-    try{
+container.innerHTML=
+data.tests.map((test,index)=>`
 
-        const tests =
-            await api(
-                "/api/tests"
-            );
+<div class="test">
 
+<label>
 
-        if(
-            tests.length === 0
-        ){
+<input
+type="checkbox"
+class="testCheck"
+data-index="${index}">
 
-            $("testSelection")
-                .innerHTML =
-                '<div class="empty">No tests found.</div>';
+${escapeHTML(test.name)}
 
-            return;
+${test.profile
+?" <span class='muted'>(Profile)</span>"
+:""}
 
-        }
+</label>
 
+<span>
+${money(test.fee)}
+</span>
 
-        $("testSelection")
-            .innerHTML =
-            tests.map(
-                test => `
+</div>
 
-                <div class="test-row">
-
-                    <label>
-
-                        <input
-                            type="checkbox"
-                            class="testCheckbox"
-                            value="${test.id}"
-                        >
-
-                        ${escapeHtml(test.name)}
-
-                        <span
-                            style="font-size:11px;color:#71858b"
-                        >
-                            ${escapeHtml(test.department)}
-                        </span>
-
-                    </label>
-
-                    <b>
-                        ${money(test.fee)}
-                    </b>
-
-                </div>
-
-                `
-            ).join("");
-
-    }
-
-    catch(error){
-
-        $("testSelection")
-            .innerHTML =
-            `
-            <div class="notice">
-                Unable to load tests:
-                ${escapeHtml(error.message)}
-            </div>
-            `;
-
-    }
+`).join("");
 
 }
 
 
-// ============================================================
-// REGISTER PATIENT
-// ============================================================
+function profileParameters(profile){
 
-async function registerPatient(){
+const groups={
 
-    const selectedTests =
-        [
-            ...document
-                .querySelectorAll(
-                    ".testCheckbox:checked"
-                )
-        ]
-        .map(
-            checkbox =>
-                Number(
-                    checkbox.value
-                )
-        );
+"CBC":[
+"Hemoglobin (Hb)",
+"RBC Count",
+"Hematocrit / PCV",
+"MCV",
+"MCH",
+"MCHC",
+"RDW-CV",
+"TLC / WBC",
+"Neutrophils",
+"Lymphocytes",
+"Eosinophils",
+"Monocytes",
+"Basophils",
+"Platelet Count"
+],
 
+"LFT":[
+"Total Bilirubin",
+"Direct Bilirubin",
+"ALT / SGPT",
+"AST / SGOT",
+"ALP",
+"Total Protein",
+"Albumin"
+],
 
-    const payload = {
+"KFT":[
+"Urea",
+"Creatinine",
+"Uric Acid"
+],
 
-        name:
-            $("patientName")
-                .value
-                .trim(),
+"Lipid Profile":[
+"Total Cholesterol",
+"Triglycerides",
+"HDL Cholesterol",
+"LDL Cholesterol"
+],
 
-        age:
-            Number(
-                $("patientAge")
-                    .value
-            ),
+"Thyroid Profile":[
+"TSH",
+"Free T4"
+],
 
-        sex:
-            $("patientSex")
-                .value,
+"Urine Routine":[
+"Urine pH",
+"Urine Specific Gravity",
+"Urine Protein",
+"Urine Glucose",
+"Urine RBC",
+"Urine WBC"
+]
 
-        mobile:
-            $("patientMobile")
-                .value
-                .trim(),
+};
 
-        doctor:
-            $("patientDoctor")
-                .value
-                .trim(),
-
-        sample_type:
-            $("sampleType")
-                .value,
-
-        remarks:
-            $("patientRemarks")
-                .value
-                .trim(),
-
-        test_ids:
-            selectedTests
-
-    };
-
-
-    if(
-        !payload.name
-    ){
-
-        alert(
-            "Please enter patient name."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !payload.age &&
-        payload.age !== 0
-    ){
-
-        alert(
-            "Please enter patient age."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !payload.sex
-    ){
-
-        alert(
-            "Please select sex."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        selectedTests.length === 0
-    ){
-
-        alert(
-            "Please select at least one test."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        const result =
-            await api(
-                "/api/patients",
-                {
-                    method:"POST",
-                    body:
-                        JSON.stringify(
-                            payload
-                        )
-                }
-            );
-
-
-        alert(
-            "Patient registered successfully.\n\n" +
-            "Lab No: " +
-            result.lab_no +
-            "\nTotal Fee: " +
-            money(
-                result.total_fee
-            )
-        );
-
-
-        clearPatientForm();
-
-        await loadPatients();
-
-        await loadPatientOptions();
-
-        await loadDashboard();
-
-    }
-
-    catch(error){
-
-        alert(
-            error.message
-        );
-
-    }
+return groups[profile]||[];
 
 }
 
 
-// ============================================================
-// CLEAR PATIENT FORM
-// ============================================================
+function getSelectedParameters(selected){
 
-function clearPatientForm(){
+let output=[];
 
-    $("patientName")
-        .value = "";
+selected.forEach(test=>{
 
-    $("patientAge")
-        .value = "";
+if(test.profile){
 
-    $("patientSex")
-        .value = "";
+const names=
+profileParameters(test.name);
 
-    $("patientMobile")
-        .value = "";
+names.forEach(name=>{
 
-    $("patientDoctor")
-        .value = "";
+const parameter=
+data.tests.find(
+item=>item.name===name
+);
 
-    $("patientRemarks")
-        .value = "";
+if(parameter){
 
-    document
-        .querySelectorAll(
-            ".testCheckbox"
-        )
-        .forEach(
-            checkbox =>
-                checkbox.checked =
-                    false
-        );
+output.push({
+...parameter
+});
+
+}
+
+});
+
+}else{
+
+output.push({
+...test
+});
+
+}
+
+});
+
+const unique=[];
+
+output.forEach(item=>{
+
+if(!unique.some(x=>x.name===item.name)){
+unique.push(item);
+}
+
+});
+
+return unique;
 
 }
 
 
-// ============================================================
-// LOAD PATIENTS
-// ============================================================
+function generateLabNumber(){
 
-async function loadPatients(){
+const number=
+data.patients.length+1;
 
-    try{
+const date=
+new Date()
+.toISOString()
+.slice(0,10)
+.replaceAll("-","");
 
-        let patients =
-            await api(
-                "/api/patients"
-            );
+return "SL"+date+
+String(number).padStart(3,"0");
 
-
-        const query =
-            (
-                $("patientSearch")
-                    .value ||
-                ""
-            )
-            .toLowerCase()
-            .trim();
+}
 
 
-        if(query){
+function savePatient(){
 
-            patients =
-                patients.filter(
-                    patient => {
+const name=
+document.getElementById("patientName")
+.value.trim();
 
-                        const text =
-                            (
-                                patient.lab_no +
-                                " " +
-                                patient.name +
-                                " " +
-                                patient.mobile
-                            )
-                            .toLowerCase();
+const age=
+document.getElementById("patientAge")
+.value;
 
-                        return text.includes(
-                            query
-                        );
+const sex=
+document.getElementById("patientSex")
+.value;
 
-                    }
-                );
+const selected=
+[...document.querySelectorAll(".testCheck:checked")]
+.map(check=>
+data.tests[
+Number(check.dataset.index)
+]);
 
-        }
+if(!name||age===""||!sex){
+
+alert("Patient name, age and sex required.");
+
+return;
+
+}
+
+if(selected.length===0){
+
+alert("Please select at least one test.");
+
+return;
+
+}
+
+const parameters=
+getSelectedParameters(selected);
+
+const total=
+parameters.reduce(
+(sum,test)=>sum+Number(test.fee||0),
+0
+);
+
+const patient={
+
+labNo:generateLabNumber(),
+
+created:new Date().toISOString(),
+
+name:name,
+
+age:age,
+
+sex:sex,
+
+mobile:
+document.getElementById("patientMobile").value,
+
+doctor:
+document.getElementById("doctorReference").value,
+
+sample:
+document.getElementById("sampleType").value,
+
+remarks:
+document.getElementById("patientRemarks").value,
+
+total:total,
+
+paid:0,
+
+due:total,
+
+tests:parameters.map(test=>({
+
+...test,
+
+result:"",
+
+status:"Pending"
+
+}))
+
+};
+
+data.patients.push(patient);
+
+saveData();
+
+clearPatient();
+
+refreshAll();
+
+alert(
+"Patient saved successfully.\nLab No: "+
+patient.labNo
+);
+
+}
 
 
-        if(
-            patients.length === 0
-        ){
+function clearPatient(){
 
-            $("patientTable")
-                .innerHTML =
-                `
-                <tr>
-                    <td
-                        colspan="8"
-                        class="empty"
-                    >
-                        No patient found.
-                    </td>
-                </tr>
-                `;
+document.getElementById("patientName").value="";
+document.getElementById("patientAge").value="";
+document.getElementById("patientSex").value="";
+document.getElementById("patientMobile").value="";
+document.getElementById("doctorReference").value="";
+document.getElementById("patientRemarks").value="";
 
-            return;
+document
+.querySelectorAll(".testCheck")
+.forEach(check=>{
+check.checked=false;
+});
 
-        }
+}
 
 
-        $("patientTable")
-            .innerHTML =
-            patients.map(
-                patient => `
+function showPatients(){
 
-                <tr>
+const search=
+(document.getElementById("patientSearch")
+.value||"")
+.toLowerCase();
 
-                    <td>
-                        <b>
-                            ${escapeHtml(
-                                patient.lab_no
-                            )}
-                        </b>
-                    </td>
+const patients=
+data.patients.filter(patient=>{
 
-                    <td>
-                        ${escapeHtml(
-                            patient.name
-                        )}
-                    </td>
+const text=
+patient.labNo+" "+
+patient.name+" "+
+patient.mobile;
 
-                    <td>
+return text.toLowerCase()
+.includes(search);
+
+});
+
+document.getElementById("patientTable")
+.innerHTML=
+patients.map(patient=>`
+
+<tr>
+
+<td>${patient.labNo}</td>
+
+<td>${escapeHTML(patient.name)}</td>
+
+<td>
+${patient.age}/${patient.sex}
+</td>
+
+<td>
+${escapeHTML(patient.doctor||"-")}
+</td>
+
+<td>
+${money(patient.total)}
+</td>
+
+<td>
+${
+patient.tests.some(
+test=>test.status!=="Final"
+)
+?"Pending"
+:"Complete"
+}
+</td>
+
+<td>
+
+<button
+class="btn"
+onclick="openPatientResults('${patient.labNo}')">
+
+Open
+
+</button>
+
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+
+function populatePatientSelect(id){
+
+const select=
+document.getElementById(id);
+
+const current=select.value;
+
+select.innerHTML=
+`<option value="">Select Patient</option>`+
+data.patients.map(patient=>`
+
+<option value="${patient.labNo}">
+
+${patient.labNo} -
+${escapeHTML(patient.name)}
+
+</option>
+
+`).join("");
+
+select.value=current;
+
+}
+
+
+function showBilling(){
+
+const labNo=
+document.ge

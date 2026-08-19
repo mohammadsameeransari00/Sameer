@@ -4,911 +4,566 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SameerLab LIS</title>
+<title>Sameer Ansari | Medical Laboratory Technician</title>
 
 <style>
 *{
+    margin:0;
+    padding:0;
     box-sizing:border-box;
 }
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f3f7f9;
-    color:#17323d;
+html{
+    scroll-behavior:smooth;
 }
 
-header{
-    background:#075b73;
-    color:white;
-    padding:12px;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f8fb;
+    color:#203040;
+    line-height:1.65;
+}
+
+/* NAVIGATION */
+nav{
     position:sticky;
     top:0;
-    z-index:10;
+    z-index:999;
+    background:#082f49;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:14px;
+    box-shadow:0 4px 15px #0003;
 }
 
-.header{
-    max-width:1200px;
-    margin:auto;
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:14px;
+}
+
+nav a:hover{
+    background:#0e7490;
+}
+
+/* HERO */
+.hero{
+    min-height:520px;
+    padding:70px 20px;
     display:flex;
     align-items:center;
-    gap:12px;
-}
-
-.profile-img{
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid white;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:bold;
-}
-
-.logo span{
-    color:#8de9f1;
-}
-
-.subtitle{
-    font-size:11px;
-}
-
-main{
-    max-width:1200px;
-    margin:auto;
-    padding:14px;
-}
-
-.tabs{
-    display:flex;
-    gap:6px;
-    overflow-x:auto;
-    margin-bottom:15px;
-}
-
-.tabs button{
-    border:0;
-    background:white;
-    color:#075b73;
-    padding:10px 13px;
-    border-radius:9px;
-    font-weight:bold;
-    white-space:nowrap;
-}
-
-.tabs button.active{
-    background:#075b73;
+    justify-content:center;
+    text-align:center;
     color:white;
+
+    background:linear-gradient(
+        135deg,
+        #06283d,
+        #0e7490,
+        #38bdf8
+    );
+
+    position:relative;
+    overflow:hidden;
 }
 
-.page{
-    display:none;
+.hero-content{
+    max-width:900px;
+    position:relative;
+    z-index:2;
 }
 
-.page.active{
-    display:block;
+/* PROFILE PHOTO PLACE */
+.profile{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    margin:0 auto 20px;
+
+    background:#e8f1f5;
+    color:#082f49;
+
+    border:5px solid white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:42px;
+    font-weight:bold;
+
+    box-shadow:0 8px 25px #0004;
 }
 
+.hero h1{
+    font-size:48px;
+    letter-spacing:1px;
+}
+
+.hero h2{
+    font-size:21px;
+    font-weight:400;
+    margin:5px 0 18px;
+}
+
+.hero p{
+    max-width:750px;
+    margin:auto;
+}
+
+.btn{
+    display:inline-block;
+    margin:25px 7px 0;
+    padding:12px 22px;
+
+    background:white;
+    color:#075985;
+
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* SECTIONS */
+section{
+    max-width:1150px;
+    margin:auto;
+    padding:70px 5%;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:38px;
+}
+
+.title h2{
+    color:#082f49;
+    font-size:32px;
+}
+
+.line{
+    width:65px;
+    height:4px;
+    background:#0891b2;
+    margin:10px auto;
+}
+
+/* CARD */
 .card{
     background:white;
-    border-radius:14px;
-    padding:16px;
-    margin-bottom:14px;
-    box-shadow:0 3px 15px #0001;
+    border-radius:16px;
+    padding:28px;
+
+    box-shadow:0 8px 25px #082f4918;
+    border:1px solid #dcecf3;
 }
 
 .grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:10px;
+    gap:22px;
 }
 
-.grid3{
-    display:grid;
+.three{
     grid-template-columns:repeat(3,1fr);
-    gap:10px;
 }
 
-label{
-    display:block;
-    font-size:12px;
-    font-weight:bold;
-    margin-bottom:4px;
+.card h3{
+    color:#075985;
+    margin-bottom:10px;
 }
 
-input,select,textarea{
-    width:100%;
-    padding:9px;
-    border:1px solid #cbdde2;
-    border-radius:7px;
-    background:white;
+.icon{
+    font-size:30px;
+    margin-bottom:8px;
 }
 
-textarea{
-    min-height:70px;
+ul{
+    padding-left:22px;
 }
 
-.btn{
-    border:0;
-    background:#075b73;
-    color:white;
-    padding:10px 14px;
-    border-radius:8px;
-    font-weight:bold;
+/* TIMELINE */
+.timeline{
+    border-left:4px solid #0891b2;
+    padding-left:25px;
 }
 
-.btn.green{
-    background:#197a4b;
+.timeline .card{
+    margin-bottom:22px;
 }
 
-.btn.red{
-    background:#c62828;
-}
-
-.btn.light{
-    background:#e8f6f8;
-    color:#075b73;
-}
-
-.actions{
+/* SKILLS */
+.badges{
     display:flex;
-    gap:7px;
     flex-wrap:wrap;
-    margin-top:12px;
+    gap:9px;
 }
 
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
+.badge{
+    background:#e0f2fe;
+    color:#075985;
+
+    border:1px solid #bae6fd;
+
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:13px;
 }
 
-.stat{
-    background:white;
-    border-radius:13px;
-    padding:15px;
+/* LAB CARDS */
+.lab-card{
+    background:linear-gradient(145deg,#fff,#effaff);
+    border-top:5px solid #0891b2;
 }
 
-.stat b{
-    display:block;
-    font-size:24px;
-    color:#075b73;
+/* CONTACT */
+.contact{
+    text-align:center;
 }
 
-.scroll{
-    overflow:auto;
-}
-
-table{
-    border-collapse:collapse;
-    width:100%;
-}
-
-th,td{
-    padding:8px;
-    border-bottom:1px solid #dce7ea;
-    text-align:left;
-    font-size:12px;
-}
-
-th{
-    background:#e9f6f8;
-    color:#075b73;
-}
-
-.test{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:9px;
-    background:#f7fbfc;
-    border-radius:8px;
-    margin:5px 0;
-}
-
-.muted{
-    font-size:12px;
-    color:#687d84;
-}
-
-.notice{
-    font-size:12px;
-    background:#fff8df;
-    border-left:4px solid #dca000;
-    padding:10px;
-    border-radius:6px;
-}
-
-.result-box{
-    border:1px solid #d9e8eb;
-    border-radius:10px;
-    padding:12px;
-    margin:9px 0;
-}
-
-.normal{
-    color:#197a4b;
-}
-
-.high{
-    color:#c62828;
-}
-
-.low{
-    color:#b26a00;
-}
-
-.flag{
+.contact a{
+    color:#075985;
+    text-decoration:none;
     font-weight:bold;
-    margin-top:6px;
 }
 
-.report{
-    background:white;
-    max-width:900px;
-    margin:auto;
-    padding:25px;
-}
-
-.report-head{
+/* FOOTER */
+footer{
+    background:#082f49;
+    color:white;
     text-align:center;
-    border-bottom:2px solid #075b73;
-    padding-bottom:10px;
+    padding:35px 15px;
 }
 
-.report-head img{
-    width:75px;
-    height:75px;
-    border-radius:50%;
-    object-fit:cover;
+.small{
+    font-size:13px;
+    color:#b8d5e3;
 }
 
-.report-head h1{
-    margin:5px;
-    color:#075b73;
-}
+/* MOBILE */
+@media(max-width:800px){
 
-.patient-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    background:#f5fafb;
-    padding:10px;
-    margin:12px 0;
-    gap:6px;
-}
-
-.barcode{
-    text-align:center;
-    margin:12px;
-}
-
-.barcode img{
-    height:60px;
-    max-width:300px;
-}
-
-.profile-card{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.profile-card img{
-    width:110px;
-    height:110px;
-    object-fit:cover;
-    border-radius:50%;
-}
-
-@media(max-width:700px){
+    .hero h1{
+        font-size:36px;
+    }
 
     .grid,
-    .grid3{
+    .three{
         grid-template-columns:1fr;
     }
 
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .patient-info{
-        grid-template-columns:1fr;
-    }
-}
-
-@media print{
-
-    header,
-    .tabs,
-    .no-print{
-        display:none!important;
-    }
-
-    .page{
-        display:none!important;
-    }
-
-    #reports{
-        display:block!important;
-    }
-
-    .report{
-        max-width:none;
-        box-shadow:none;
+    section{
+        padding:50px 5%;
     }
 }
 </style>
 </head>
 
+
 <body>
 
-<header>
+<!-- ================= NAVIGATION ================= -->
 
-<div class="header">
+<nav>
 
-<img id="headerPhoto"
-class="profile-img"
-alt="Profile">
+<a href="#home">🏠 Home</a>
 
-<div>
+<a href="#profile">👨‍🔬 Profile</a>
 
-<div class="logo">
-🧪 Sameer<span>Lab</span>
+<a href="#education">🎓 Education</a>
+
+<a href="#training">🏥 Training</a>
+
+<a href="#skills">🧪 Skills</a>
+
+<a href="#lab">🔬 Laboratory</a>
+
+<a href="#contact">📞 Contact</a>
+
+</nav>
+
+
+<!-- ================= HOME ================= -->
+
+<header class="hero" id="home">
+
+<div class="hero-content">
+
+<div class="profile">
+SA
 </div>
 
-<div class="subtitle">
-Laboratory Information System
-</div>
+<h1>
+Sameer Ansari
+</h1>
 
-</div>
+<h2>
+Medical Laboratory Technician (MLT)
+</h2>
+
+<p>
+
+Dedicated and detail-oriented Medical Laboratory Technician
+with practical training experience in pathology,
+biochemistry and microbiology.
+
+Skilled in laboratory sample handling,
+diagnostic procedures, safety and documentation.
+
+</p>
+
+<a class="btn" href="#profile">
+View My Profile
+</a>
+
+<a class="btn" href="#contact">
+Contact Me
+</a>
 
 </div>
 
 </header>
 
-<main>
 
-<div class="tabs">
+<!-- ================= PROFILE ================= -->
 
-<button class="active"
-onclick="openPage('home',this)">
-🏠 Dashboard
-</button>
+<section id="profile">
 
-<button onclick="openPage('patients',this)">
-👤 Patients
-</button>
+<div class="title">
 
-<button onclick="openPage('billing',this)">
-💰 Billing
-</button>
+<h2>
+Professional Profile
+</h2>
 
-<button onclick="openPage('results',this)">
-🧪 Results
-</button>
-
-<button onclick="openPage('reports',this)">
-📄 Reports
-</button>
-
-<button onclick="openPage('master',this)">
-⚙️ Test Master
-</button>
-
-<button onclick="openPage('profile',this)">
-👨‍💼 Profile
-</button>
+<div class="line"></div>
 
 </div>
 
 
-<!-- DASHBOARD -->
-
-<section id="home" class="page active">
-
 <div class="card">
 
-<h2>SameerLab LIS</h2>
+<p>
 
-<p class="muted">
-Patient registration, test selection, billing,
-result entry, barcode and laboratory report system.
+Dedicated and detail-oriented Medical Laboratory Technician
+with practical training experience in pathology, biochemistry,
+microbiology and related laboratory areas.
+
+Skilled in handling laboratory samples,
+maintaining safety protocols and assisting
+in diagnostic procedures.
+
+Seeking an opportunity to contribute to a professional
+healthcare environment while enhancing technical expertise.
+
 </p>
 
 </div>
 
-
-<div class="stats">
-
-<div class="stat">
-Patients
-<b id="totalPatients">0</b>
-</div>
-
-<div class="stat">
-Today
-<b id="todayPatients">0</b>
-</div>
-
-<div class="stat">
-Pending
-<b id="pendingResults">0</b>
-</div>
-
-<div class="stat">
-Collection
-<b id="collection">₹0</b>
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="notice">
-
-<b>Important:</b>
-
-Reference ranges shown in this software are
-example laboratory intervals. Before issuing
-patient reports, verify them with your laboratory
-SOP, analyzer method and reagent manufacturer's
-instructions.
-
-</div>
-
-</div>
-
 </section>
 
 
-<!-- PATIENT -->
+<!-- ================= EDUCATION ================= -->
 
-<section id="patients" class="page">
+<section id="education">
 
-<div class="card">
+<div class="title">
 
-<h2>👤 Patient Registration</h2>
+<h2>
+Education
+</h2>
 
-<div class="grid">
-
-<div>
-
-<label>Patient Name *</label>
-
-<input id="patientName">
-
-</div>
-
-
-<div>
-
-<label>Age *</label>
-
-<input id="patientAge"
-type="number">
-
-</div>
-
-
-<div>
-
-<label>Sex *</label>
-
-<select id="patientSex">
-
-<option value="">Select</option>
-
-<option>Male</option>
-
-<option>Female</option>
-
-<option>Other</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>Mobile Number</label>
-
-<input id="patientMobile"
-type="tel">
-
-</div>
-
-
-<div>
-
-<label>Doctor Reference</label>
-
-<input id="doctorReference">
-
-</div>
-
-
-<div>
-
-<label>Sample Type</label>
-
-<select id="sampleType">
-
-<option>Blood</option>
-
-<option>Serum</option>
-
-<option>Plasma</option>
-
-<option>Urine</option>
-
-<option>Stool</option>
-
-<option>Other</option>
-
-</select>
-
-</div>
-
-
-<div style="grid-column:1/-1">
-
-<label>Remarks</label>
-
-<textarea id="patientRemarks"></textarea>
-
-</div>
-
-</div>
-
-
-<h3>🧪 Select Test / Profile</h3>
-
-<div id="testList"></div>
-
-
-<div class="actions">
-
-<button class="btn"
-onclick="savePatient()">
-
-Save Patient
-
-</button>
-
-<button class="btn light"
-onclick="clearPatient()">
-
-Clear
-
-</button>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🔎 Patient List</h2>
-
-<input
-id="patientSearch"
-placeholder="Search Lab No / Name / Mobile"
-oninput="showPatients()">
-
-<div class="scroll">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Lab No</th>
-
-<th>Name</th>
-
-<th>Age/Sex</th>
-
-<th>Doctor</th>
-
-<th>Total</th>
-
-<th>Status</th>
-
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody id="patientTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- BILLING -->
-
-<section id="billing" class="page">
-
-<div class="card">
-
-<h2>💰 Billing</h2>
-
-<select id="billingPatient"
-onchange="showBilling()">
-
-<option value="">
-Select Patient
-</option>
-
-</select>
-
-<div id="billingBox"></div>
-
-</div>
-
-</section>
-
-
-<!-- RESULTS -->
-
-<section id="results" class="page">
-
-<div class="card">
-
-<h2>🧪 Result Entry</h2>
-
-<select id="resultPatient"
-onchange="showResults()">
-
-<option value="">
-Select Patient
-</option>
-
-</select>
-
-<div id="resultBox"></div>
-
-</div>
-
-</section>
-
-
-<!-- REPORT -->
-
-<section id="reports" class="page">
-
-<div class="card no-print">
-
-<h2>📄 Laboratory Report</h2>
-
-<select id="reportPatient"
-onchange="createReport()">
-
-<option value="">
-Select Patient
-</option>
-
-</select>
-
-<div class="actions">
-
-<button
-class="btn"
-onclick="window.print()">
-
-🖨️ Print / Save PDF
-
-</button>
-
-</div>
-
-</div>
-
-<div id="reportArea"></div>
-
-</section>
-
-
-<!-- TEST MASTER -->
-
-<section id="master" class="page">
-
-<div class="card">
-
-<h2>⚙️ Parameter Master</h2>
-
-<div class="grid3">
-
-<div>
-
-<label>Parameter Name</label>
-
-<input id="newParameter">
-
-</div>
-
-
-<div>
-
-<label>Fee ₹</label>
-
-<input id="newFee"
-type="number">
-
-</div>
-
-
-<div>
-
-<label>Unit</label>
-
-<input id="newUnit">
-
-</div>
-
-
-<div>
-
-<label>Male Reference</label>
-
-<input id="maleRange">
-
-</div>
-
-
-<div>
-
-<label>Female Reference</label>
-
-<input id="femaleRange">
-
-</div>
-
-
-<div>
-
-<label>General Reference</label>
-
-<input id="generalRange">
-
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="btn"
-onclick="addParameter()">
-
-Add Parameter
-
-</button>
-
-</div>
-
-
-<div class="scroll">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Parameter</th>
-<th>Fee</th>
-<th>Unit</th>
-<th>Male</th>
-<th>Female</th>
-<th>General</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody id="masterTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- PROFILE -->
-
-<section id="profile" class="page">
-
-<div class="card">
-
-<h2>👨‍💼 SameerLab Profile</h2>
-
-<div class="profile-card">
-
-<img id="profilePhoto">
-
-<div>
-
-<b>Laboratory Profile</b>
-
-<p class="muted">
-Your profile photo is used in the website
-and laboratory report.
-</p>
-
-</div>
+<div class="line"></div>
 
 </div>
 
 
 <div class="grid">
 
-<div>
 
-<label>Lab Name</label>
+<div class="card">
 
-<input id="labName"
-value="SameerLab">
+<div class="icon">🎓</div>
 
-</div>
+<h3>
+Bachelor of Science in Medical Laboratory Technology
+(B.Sc. MLT)
+</h3>
 
+<p>
+<strong>
+Integral University
+</strong>
+</p>
 
-<div>
-
-<label>Subtitle</label>
-
-<input id="labSubtitle"
-value="Medical Laboratory">
-
-</div>
-
-
-<div>
-
-<label>Phone</label>
-
-<input id="labPhone">
+<p>
+Completed
+</p>
 
 </div>
 
 
-<div>
+<div class="card">
 
-<label>Address</label>
+<div class="icon">📚</div>
 
-<input id="labAddress">
+<h3>
+Intermediate (12th) — Science Stream
+</h3>
+
+<p>
+<strong>
+Uttar Pradesh Board | 2022
+</strong>
+</p>
+
+<p>
+Physics • Chemistry • Biology
+</p>
+
+<p>
+<strong>
+Percentage: 67.4%
+</strong>
+</p>
 
 </div>
 
+
+<div class="card">
+
+<div class="icon">📖</div>
+
+<h3>
+High School (10th)
+</h3>
+
+<p>
+<strong>
+Uttar Pradesh Board | 2020
+</strong>
+</p>
+
+<p>
+<strong>
+Percentage: 62.8%
+</strong>
+</p>
+
 </div>
 
 
-<div class="actions">
+</div>
 
-<button class="btn green"
-onclick="saveProfile()">
+</section>
 
-Save Profile
 
-</button>
+<!-- ================= TRAINING ================= -->
+
+<section id="training">
+
+<div class="title">
+
+<h2>
+Clinical Training & Internship
+</h2>
+
+<div class="line"></div>
+
+</div>
+
+
+<div class="timeline">
+
+<div class="card">
+
+<h3>
+🏥 Trainee — Dr. Ram Manohar Lohia Hospital, Lucknow
+</h3>
+
+<p>
+<strong>
+Duration:
+</strong>
+6 Months
+</p>
+
+<p>
+<strong>
+Period:
+</strong>
+August 2025 – January 2026
+</p>
+
+<p>
+<strong>
+Course:
+</strong>
+Bachelor of Medical Laboratory Technology
+(BMLT) Internship
+</p>
+
+<br>
+
+
+<h3>
+Departments Covered
+</h3>
+
+<ul>
+
+<li>Hematology</li>
+
+<li>Immunopathology</li>
+
+<li>Sample Collection</li>
+
+<li>Cytopathology</li>
+
+<li>Histopathology</li>
+
+<li>Blood Bank</li>
+
+<li>Microbiology</li>
+
+<li>Biochemistry</li>
+
+</ul>
+
+
+<br>
+
+
+<h3>
+Internship Experience
+</h3>
+
+<ul>
+
+<li>
+Performed laboratory sample handling and testing procedures.
+</li>
+
+<li>
+Assisted in blood bank and hematology operations.
+</li>
+
+<li>
+Maintained laboratory hygiene and safety standards.
+</li>
+
+<li>
+Worked with diagnostic and pathological laboratory procedures.
+</li>
+
+</ul>
 
 </div>
 
@@ -916,889 +571,508 @@ Save Profile
 
 </section>
 
-</main>
-
-<script>
-
-/* SAMEERLAB LIS */
-
-const STORAGE_KEY="SAMEERLAB_LIS_V4";
-
-/*
-Profile photo is embedded in the application.
-*/
-
-const PROFILE_PHOTO="PASTE_PROFILE_PHOTO_DATA_HERE";
-
-
-const DEFAULT_TESTS=[
-
-{
-name:"CBC",
-fee:500,
-profile:true
-},
-
-{
-name:"LFT",
-fee:700,
-profile:true
-},
-
-{
-name:"KFT",
-fee:500,
-profile:true
-},
-
-{
-name:"Lipid Profile",
-fee:600,
-profile:true
-},
-
-{
-name:"Thyroid Profile",
-fee:650,
-profile:true
-},
-
-{
-name:"Urine Routine",
-fee:250,
-profile:true
-},
-
-{
-name:"Hemoglobin (Hb)",
-fee:100,
-unit:"g/dL",
-male:"13.0-17.0",
-female:"12.0-15.0",
-general:""
-},
-
-{
-name:"RBC Count",
-fee:100,
-unit:"million/µL",
-male:"4.5-5.9",
-female:"4.0-5.2",
-general:""
-},
-
-{
-name:"Hematocrit / PCV",
-fee:100,
-unit:"%",
-male:"40-52",
-female:"36-46",
-general:""
-},
-
-{
-name:"MCV",
-fee:80,
-unit:"fL",
-male:"80-100",
-female:"80-100",
-general:"80-100"
-},
-
-{
-name:"MCH",
-fee:80,
-unit:"pg",
-male:"27-33",
-female:"27-33",
-general:"27-33"
-},
-
-{
-name:"MCHC",
-fee:80,
-unit:"g/dL",
-male:"32-36",
-female:"32-36",
-general:"32-36"
-},
-
-{
-name:"RDW-CV",
-fee:80,
-unit:"%",
-male:"11.5-14.5",
-female:"11.5-14.5",
-general:"11.5-14.5"
-},
-
-{
-name:"TLC / WBC",
-fee:100,
-unit:"/µL",
-male:"4000-11000",
-female:"4000-11000",
-general:"4000-11000"
-},
-
-{
-name:"Neutrophils",
-fee:70,
-unit:"%",
-male:"40-75",
-female:"40-75",
-general:"40-75"
-},
-
-{
-name:"Lymphocytes",
-fee:70,
-unit:"%",
-male:"20-45",
-female:"20-45",
-general:"20-45"
-},
-
-{
-name:"Eosinophils",
-fee:70,
-unit:"%",
-male:"1-6",
-female:"1-6",
-general:"1-6"
-},
-
-{
-name:"Monocytes",
-fee:70,
-unit:"%",
-male:"2-10",
-female:"2-10",
-general:"2-10"
-},
-
-{
-name:"Basophils",
-fee:70,
-unit:"%",
-male:"0-2",
-female:"0-2",
-general:"0-2"
-},
-
-{
-name:"Platelet Count",
-fee:100,
-unit:"lakh/µL",
-male:"1.5-4.5",
-female:"1.5-4.5",
-general:"1.5-4.5"
-},
-
-{
-name:"ESR",
-fee:100,
-unit:"mm/hr",
-male:"0-15",
-female:"0-20",
-general:""
-},
-
-{
-name:"Blood Glucose - Fasting",
-fee:100,
-unit:"mg/dL",
-male:"70-99",
-female:"70-99",
-general:"70-99"
-},
-
-{
-name:"Blood Glucose - PP",
-fee:100,
-unit:"mg/dL",
-male:"<140",
-female:"<140",
-general:"<140"
-},
-
-{
-name:"HbA1c",
-fee:400,
-unit:"%",
-male:"<5.7",
-female:"<5.7",
-general:"<5.7"
-},
-
-{
-name:"Total Bilirubin",
-fee:150,
-unit:"mg/dL",
-male:"0.2-1.2",
-female:"0.2-1.2",
-general:"0.2-1.2"
-},
-
-{
-name:"Direct Bilirubin",
-fee:150,
-unit:"mg/dL",
-male:"0.0-0.3",
-female:"0.0-0.3",
-general:"0.0-0.3"
-},
-
-{
-name:"ALT / SGPT",
-fee:150,
-unit:"U/L",
-male:"Lab-specific",
-female:"Lab-specific",
-general:"Lab-specific"
-},
-
-{
-name:"AST / SGOT",
-fee:150,
-unit:"U/L",
-male:"Lab-specific",
-female:"Lab-specific",
-general:"Lab-specific"
-},
-
-{
-name:"ALP",
-fee:150,
-unit:"U/L",
-male:"Lab-specific",
-female:"Lab-specific",
-general:"Lab-specific"
-},
-
-{
-name:"Total Protein",
-fee:150,
-unit:"g/dL",
-male:"6.0-8.3",
-female:"6.0-8.3",
-general:"6.0-8.3"
-},
-
-{
-name:"Albumin",
-fee:150,
-unit:"g/dL",
-male:"3.5-5.0",
-female:"3.5-5.0",
-general:"3.5-5.0"
-},
-
-{
-name:"Urea",
-fee:150,
-unit:"mg/dL",
-male:"15-45",
-female:"15-45",
-general:""
-},
-
-{
-name:"Creatinine",
-fee:150,
-unit:"mg/dL",
-male:"0.7-1.3",
-female:"0.6-1.1",
-general:""
-},
-
-{
-name:"Uric Acid",
-fee:150,
-unit:"mg/dL",
-male:"3.5-7.2",
-female:"2.6-6.0",
-general:""
-},
-
-{
-name:"Total Cholesterol",
-fee:150,
-unit:"mg/dL",
-male:"<200",
-female:"<200",
-general:"<200"
-},
-
-{
-name:"Triglycerides",
-fee:150,
-unit:"mg/dL",
-male:"<150",
-female:"<150",
-general:"<150"
-},
-
-{
-name:"HDL Cholesterol",
-fee:150,
-unit:"mg/dL",
-male:">40",
-female:">50",
-general:""
-},
-
-{
-name:"LDL Cholesterol",
-fee:150,
-unit:"mg/dL",
-male:"<100",
-female:"<100",
-general:"<100"
-},
-
-{
-name:"TSH",
-fee:200,
-unit:"µIU/mL",
-male:"Lab-specific",
-female:"Lab-specific",
-general:"Lab-specific"
-},
-
-{
-name:"Free T4",
-fee:250,
-unit:"ng/dL",
-male:"Lab-specific",
-female:"Lab-specific",
-general:"Lab-specific"
-},
-
-{
-name:"Urine pH",
-fee:80,
-unit:"",
-male:"4.5-8.0",
-female:"4.5-8.0",
-general:"4.5-8.0"
-},
-
-{
-name:"Urine Specific Gravity",
-fee:80,
-unit:"",
-male:"1.005-1.030",
-female:"1.005-1.030",
-general:"1.005-1.030"
-},
-
-{
-name:"Urine Protein",
-fee:80,
-unit:"",
-male:"Negative",
-female:"Negative",
-general:"Negative"
-},
-
-{
-name:"Urine Glucose",
-fee:80,
-unit:"",
-male:"Negative",
-female:"Negative",
-general:"Negative"
-},
-
-{
-name:"Urine RBC",
-fee:80,
-unit:"/HPF",
-male:"0-2",
-female:"0-2",
-general:"0-2"
-},
-
-{
-name:"Urine WBC",
-fee:80,
-unit:"/HPF",
-male:"0-5",
-female:"0-5",
-general:"0-5"
-}
-
-];
-
-
-let data=
-JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
-
-if(!data){
-
-data={
-patients:[],
-tests:DEFAULT_TESTS,
-profile:{
-name:"SameerLab",
-subtitle:"Medical Laboratory",
-phone:"",
-address:""
-}
-};
-
-saveData();
-
-}
-
-
-function saveData(){
-
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(data)
-);
-
-}
-
-
-function money(value){
-
-return "₹"+Number(value||0)
-.toLocaleString("en-IN");
-
-}
-
-
-function escapeHTML(value){
-
-return String(value??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-function openPage(id,button){
-
-document
-.querySelectorAll(".page")
-.forEach(page=>{
-page.classList.remove("active");
-});
-
-document
-.getElementById(id)
-.classList.add("active");
-
-
-document
-.querySelectorAll(".tabs button")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
-
-button.classList.add("active");
-
-refreshAll();
-
-}
-
-
-function renderTests(){
-
-const container=
-document.getElementById("testList");
-
-container.innerHTML=
-data.tests.map((test,index)=>`
-
-<div class="test">
-
-<label>
-
-<input
-type="checkbox"
-class="testCheck"
-data-index="${index}">
-
-${escapeHTML(test.name)}
-
-${test.profile
-?" <span class='muted'>(Profile)</span>"
-:""}
-
-</label>
-
-<span>
-${money(test.fee)}
+
+<!-- ================= SKILLS ================= -->
+
+<section id="skills">
+
+<div class="title">
+
+<h2>
+Professional Skills
+</h2>
+
+<div class="line"></div>
+
+</div>
+
+
+<div class="grid three">
+
+
+<div class="card">
+
+<div class="icon">
+🩸
+</div>
+
+<h3>
+Blood Bank Handling
+</h3>
+
+<p>
+Basic blood bank handling and laboratory operations.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🧫
+</div>
+
+<h3>
+Hematology Testing
+</h3>
+
+<p>
+Basic hematology testing and sample handling.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🔬
+</div>
+
+<h3>
+Histopathology
+</h3>
+
+<p>
+Basic histopathology laboratory procedures.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🧬
+</div>
+
+<h3>
+Cytopathology
+</h3>
+
+<p>
+Basic cytopathology laboratory knowledge.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🧪
+</div>
+
+<h3>
+Immunopathology
+</h3>
+
+<p>
+Basic immunopathology laboratory knowledge.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🧴
+</div>
+
+<h3>
+Sample Collection
+</h3>
+
+<p>
+Sample collection, handling and processing.
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="title" style="margin-top:55px">
+
+<h2>
+Technical Skills
+</h2>
+
+<div class="line"></div>
+
+</div>
+
+
+<div class="card">
+
+<div class="badges">
+
+<span class="badge">
+Sample Collection & Handling
+</span>
+
+<span class="badge">
+Hematology Testing
+</span>
+
+<span class="badge">
+Biochemistry Testing
+</span>
+
+<span class="badge">
+Microbiology Basics
+</span>
+
+<span class="badge">
+Laboratory Safety Procedures
+</span>
+
+<span class="badge">
+MS Word
+</span>
+
+<span class="badge">
+Basic Computer Knowledge
+</span>
+
+<span class="badge">
+Report Documentation
 </span>
 
 </div>
 
-`).join("");
+</div>
 
-}
+</section>
 
 
-function profileParameters(profile){
+<!-- ================= LABORATORY ================= -->
 
-const groups={
+<section id="lab">
 
-"CBC":[
-"Hemoglobin (Hb)",
-"RBC Count",
-"Hematocrit / PCV",
-"MCV",
-"MCH",
-"MCHC",
-"RDW-CV",
-"TLC / WBC",
-"Neutrophils",
-"Lymphocytes",
-"Eosinophils",
-"Monocytes",
-"Basophils",
-"Platelet Count"
-],
+<div class="title">
 
-"LFT":[
-"Total Bilirubin",
-"Direct Bilirubin",
-"ALT / SGPT",
-"AST / SGOT",
-"ALP",
-"Total Protein",
-"Albumin"
-],
+<h2>
+Medical Laboratory Areas
+</h2>
 
-"KFT":[
-"Urea",
-"Creatinine",
-"Uric Acid"
-],
+<div class="line"></div>
 
-"Lipid Profile":[
-"Total Cholesterol",
-"Triglycerides",
-"HDL Cholesterol",
-"LDL Cholesterol"
-],
+</div>
 
-"Thyroid Profile":[
-"TSH",
-"Free T4"
-],
 
-"Urine Routine":[
-"Urine pH",
-"Urine Specific Gravity",
-"Urine Protein",
-"Urine Glucose",
-"Urine RBC",
-"Urine WBC"
-]
+<div class="grid three">
 
-};
 
-return groups[profile]||[];
+<div class="card lab-card">
 
-}
+<div class="icon">
+🩸
+</div>
 
+<h3>
+Hematology
+</h3>
 
-function getSelectedParameters(selected){
+<p>
+Blood examination, hematology testing and related
+laboratory procedures.
+</p>
 
-let output=[];
+</div>
 
-selected.forEach(test=>{
 
-if(test.profile){
+<div class="card lab-card">
 
-const names=
-profileParameters(test.name);
+<div class="icon">
+🧪
+</div>
 
-names.forEach(name=>{
+<h3>
+Biochemistry
+</h3>
 
-const parameter=
-data.tests.find(
-item=>item.name===name
-);
+<p>
+Clinical biochemistry testing, sample processing
+and laboratory workflow.
+</p>
 
-if(parameter){
+</div>
 
-output.push({
-...parameter
-});
 
-}
+<div class="card lab-card">
 
-});
+<div class="icon">
+🔬
+</div>
 
-}else{
+<h3>
+Histopathology
+</h3>
 
-output.push({
-...test
-});
+<p>
+Basic tissue processing and histopathology
+laboratory workflow.
+</p>
 
-}
+</div>
 
-});
 
-const unique=[];
+<div class="card lab-card">
 
-output.forEach(item=>{
+<div class="icon">
+🦠
+</div>
 
-if(!unique.some(x=>x.name===item.name)){
-unique.push(item);
-}
+<h3>
+Microbiology
+</h3>
 
-});
+<p>
+Basic microbiology practices and diagnostic
+laboratory procedures.
+</p>
 
-return unique;
+</div>
 
-}
 
+<div class="card lab-card">
 
-function generateLabNumber(){
+<div class="icon">
+🩸
+</div>
 
-const number=
-data.patients.length+1;
+<h3>
+Blood Bank
+</h3>
 
-const date=
-new Date()
-.toISOString()
-.slice(0,10)
-.replaceAll("-","");
+<p>
+Blood bank handling and related laboratory operations.
+</p>
 
-return "SL"+date+
-String(number).padStart(3,"0");
+</div>
 
-}
 
+<div class="card lab-card">
 
-function savePatient(){
+<div class="icon">
+🧫
+</div>
 
-const name=
-document.getElementById("patientName")
-.value.trim();
+<h3>
+Sample Collection
+</h3>
 
-const age=
-document.getElementById("patientAge")
-.value;
+<p>
+Collection, handling, processing and safe
+transportation of laboratory samples.
+</p>
 
-const sex=
-document.getElementById("patientSex")
-.value;
+</div>
 
-const selected=
-[...document.querySelectorAll(".testCheck:checked")]
-.map(check=>
-data.tests[
-Number(check.dataset.index)
-]);
 
-if(!name||age===""||!sex){
+</div>
 
-alert("Patient name, age and sex required.");
+</section>
 
-return;
 
-}
+<!-- ================= CAREER OBJECTIVE ================= -->
 
-if(selected.length===0){
+<section>
 
-alert("Please select at least one test.");
+<div class="title">
 
-return;
+<h2>
+Career Objective
+</h2>
 
-}
+<div class="line"></div>
 
-const parameters=
-getSelectedParameters(selected);
+</div>
 
-const total=
-parameters.reduce(
-(sum,test)=>sum+Number(test.fee||0),
-0
-);
 
-const patient={
+<div class="card">
 
-labNo:generateLabNumber(),
+<p>
 
-created:new Date().toISOString(),
+To work in a professional healthcare and diagnostic
+laboratory environment where I can apply my laboratory
+knowledge, improve my technical skills and contribute
+to accurate and quality patient care.
 
-name:name,
+</p>
 
-age:age,
+</div>
 
-sex:sex,
+</section>
 
-mobile:
-document.getElementById("patientMobile").value,
 
-doctor:
-document.getElementById("doctorReference").value,
+<!-- ================= DECLARATION ================= -->
 
-sample:
-document.getElementById("sampleType").value,
+<section>
 
-remarks:
-document.getElementById("patientRemarks").value,
+<div class="title">
 
-total:total,
+<h2>
+Declaration
+</h2>
 
-paid:0,
+<div class="line"></div>
 
-due:total,
+</div>
 
-tests:parameters.map(test=>({
 
-...test,
+<div class="card">
 
-result:"",
+<p>
 
-status:"Pending"
+I hereby declare that the information provided above
+is true and correct to the best of my knowledge and belief.
 
-}))
+</p>
 
-};
+<br>
 
-data.patients.push(patient);
+<p>
+<strong>
+Place:
+</strong>
+Utraula, Uttar Pradesh
+</p>
 
-saveData();
+<p>
+<strong>
+Name:
+</strong>
+Sameer Ansari
+</p>
 
-clearPatient();
+</div>
 
-refreshAll();
+</section>
 
-alert(
-"Patient saved successfully.\nLab No: "+
-patient.labNo
-);
 
-}
+<!-- ================= CONTACT ================= -->
 
+<section id="contact" class="contact">
 
-function clearPatient(){
+<div class="title">
 
-document.getElementById("patientName").value="";
-document.getElementById("patientAge").value="";
-document.getElementById("patientSex").value="";
-document.getElementById("patientMobile").value="";
-document.getElementById("doctorReference").value="";
-document.getElementById("patientRemarks").value="";
+<h2>
+Contact Me
+</h2>
 
-document
-.querySelectorAll(".testCheck")
-.forEach(check=>{
-check.checked=false;
-});
+<div class="line"></div>
 
-}
+</div>
 
 
-function showPatients(){
+<div class="grid three">
 
-const search=
-(document.getElementById("patientSearch")
-.value||"")
-.toLowerCase();
 
-const patients=
-data.patients.filter(patient=>{
+<div class="card">
 
-const text=
-patient.labNo+" "+
-patient.name+" "+
-patient.mobile;
+<div class="icon">
+📞
+</div>
 
-return text.toLowerCase()
-.includes(search);
+<h3>
+Phone
+</h3>
 
-});
+<p>
 
-document.getElementById("patientTable")
-.innerHTML=
-patients.map(patient=>`
+<a href="tel:+919026222219">
++91 90262 22219
+</a>
 
-<tr>
+</p>
 
-<td>${patient.labNo}</td>
+</div>
 
-<td>${escapeHTML(patient.name)}</td>
 
-<td>
-${patient.age}/${patient.sex}
-</td>
+<div class="card">
 
-<td>
-${escapeHTML(patient.doctor||"-")}
-</td>
+<div class="icon">
+✉️
+</div>
 
-<td>
-${money(patient.total)}
-</td>
+<h3>
+Email
+</h3>
 
-<td>
-${
-patient.tests.some(
-test=>test.status!=="Final"
-)
-?"Pending"
-:"Complete"
-}
-</td>
+<p>
 
-<td>
+<a href="mailto:SA6331322@gmail.com">
 
-<button
-class="btn"
-onclick="openPatientResults('${patient.labNo}')">
+SA6331322@gmail.com
 
-Open
+</a>
 
-</button>
+</p>
 
-</td>
+</div>
 
-</tr>
 
-`).join("");
+<div class="card">
 
-}
+<div class="icon">
+📍
+</div>
 
+<h3>
+Address
+</h3>
 
-function populatePatientSelect(id){
+<p>
 
-const select=
-document.getElementById(id);
+Mohalla Subhash Nagar,
 
-const current=select.value;
+<br>
 
-select.innerHTML=
-`<option value="">Select Patient</option>`+
-data.patients.map(patient=>`
+Utraula, Balrampur,
 
-<option value="${patient.labNo}">
+<br>
 
-${patient.labNo} -
-${escapeHTML(patient.name)}
+Uttar Pradesh – 271604
 
-</option>
+</p>
 
-`).join("");
+</div>
 
-select.value=current;
 
-}
+</div>
 
+</section>
 
-function showBilling(){
 
-const labNo=
-document.ge
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<h2>
+Sameer Ansari
+</h2>
+
+<p>
+Medical Laboratory Technician (MLT)
+</p>
+
+<p class="small">
+Medical Laboratory • Healthcare • Diagnostic Services
+</p>
+
+<br>
+
+<p>
+© 2026 Sameer Ansari. All Rights Reserved.
+</p>
+
+</footer>
+
+
+</body>
+</html>
